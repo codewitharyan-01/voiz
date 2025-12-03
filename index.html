@@ -3,1033 +3,1756 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTU Computer Networks - Study Guide</title>
+    <title>Voiz - Speak softly. Change loudly.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f4f7f6;
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --border-color: #ddd;
+            /* Pixel-inspired color palette */
+            --primary: #4285F4;
+            --primary-container: #D3E3FD;
+            --on-primary: #FFFFFF;
+            --on-primary-container: #041E49;
+            --secondary: #5D5D5D;
+            --secondary-container: #E2E2E2;
+            --on-secondary: #FFFFFF;
+            --on-secondary-container: #1A1A1A;
+            --tertiary: #7C5800;
+            --tertiary-container: #FFDDB3;
+            --on-tertiary: #FFFFFF;
+            --on-tertiary-container: #271900;
+            --surface: #FDFBFE;
+            --surface-variant: #E5E1EC;
+            --on-surface-variant: #49454F;
+            --outline: #79747E;
+            --background: #FDFBFE;
+            --on-background: #1C1B1F;
+            --error: #BA1A1A;
+            --error-container: #FFDAD6;
+            --on-error: #FFFFFF;
+            --on-error-container: #410002;
+            --success: #146C2E;
+            --success-container: #D4E8D9;
+            --warning: #7D5700;
+            --warning-container: #FFDDB3;
+            
+            /* Dark mode colors */
+            --dark-primary: #A0C7FF;
+            --dark-primary-container: #003258;
+            --dark-on-primary: #003258;
+            --dark-on-primary-container: #D3E3FD;
+            --dark-secondary: #CBC6D0;
+            --dark-secondary-container: #49454F;
+            --dark-on-secondary: #322F38;
+            --dark-on-secondary-container: #E5E1EC;
+            --dark-tertiary: #F0BC48;
+            --dark-tertiary-container: #5A4000;
+            --dark-on-tertiary: #412D00;
+            --dark-on-tertiary-container: #FFDDB3;
+            --dark-surface: #121212;
+            --dark-surface-variant: #49454F;
+            --dark-on-surface-variant: #CBC6D0;
+            --dark-outline: #938F99;
+            --dark-background: #121212;
+            --dark-on-background: #E6E1E5;
+            --dark-error: #FFB4AB;
+            --dark-error-container: #93000A;
+            --dark-on-error: #690005;
+            --dark-on-error-container: #FFDAD6;
+            
+            /* Elevation */
+            --elevation-level1: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+            --elevation-level2: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+            --elevation-level3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+            --elevation-level4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+            --elevation-level5: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+            
+            /* Border radius */
+            --shape-corner-extra-small: 4px;
+            --shape-corner-small: 8px;
+            --shape-corner-medium: 12px;
+            --shape-corner-large: 16px;
+            --shape-corner-extra-large: 28px;
+            
+            /* Transition */
+            --motion-duration-short1: 50ms;
+            --motion-duration-short2: 100ms;
+            --motion-duration-medium1: 200ms;
+            --motion-duration-medium2: 300ms;
+            --motion-duration-long1: 350ms;
+            --motion-duration-long2: 400ms;
+            
+            /* Spacing */
+            --space-xs: 4px;
+            --space-s: 8px;
+            --space-m: 16px;
+            --space-l: 24px;
+            --space-xl: 32px;
+            --space-xxl: 48px;
+            --space-xxxl: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--on-background);
+            line-height: 1.5;
+            transition: background-color var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Google Sans', sans-serif;
+            font-weight: 500;
         }
 
         .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #777;
-            margin-bottom: 30px;
-        }
-
-        .question-block {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            overflow: hidden; /* To contain child elements */
-        }
-
-        .question-block h2 {
-            background-color: var(--primary-color);
-            color: white;
-            margin: 0;
-            padding: 15px 20px;
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: var(--space-l);
+            right: var(--space-l);
+            z-index: 1000;
+            width: 56px;
+            height: 56px;
+            border-radius: var(--shape-corner-large);
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--elevation-level3);
             cursor: pointer;
+            transition: all var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--surface);
+            box-shadow: var(--elevation-level2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 1.1em;
+            padding: var(--space-m) 0;
         }
 
-        .question-block h2:hover {
-            background-color: #34495e;
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Google Sans', sans-serif;
         }
 
-        .question-block h2 .toggle-icon {
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
+        .logo i {
+            margin-right: var(--space-s);
+            font-size: 1.8rem;
         }
 
-        .question-block.active h2 .toggle-icon {
-            transform: rotate(90deg);
+        .nav-links {
+            display: flex;
+            list-style: none;
         }
 
-        .answer {
-            padding: 20px;
-            display: none; /* Hidden by default */
-        }
-        
-        .question-block.active .answer {
-            display: block; /* Shown when active */
+        .nav-links li {
+            margin-left: var(--space-l);
         }
 
-        .answer h3 {
-            margin-top: 0;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 5px;
-            color: var(--primary-color);
+        .nav-links a {
+            text-decoration: none;
+            color: var(--on-surface-variant);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            transition: color var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
         }
 
-        .answer ul, .answer ol {
-            padding-left: 20px;
+        .nav-links a:hover {
+            color: var(--primary);
         }
 
-        .answer li {
-            margin-bottom: 10px;
+        .nav-links a.active {
+            color: var(--primary);
         }
 
-        .answer strong {
-            color: var(--primary-color);
-        }
-
-        .answer code {
-            background-color: #eef;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: "Courier New", Courier, monospace;
-        }
-
-        /* Table Styling */
-        .answer table {
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: var(--shape-corner-small);
         }
 
-        .answer th, .answer td {
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: left;
-        }
-
-        .answer th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-
-        .answer tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        /* Back to Top Button */
-        #backToTop {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
+        .btn {
+            padding: var(--space-s) var(--space-l);
+            border-radius: var(--shape-corner-large);
+            font-weight: 500;
             cursor: pointer;
-            display: none; /* Hidden by default */
-            font-size: 16px;
-            z-index: 1000;
+            transition: all var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+            height: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        #backToTop:hover {
-            background-color: #2980b9;
+        .btn i {
+            margin-right: var(--space-xs);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            transition: background-color var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .btn:hover::before {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--elevation-level1);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--elevation-level2);
+        }
+
+        .btn-primary:active {
+            box-shadow: var(--elevation-level1);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--outline);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            border-color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--space-xxxl) 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-container) 0%, var(--surface) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, rgba(66, 133, 244, 0) 70%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(52, 168, 83, 0.1) 0%, rgba(52, 168, 83, 0) 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: var(--space-m);
+            color: var(--primary);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto var(--space-xl);
+            color: var(--on-surface-variant);
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-m);
+            flex-wrap: wrap;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: var(--space-xxxl) 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-xl);
+            color: var(--on-background);
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: var(--space-xl);
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: var(--space-m) var(--space-l) var(--space-m) 56px;
+            border-radius: var(--shape-corner-large);
+            border: 1px solid var(--outline);
+            background-color: var(--surface-variant);
+            color: var(--on-surface-variant);
+            font-size: 1rem;
+            transition: all var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: var(--surface);
+            box-shadow: var(--elevation-level1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--space-m);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--on-surface-variant);
+        }
+
+        /* Filter Chips */
+        .filter-chips {
+            display: flex;
+            gap: var(--space-s);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .chip {
+            padding: var(--space-s) var(--space-m);
+            border-radius: var(--shape-corner-small);
+            background-color: var(--surface-variant);
+            color: var(--on-surface-variant);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .chip i {
+            margin-right: var(--space-xs);
+            font-size: 0.875rem;
+        }
+
+        .chip:hover {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+        }
+
+        .chip.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        /* Sort Options */
+        .sort-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: var(--space-l);
+        }
+
+        .sort-dropdown {
+            padding: var(--space-s) var(--space-m);
+            border-radius: var(--shape-corner-small);
+            border: 1px solid var(--outline);
+            background-color: var(--surface);
+            color: var(--on-surface);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        /* Post Card */
+        .post-card {
+            background-color: var(--surface);
+            border-radius: var(--shape-corner-large);
+            box-shadow: var(--elevation-level1);
+            padding: var(--space-l);
+            margin-bottom: var(--space-l);
+            transition: all var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card:hover {
+            box-shadow: var(--elevation-level3);
+            transform: translateY(-2px);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-m);
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            color: var(--on-surface-variant);
+            font-size: 0.875rem;
+        }
+
+        .post-meta i {
+            margin-right: var(--space-xs);
+        }
+
+        .post-category {
+            padding: var(--space-xs) var(--space-s);
+            border-radius: var(--shape-corner-small);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-mess {
+            background-color: var(--tertiary-container);
+            color: var(--on-tertiary-container);
+        }
+
+        .category-hostel {
+            background-color: var(--secondary-container);
+            color: var(--on-secondary-container);
+        }
+
+        .category-academics {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+        }
+
+        .category-maintenance {
+            background-color: var(--warning-container);
+            color: var(--warning);
+        }
+
+        .category-security {
+            background-color: var(--success-container);
+            color: var(--success);
+        }
+
+        .post-content {
+            margin-bottom: var(--space-m);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: var(--space-l);
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            color: var(--on-surface-variant);
+            cursor: pointer;
+            transition: color var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+            font-size: 0.875rem;
+        }
+
+        .post-action:hover {
+            color: var(--primary);
+        }
+
+        .post-action i {
+            margin-right: var(--space-xs);
+        }
+
+        .post-status {
+            padding: var(--space-xs) var(--space-s);
+            border-radius: var(--shape-corner-small);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background-color: var(--warning-container);
+            color: var(--warning);
+        }
+
+        .status-in-progress {
+            background-color: var(--primary-container);
+            color: var(--primary);
+        }
+
+        .status-resolved {
+            background-color: var(--success-container);
+            color: var(--success);
+        }
+
+        .status-rejected {
+            background-color: var(--error-container);
+            color: var(--error);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: var(--space-l);
+            right: var(--space-l);
+            width: 56px;
+            height: 56px;
+            border-radius: var(--shape-corner-large);
+            background-color: var(--primary);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--elevation-level3);
+            cursor: pointer;
+            transition: all var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+            z-index: 99;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+            box-shadow: var(--elevation-level5);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        /* New Post Form */
+        .new-post-form {
+            background-color: var(--surface);
+            border-radius: var(--shape-corner-large);
+            box-shadow: var(--elevation-level2);
+            padding: var(--space-l);
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-m);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+            color: var(--on-surface);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-m);
+            border: 1px solid var(--outline);
+            border-radius: var(--shape-corner-small);
+            font-size: 1rem;
+            transition: all var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+            background-color: var(--surface-variant);
+            color: var(--on-surface-variant);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: var(--surface);
+            color: var(--on-surface);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: var(--space-m);
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Admin Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-l);
+            margin-bottom: var(--space-xl);
+        }
+
+        .dashboard-card {
+            background-color: var(--surface);
+            border-radius: var(--shape-corner-large);
+            box-shadow: var(--elevation-level1);
+            padding: var(--space-l);
+            text-align: center;
+            transition: all var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .dashboard-card:hover {
+            box-shadow: var(--elevation-level3);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-s);
+            color: var(--primary);
+        }
+
+        .dashboard-card p {
+            color: var(--on-surface-variant);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--surface);
+            color: var(--on-surface);
+            padding: var(--space-xxxl) 0 var(--space-l);
+            margin-top: var(--space-xxxl);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        .footer-section h3 {
+            margin-bottom: var(--space-m);
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .footer-section p, .footer-section li {
+            color: var(--on-surface-variant);
+            margin-bottom: var(--space-s);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--on-surface-variant);
+            text-decoration: none;
+            transition: color var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--space-l);
+            border-top: 1px solid var(--outline);
+            color: var(--on-surface-variant);
+            font-size: 0.875rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--surface);
+            border-radius: var(--shape-corner-large);
+            box-shadow: var(--elevation-level5);
+            padding: var(--space-l);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalOpen var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        @keyframes modalOpen {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-l);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--on-surface-variant);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--shape-corner-small);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--motion-duration-short2) cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .modal-close:hover {
+            background-color: var(--surface-variant);
+        }
+
+        /* Developer Credit */
+        .developer-credit {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            padding: var(--space-m) var(--space-l);
+            border-radius: var(--shape-corner-medium);
+            display: inline-flex;
+            align-items: center;
+            margin-top: var(--space-m);
+        }
+
+        .developer-credit i {
+            margin-right: var(--space-s);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .post-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-m);
+            }
+
+            .sort-options {
+                justify-content: flex-start;
+            }
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            --background: var(--dark-background);
+            --on-background: var(--dark-on-background);
+            --surface: var(--dark-surface);
+            --surface-variant: var(--dark-surface-variant);
+            --on-surface-variant: var(--dark-on-surface-variant);
+            --outline: var(--dark-outline);
+            --primary: var(--dark-primary);
+            --primary-container: var(--dark-primary-container);
+            --on-primary: var(--dark-on-primary);
+            --on-primary-container: var(--dark-on-primary-container);
+            --secondary: var(--dark-secondary);
+            --secondary-container: var(--dark-secondary-container);
+            --on-secondary: var(--dark-on-secondary);
+            --on-secondary-container: var(--dark-on-secondary-container);
+            --tertiary: var(--dark-tertiary);
+            --tertiary-container: var(--dark-tertiary-container);
+            --on-tertiary: var(--dark-on-tertiary);
+            --on-tertiary-container: var(--dark-on-tertiary-container);
+            --error: var(--dark-error);
+            --error-container: var(--dark-error-container);
+            --on-error: var(--dark-on-error);
+            --on-error-container: var(--dark-on-error-container);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--surface-variant);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: var(--space-xl) auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: var(--space-l);
+            left: var(--space-l);
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: var(--space-m) var(--space-l);
+            border-radius: var(--shape-corner-large);
+            box-shadow: var(--elevation-level3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all var(--motion-duration-medium2) cubic-bezier(0.2, 0, 0, 1);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification i {
+            margin-right: var(--space-s);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-xxxl) 0;
+            color: var(--on-surface-variant);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: var(--space-l);
+            color: var(--surface-variant);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-s);
+            color: var(--on-surface-variant);
+        }
+
+        .empty-state p {
+            max-width: 500px;
+            margin: 0 auto var(--space-l);
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-comments"></i>
+                    <span>Voiz</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#posts" class="nav-link">Posts</a></li>
+                    <li><a href="#admin" class="nav-link">Admin</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <button class="btn btn-primary" id="newPostBtn">
+                    <i class="fas fa-plus"></i>
+                    New Post
+                </button>
+            </nav>
+        </div>
+    </header>
 
-    <div class="container">
-        <h1>GTU Computer Networks</h1>
-        <p class="subtitle">Click on a question to reveal the answer.</p>
-
-        <!-- LIST 1 -->
-        <div class="question-block">
-            <h2>1. Flow Control vs Error Control <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Flow Control</strong> is a mechanism to prevent the sender from overwhelming the receiver with data. It manages the rate of data transmission.</p>
-                <p><strong>Error Control</strong> is a mechanism to detect and correct any errors in the transmitted data frames, ensuring that the receiver receives the correct data.</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Basis of Comparison</th>
-                            <th>Flow Control</th>
-                            <th>Error Control</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Primary Objective</strong></td><td>To regulate the flow of data so that a fast sender does not flood a slow receiver.</td><td>To ensure that the data transmitted from the source to the destination is accurate and reliable.</td></tr>
-                        <tr><td><strong>Problem Addressed</strong></td><td>Prevents <strong>buffer overflow</strong> at the receiver's end.</td><td>Detects and corrects <strong>corrupted frames</strong> (damaged bits) and <strong>lost frames</strong>.</td></tr>
-                        <tr><td><strong>Main Function</strong></td><td>It is a <strong>speed-matching</strong> technique.</td><td>It is an <strong>accuracy and reliability</strong> technique.</td></tr>
-                        <tr><td><strong>Mechanism Used</strong></td><td>Uses techniques like <strong>Stop-and-Wait Protocol</strong> and <strong>Sliding Window Protocol</strong>.</td><td>Uses <strong>Automatic Repeat Request (ARQ)</strong>. It employs error-detecting codes like <strong>Checksum</strong> and <strong>CRC</strong>.</td></tr>
-                        <tr><td><strong>Use of Feedback</strong></td><td>The receiver sends an <strong>ACK</strong> for frames received.</td><td>The receiver sends an <strong>ACK</strong> for a correct frame and a <strong>NAK</strong> for a damaged frame, requesting retransmission.</td></tr>
-                    </tbody>
-                </table>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Speak softly. Change loudly.</h1>
+                <p>A smart, anonymous, campus-wide feedback platform that turns student whispers into real action.</p>
+                <div class="hero-buttons">
+                    <a href="#posts" class="btn btn-primary">
+                        <i class="fas fa-eye"></i>
+                        Browse Posts
+                    </a>
+                    <a href="#about" class="btn btn-outline">
+                        <i class="fas fa-info-circle"></i>
+                        Learn More
+                    </a>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="question-block">
-            <h2>2. DNS – Definition, Purpose, Resolution, Hierarchy <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Definition:</h3>
-                <p>The <strong>Domain Name System (DNS)</strong> is a hierarchical and decentralized naming system for computers, services, or other resources connected to the Internet. It translates human-readable domain names (e.g., <code>www.google.com</code>) into machine-readable IP addresses (e.g., <code>142.250.191.78</code>).</p>
-                <h3>Purpose:</h3>
-                <p>The primary purpose of DNS is to provide a more user-friendly way of accessing resources on the internet. It is difficult for humans to remember IP addresses, but easy to remember domain names. DNS acts as the internet's phonebook.</p>
-                <h3>DNS Resolution (The Process):</h3>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Posts Section -->
+        <section id="posts" class="container">
+            <h2 class="section-title">Much voice, less problem</h2>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search for issues, suggestions, or keywords...">
+            </div>
+            
+            <!-- Filter Chips -->
+            <div class="filter-chips">
+                <div class="chip active" data-filter="all">
+                    <i class="fas fa-border-all"></i>
+                    All
+                </div>
+                <div class="chip" data-filter="mess">
+                    <i class="fas fa-utensils"></i>
+                    Mess
+                </div>
+                <div class="chip" data-filter="hostel">
+                    <i class="fas fa-bed"></i>
+                    Hostel
+                </div>
+                <div class="chip" data-filter="academics">
+                    <i class="fas fa-graduation-cap"></i>
+                    Academics
+                </div>
+                <div class="chip" data-filter="maintenance">
+                    <i class="fas fa-tools"></i>
+                    Maintenance
+                </div>
+                <div class="chip" data-filter="security">
+                    <i class="fas fa-shield-alt"></i>
+                    Security
+                </div>
+            </div>
+            
+            <!-- Sort Options -->
+            <div class="sort-options">
+                <select class="sort-dropdown" id="sortDropdown">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="upvotes">Most Upvotes</option>
+                    <option value="urgency">Highest Urgency</option>
+                </select>
+            </div>
+            
+            <!-- Posts Container -->
+            <div id="postsContainer">
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+            
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h3>No posts found</h3>
+                <p>Try adjusting your search or filters to find what you're looking for.</p>
+                <button class="btn btn-primary" id="resetFiltersBtn">
+                    <i class="fas fa-redo"></i>
+                    Reset Filters
+                </button>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard Section -->
+        <section id="admin" class="container" style="display: none;">
+            <h2 class="section-title">Admin Dashboard</h2>
+            
+            <div class="dashboard">
+                <div class="dashboard-card">
+                    <h3 id="totalPosts">0</h3>
+                    <p>Total Posts</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 id="pendingPosts">0</h3>
+                    <p>Pending Issues</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 id="inProgressPosts">0</h3>
+                    <p>In Progress</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 id="resolvedPosts">0</h3>
+                    <p>Resolved</p>
+                </div>
+            </div>
+            
+            <h3 class="section-title">Recent Posts</h3>
+            <div id="adminPostsContainer">
+                <!-- Admin posts will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="container" style="display: none;">
+            <h2 class="section-title">About Voiz</h2>
+            <div class="post-card">
+                <h3>Our Mission</h3>
+                <p>Voiz is designed to create a transparent communication channel between students and campus administration. We believe that every student's voice matters, and by providing a safe, anonymous platform, we empower students to speak up about issues that matter to them.</p>
+                
+                <h3 class="mt-4">How It Works</h3>
                 <ol>
-                    <li><strong>Check Local Cache:</strong> The computer first checks its own local cache.</li>
-                    <li><strong>Query Recursive DNS Server:</strong> The query is sent to a recursive DNS server (usually from the ISP).</li>
-                    <li><strong>Query Root Server:</strong> The recursive server queries a <strong>Root Server</strong>, which directs it to the appropriate <strong>Top-Level Domain (TLD) Server</strong> (e.g., the <code>.com</code> server).</li>
-                    <li><strong>Query TLD Server:</strong> The recursive server queries the TLD server, which directs it to the domain's <strong>Authoritative Name Server</strong> (e.g., <code>google.com</code>'s name server).</li>
-                    <li><strong>Query Authoritative Name Server:</strong> The recursive server queries the authoritative name server, which knows the IP address.</li>
-                    <li><strong>Return Response:</strong> The IP address is returned to the user's computer, and the browser can now connect.</li>
+                    <li>Students post anonymous feedback about campus issues</li>
+                    <li>Other students can upvote issues they find important</li>
+                    <li>Posts are automatically routed to the appropriate department</li>
+                    <li>Administrators can track and update the status of each issue</li>
+                    <li>Students can see when their issues are resolved</li>
                 </ol>
-                <h3>DNS Hierarchy:</h3>
-                <p>DNS is organized in a tree-like hierarchy: <strong>Root Level (.)</strong> → <strong>Top-Level Domain (TLD)</strong> (e.g., <code>.com</code>, <code>.in</code>) → <strong>Authoritative Domain Level</strong> (e.g., <code>google.com</code>) → <strong>Subdomain Level</strong> (e.g., <code>mail.google.com</code>).</p>
+                
+                <h3 class="mt-4">Why It Matters</h3>
+                <p>Traditional feedback systems often fail because students fear retaliation or don't believe their concerns will be addressed. Whisper Voiz removes these barriers by providing anonymity and transparency, ensuring that even the smallest whispers can lead to meaningful change on campus.</p>
+                
+                <div class="developer-credit">
+                    <i class="fab fa-google"></i>
+                    <span>This website is created by Google Gemini</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container" style="display: none;">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="post-card">
+                <h3>Developer Information</h3>
+                <p><strong>Name:</strong> Aryan Patel</p>
+                <p><strong>Email:</strong> aryan04102001@gmail.com</p>
+                <p><strong>Phone:</strong> 9023668571</p>
+                
+                <h3 class="mt-4">Get in Touch</h3>
+                <p>If you have any questions, feedback, or would like to implement Whisper Voiz on your campus, please don't hesitate to reach out. We're always looking for ways to improve and expand our platform.</p>
+                
+                <div class="mt-4">
+                    <a href="mailto:aryan04102001@gmail.com" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i>
+                        Send Email
+                    </a>
+                </div>
+                
+                <div class="developer-credit">
+                    <i class="fab fa-google"></i>
+                    <span>This website is created by Google Gemini</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Whisper Voiz</h3>
+                    <p>A smart, anonymous, campus-wide feedback platform that turns student whispers into real action.</p>
+                    <div class="developer-credit">
+                        <i class="fab fa-google"></i>
+                        <span>Created by Google Gemini</span>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#posts" class="footer-link">Posts</a></li>
+                        <li><a href="#admin" class="footer-link">Admin</a></li>
+                        <li><a href="#about" class="footer-link">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li>Mess</li>
+                        <li>Hostel</li>
+                        <li>Academics</li>
+                        <li>Maintenance</li>
+                        <li>Security</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Developed by Aryan Patel, using gemini</p>
+                    <p>Email: aryan04102001@gmail.com</p>
+                    <p>Phone: +91 9023668571</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Voiz. All rights reserved.</p>
             </div>
         </div>
+    </footer>
 
-        <div class="question-block">
-            <h2>3. HTTP – Persistent vs Non-Persistent <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Non-Persistent HTTP:</h3>
-                <p>The client establishes a <strong>new TCP connection for every single object</strong> requested. The process is: connect → request one object → receive object → close connection. This is highly inefficient due to the overhead of setting up and tearing down multiple TCP connections.</p>
-                <h3>Persistent HTTP (HTTP/1.1):</h3>
-                <p>The client can send <strong>multiple requests over a single TCP connection</strong>. The connection is not closed after the first response but is kept open for subsequent requests. This is much more efficient as it avoids the overhead of setting up multiple connections, reducing latency.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>4. TCP vs UDP <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th>TCP (Transmission Control Protocol)</th><th>UDP (User Datagram Protocol)</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Connection</strong></td><td><strong>Connection-oriented</strong>. Establishes a connection via a three-way handshake.</td><td><strong>Connectionless</strong>. No connection is established before sending data.</td></tr>
-                        <tr><td><strong>Reliability</strong></td><td><strong>Reliable</strong>. Guarantees delivery of data, error-free, and in the correct order.</td><td><strong>Unreliable</strong>. Does not guarantee delivery, order, or duplicate protection.</td></tr>
-                        <tr><td><strong>Flow Control</strong></td><td>Uses a sliding window protocol to manage data flow.</td><td>No flow control.</td></tr>
-                        <tr><td><strong>Congestion Control</strong></td><td>Uses mechanisms like Slow Start, Congestion Avoidance.</td><td>No congestion control.</td></tr>
-                        <tr><td><strong>Speed</strong></td><td>Slower due to overhead of handshakes, acknowledgments, etc.</td><td>Faster due to low overhead.</td></tr>
-                        <tr><td><strong>Header Size</strong></td><td>Large (20-60 bytes).</td><td>Small (8 bytes).</td></tr>
-                        <tr><td><strong>Use Cases</strong></td><td>Web (HTTP), Email (SMTP), File Transfer (FTP).</td><td>Video/Audio streaming, Online gaming, DNS, VoIP.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>5. Distance Vector Routing + Count-to-Infinity <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Distance Vector Routing:</h3>
-                <ul>
-                    <li>Each router maintains a routing table (a vector) containing the distance (cost) and direction (next-hop router) to every other router.</li>
-                    <li>Routers periodically share their entire routing table only with their <strong>immediate neighbors</strong>.</li>
-                    <li>A router updates its table based on the information received from its neighbors using the Bellman-Ford algorithm.</li>
-                </ul>
-                <h3>Count-to-Infinity Problem:</h3>
-                <p>This is a major drawback where "good news travels fast, but bad news travels slow."</p>
-                <ul>
-                    <li><strong>Scenario:</strong> Routers A, B, and C in a line. A is connected to B, and B is connected to C. The cost of each link is 1. Initially, A knows it can reach C via B with a cost of 2.</li>
-                    <li><strong>Failure:</strong> If the link between B and C fails, B updates its table, setting the distance to C as infinity.</li>
-                    <li><strong>The Problem:</strong> Before B can tell A about the failure, A might send its old routing table to B, saying it can reach C with a cost of 2. B, thinking it can reach C via A, updates its table to reach C with a cost of 3 (2+1).</li>
-                    <li>This process repeats, with A and B incrementally increasing their routes to C until the value reaches infinity. This slow propagation of bad news is the "count-to-infinity" problem.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>6. Link State Routing + Steps <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Link State Routing:</h3>
-                <ul>
-                    <li>Each router discovers its immediate neighbors and the cost of the links to them.</li>
-                    <li>This information is then <strong>flooded to all other routers</strong> in the network.</li>
-                    <li>Every router builds a complete map of the entire network topology.</li>
-                    <li>Using this map, each router independently calculates the shortest path to every other router using Dijkstra's algorithm.</li>
-                </ul>
-                <h3>Steps of Link State Routing:</h3>
-                <ol>
-                    <li><strong>Discover Neighbors:</strong> A router learns about its directly connected neighbors.</li>
-                    <li><strong>Measure Link Cost:</strong> The router measures the cost or delay to each neighbor.</li>
-                    <li><strong>Create Link State Packets (LSPs):</strong> The router creates an LSP containing its ID, a sequence number, and a list of all its neighbors and the associated link costs.</li>
-                    <li><strong>Flood LSPs:</strong> The router floods this LSP to all other routers in the network.</li>
-                    <li><strong>Build Topology Database:</strong> Each router stores all received LSPs to build a complete database of the network's topology.</li>
-                    <li><strong>Compute Shortest Paths:</strong> Using Dijkstra's shortest path algorithm on this database, each router computes the shortest path to every destination and builds its routing table.</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>7. Stop-and-Wait / Go-Back-N / Selective Repeat <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Feature</th><th>Stop-and-Wait ARQ</th><th>Go-Back-N ARQ</th><th>Selective Repeat ARQ</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Sender Window Size</strong></td><td>1</td><td>&gt; 1 (e.g., N)</td><td>&gt; 1 (e.g., N)</td></tr>
-                        <tr><td><strong>Receiver Window Size</strong></td><td>1</td><td>1</td><td>&gt; 1 (e.g., N)</td></tr>
-                        <tr><td><strong>Efficiency</strong></td><td>Very low</td><td>Medium</td><td>High</td></tr>
-                        <tr><td><strong>Mechanism</strong></td><td>Sender sends one frame and waits for its ACK before sending the next.</td><td>If a frame is lost, the sender retransmits the lost frame and <strong>all subsequent frames</strong>.</td><td>If a frame is lost, the sender <strong>only retransmits the specific lost frame</strong>.</td></tr>
-                        <tr><td><strong>Receiver Behavior</strong></td><td>Only accepts frames in order.</td><td>Only accepts frames in order. Discards out-of-order frames.</td><td>Can accept out-of-order frames and buffers them until the missing frame arrives.</td></tr>
-                        <tr><td><strong>Complexity</strong></td><td>Simple</td><td>Moderate</td><td>Complex</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>8. Subnetting + Subnet Masks + Number of Hosts <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Subnetting:</h3>
-                <p>The process of dividing a single large network into multiple smaller, more efficient sub-networks (subnets). It is done by "borrowing" bits from the host portion of an IP address to use as the subnet portion.</p>
-                <h3>Subnet Mask:</h3>
-                <p>A 32-bit number that distinguishes the network and subnet portions from the host portion of an IP address. It has <code>1</code>s for all network and subnet bits and <code>0</code>s for all host bits.</p>
-                <h3>Calculating Subnets and Hosts:</h3>
-                <ul>
-                    <li>Let <code>n</code> be the total number of host bits in the default class.</li>
-                    <li>Let <code>s</code> be the number of bits borrowed for subnetting.</li>
-                    <li>Let <code>h</code> be the number of remaining host bits (<code>h = n - s</code>).</li>
-                    <li><strong>Number of Subnets:</strong> <code>2^s</code></li>
-                    <li><strong>Number of Usable Hosts per Subnet:</strong> <code>2^h - 2</code> (Subtracting 2 for the network and broadcast addresses).</li>
-                </ul>
-                <p><strong>Example (Class C):</strong> If we borrow 3 bits (<code>s=3</code>), the new subnet mask is <code>255.255.255.224</code>. Number of subnets = <code>2^3 = 8</code>. Remaining host bits (<code>h</code>) = 5. Number of usable hosts per subnet = <code>2^5 - 2 = 30</code>.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>9. OSI Model – Layers and Functions <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Layer</th><th>Name</th><th>Primary Function</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Layer 7</strong></td><td><strong>Application</strong></td><td>Provides network services directly to user applications (HTTP, FTP, DNS).</td></tr>
-                        <tr><td><strong>Layer 6</strong></td><td><strong>Presentation</strong></td><td>Data representation, translation, encryption, and compression.</td></tr>
-                        <tr><td><strong>Layer 5</strong></td><td><strong>Session</strong></td><td>Establishes, manages, and terminates sessions between applications.</td></tr>
-                        <tr><td><strong>Layer 4</strong></td><td><strong>Transport</strong></td><td>Provides end-to-end reliable (TCP) or unreliable (UDP) data delivery, segmentation, and flow control.</td></tr>
-                        <tr><td><strong>Layer 3</strong></td><td><strong>Network</strong></td><td>Logical addressing (IP) and routing of packets across multiple networks.</td></tr>
-                        <tr><td><strong>Layer 2</strong></td><td><strong>Data Link</strong></td><td>Framing, physical addressing (MAC), and error detection/correction for a single hop.</td></tr>
-                        <tr><td><strong>Layer 1</strong></td><td><strong>Physical</strong></td><td>Transmission of raw bits (0s and 1s) over a physical medium (cables, signals).</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>10. Difference: Connection-oriented vs Connectionless <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th>Connection-Oriented Service</th><th>Connectionless Service</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Connection Setup</strong></td><td>Requires a prior connection setup (handshake) before data transfer.</td><td>No connection setup is required.</td></tr>
-                        <tr><td><strong>Reliability</strong></td><td>Guarantees reliable and in-order delivery of data.</td><td>Does not guarantee delivery, order, or reliability.</td></tr>
-                        <tr><td><strong>State</strong></td><td>Maintains state information about the connection.</td><td>Stateless; each packet is independent.</td></tr>
-                        <tr><td><strong>Overhead</strong></td><td>Higher overhead due to handshakes and acknowledgments.</td><td>Low overhead.</td></tr>
-                        <tr><td><strong>Example</strong></td><td><strong>TCP</strong>, Telephone Call.</td><td><strong>UDP</strong>, Sending a postcard.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>11. Piggybacking <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Piggybacking is a technique used in bi-directional communication where the acknowledgment for a received frame is carried back to the sender in the header of an outgoing data frame, instead of sending a separate, dedicated acknowledgment frame.</p>
-                <p><strong>Purpose:</strong> The primary goal is to improve the efficiency of the network. By attaching the ACK to a data frame that is already being sent, the system saves bandwidth and reduces the total number of frames transmitted on the network.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>12. CRC Computation <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Cyclic Redundancy Check (CRC) is a powerful error-detecting code used to detect accidental changes to raw data.</p>
-                <p><strong>Process at Sender:</strong></p>
-                <ol>
-                    <li>A generator polynomial, <code>G(x)</code>, is agreed upon by both sender and receiver.</li>
-                    <li><code>k</code> zero bits are appended to the end of the data, where <code>k</code> is the degree of the generator polynomial.</li>
-                    <li>The new augmented data is divided by <code>G(x)</code> using modulo-2 binary division.</li>
-                    <li>The remainder (the CRC checksum) is appended to the original data, replacing the appended zeros.</li>
-                    <li>This final codeword (data + CRC) is transmitted.</li>
-                </ol>
-                <p><strong>Process at Receiver:</strong></p>
-                <ol>
-                    <li>The receiver divides the received codeword by the same generator polynomial <code>G(x)</code>.</li>
-                    <li>If the remainder of the division is <strong>zero</strong>, the receiver assumes the data is error-free.</li>
-                    <li>If the remainder is <strong>non-zero</strong>, the receiver concludes that an error has occurred.</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>13. Packet Switching vs Circuit Switching <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th>Circuit Switching</th><th>Packet Switching</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Path</strong></td><td>A dedicated physical path is established for the entire session.</td><td>No dedicated path. Data is broken into packets that may travel different paths.</td></tr>
-                        <tr><td><strong>Resource Allocation</strong></td><td>Resources (bandwidth) are reserved for the duration of the call.</td><td>Resources are allocated on demand and are shared among many users.</td></tr>
-                        <tr><td><strong>Efficiency</strong></td><td>Inefficient for bursty data traffic as the dedicated path sits idle during silent periods.</td><td>Highly efficient as network resources are used only when needed.</td></tr>
-                        <tr><td><strong>Reliability</strong></td><td>Less robust; if a switch in the path fails, the connection is terminated.</td><td>More robust; if a node fails, packets can be rerouted around it.</td></tr>
-                        <tr><td><strong>Example</strong></td><td>Traditional Telephone Network (PSTN).</td><td>The Internet.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>14. Routing: Unicast vs Multicast vs Broadcast <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>Unicast:</strong> <strong>One-to-one.</strong> A single source sends a packet to a single, specific destination host. <em>Example:</em> A user downloading a file from a web server.</li>
-                    <li><strong>Multicast:</strong> <strong>One-to-many.</strong> A single source sends a packet to a specific group of destination hosts that have "subscribed" to receive the traffic. <em>Example:</em> Streaming a live video conference to a group of participants.</li>
-                    <li><strong>Broadcast:</strong> <strong>One-to-all.</strong> A single source sends a packet that is addressed to all hosts on the local network. <em>Example:</em> An ARP (Address Resolution Protocol) request.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>15. UDP Explanation <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> The User Datagram Protocol (UDP) is a transport layer protocol that provides a simple, connectionless, and unreliable message service.</p>
-                <p><strong>Key Characteristics:</strong></p>
-                <ul>
-                    <li><strong>Connectionless:</strong> There is no handshaking between the sender and receiver before sending data.</li>
-                    <li><strong>Unreliable:</strong> UDP does not guarantee that a datagram will reach its destination, nor does it guarantee the order of delivery.</li>
-                    <li><strong>Low Overhead:</strong> The UDP header is very small (8 bytes), making it faster than TCP.</li>
-                    <li><strong>Stateless:</strong> UDP does not track the state of a connection.</li>
-                </ul>
-                <p><strong>Applications:</strong> UDP is suitable for applications that prioritize speed over reliability, such as video streaming, voice over IP (VoIP), online gaming, and DNS queries.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>16. Transport Layer Duties <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>1. Segmentation and Reassembly:</h3>
-                <ul>
-                    <li><strong>Segmentation:</strong> The transport layer at the sender side takes large messages from the application layer and breaks them down into smaller data units called <strong>segments</strong>.</li>
-                    <li><strong>Reassembly:</strong> The transport layer at the receiver side collects these segments and reassembles them in the correct order to reconstruct the original message.</li>
-                </ul>
-                <h3>2. Multiplexing and Demultiplexing:</h3>
-                <ul>
-                    <li><strong>Multiplexing (at Sender):</strong> The transport layer gathers data from multiple application processes and encapsulates this data into segments with a header containing <strong>port numbers</strong> to identify the source and destination application.</li>
-                    <li><strong>Demultiplexing (at Receiver):</strong> When a segment arrives, the transport layer examines the destination port number and delivers the segment's data to the correct application process.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>17. Socket System Calls <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Socket System Calls</strong> are a set of functions used to create and manage network connections for communication between processes.</p>
-                <h3>Server-Side Sequence:</h3>
-                <ol>
-                    <li><code>socket()</code>: Creates a new communication endpoint.</li>
-                    <li><code>bind()</code>: Associates the socket with a specific IP address and port number.</li>
-                    <li><code>listen()</code>: Puts the socket into a passive mode, ready to accept incoming connections.</li>
-                    <li><code>accept()</code>: Blocks until a client requests a connection, then returns a new socket for that specific client.</li>
-                    <li><code>recv()</code> / <code>send()</code>: Use the new socket to receive data from and send data to the client.</li>
-                    <li><code>close()</code>: Closes the connection.</li>
-                </ol>
-                <h3>Client-Side Sequence:</h3>
-                <ol>
-                    <li><code>socket()</code>: Creates a new communication endpoint.</li>
-                    <li><code>connect()</code>: Actively initiates a connection to a server's IP address and port number.</li>
-                    <li><code>send()</code> / <code>recv()</code>: Use the socket to send data to and receive data from the server.</li>
-                    <li><code>close()</code>: Closes the connection.</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>18. Congestion Control vs Flow Control vs Error Control <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th><strong>Flow Control</strong></th><th><strong>Congestion Control</strong></th><th><strong>Error Control</strong></th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Scope</strong></td><td><strong>Point-to-Point.</strong> Between a sender and a receiver.</td><td><strong>Network-wide.</strong> Involves all routers and hosts in the path.</td><td><strong>Point-to-Point.</strong> Between a sender and a receiver.</td></tr>
-                        <tr><td><strong>Problem Addressed</strong></td><td>Prevents a fast sender from overwhelming a <strong>slow receiver</strong>.</td><td>Prevents the <strong>network itself</strong> from being overloaded by too much traffic.</td><td>Detects and corrects <strong>corrupted or lost</strong> data frames.</td></tr>
-                        <tr><td><strong>What it Manages</strong></td><td>The receiver's buffer capacity.</td><td>The overall traffic load in the network.</td><td>The integrity of the data stream.</td></tr>
-                        <tr><td><strong>Mechanism</strong></td><td>Sliding Window Protocol.</td><td>TCP's Slow Start, Congestion Avoidance, Fast Retransmit.</td><td>ARQ, Checksums, ACKs, NAKs.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- LIST 2 -->
-        <div class="question-block">
-            <h2>19. SMTP Protocol <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> The <strong>Simple Mail Transfer Protocol (SMTP)</strong> is a standard communication protocol for electronic mail transmission. It is a text-based protocol used for sending email from a client to a mail server or between mail servers.</p>
-                <p><strong>Key Characteristics:</strong></p>
-                <ul>
-                    <li><strong>Push Protocol:</strong> SMTP is designed for "pushing" emails from a client to a server. It is not used for retrieving email.</li>
-                    <li><strong>TCP-based:</strong> It operates over TCP port 25 for reliable communication.</li>
-                    <li><strong>Simple Commands:</strong> It uses simple, human-readable commands like <code>HELO</code>, <code>MAIL FROM</code>, <code>RCPT TO</code>, and <code>DATA</code>.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>20. Explain HTTP format (request/response) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>HTTP Request Message Format:</h3>
-                <ol>
-                    <li><strong>Request Line:</strong> Contains the HTTP method (e.g., <code>GET</code>), the URL, and the HTTP version (e.g., <code>HTTP/1.1</code>).</li>
-                    <li><strong>Header Lines:</strong> Contain additional information (e.g., <code>Host</code>, <code>User-Agent</code>).</li>
-                    <li><strong>Entity Body:</strong> (Optional) Contains data being sent to the server, typically used with <code>POST</code> requests.</li>
-                </ol>
-                <h3>HTTP Response Message Format:</h3>
-                <ol>
-                    <li><strong>Status Line:</strong> Contains the HTTP version, a status code (e.g., <code>200 OK</code>), and a status phrase.</li>
-                    <li><strong>Header Lines:</strong> Contain information about the response and the server (e.g., <code>Date</code>, <code>Content-Type</code>).</li>
-                    <li><strong>Entity Body:</strong> Contains the actual resource requested by the client (e.g., the HTML document).</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>21. MAC sublayer issues / CSMA / ALOHA <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>MAC Sublayer Issue:</h3>
-                <p>The primary issue for the Medium Access Control (MAC) sublayer is the <strong>multiple access problem</strong>. When multiple devices share a common transmission medium, they need a mechanism to coordinate access to prevent data collisions.</p>
-                <h3>ALOHA:</h3>
-                <ul>
-                    <li><strong>Pure ALOHA:</strong> Stations transmit whenever they have data. If a collision occurs, they wait a random amount of time and retransmit.</li>
-                    <li><strong>Slotted ALOHA:</strong> Time is divided into discrete slots. Stations can only transmit at the beginning of a time slot, which reduces the probability of collisions.</li>
-                </ul>
-                <h3>CSMA (Carrier Sense Multiple Access):</h3>
-                <ul>
-                    <li>An improvement over ALOHA where a station first <strong>listens to the channel (carrier sense)</strong> to see if it is idle before transmitting.</li>
-                    <li><strong>1-Persistent CSMA:</strong> If the channel is busy, the station continuously listens and transmits immediately when it becomes idle.</li>
-                    <li><strong>Non-Persistent CSMA:</strong> If the channel is busy, the station waits for a random period of time before sensing the channel again.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>22. Bit Stuffing <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Bit stuffing is a technique used for data transparency to prevent a specific bit pattern within the data from being misinterpreted as a control or framing sequence.</p>
-                <p><strong>How it Works:</strong></p>
-                <ul>
-                    <li>A specific flag pattern, such as <code>01111110</code>, is used to mark the beginning and end of a frame.</li>
-                    <li>To ensure this pattern does not appear in the data payload, the sender inserts an extra <code>0</code> after every sequence of five consecutive <code>1</code>s in the data.</li>
-                    <li><strong>At the receiver:</strong> The receiver removes the stuffed <code>0</code> after every five <code>1</code>s to restore the original data.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>23. Error Detection methods (parity, CRC, Hamming) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>Parity Check:</strong> Adds a single redundant bit to a block of data to make the total number of 1s either even or odd. Can only detect an odd number of bit errors.</li>
-                    <li><strong>CRC (Cyclic Redundancy Check):</strong> A powerful error-detection scheme. The sender treats the data as a large number and divides it by a predetermined polynomial. The remainder (the CRC checksum) is appended to the data. The receiver performs the same division; a non-zero remainder indicates an error.</li>
-                    <li><strong>Hamming Code:</strong> An error-<strong>correcting</strong> code. It adds multiple redundant bits at specific positions within the data block, allowing the receiver to identify and correct single-bit errors.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>24. Datagram vs Virtual Circuit networks <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th>Datagram Network (Connectionless)</th><th>Virtual Circuit Network (Connection-Oriented)</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Connection Setup</strong></td><td>No connection setup is required.</td><td>A logical path (virtual circuit) is established before data transfer.</td></tr>
-                        <tr><td><strong>Addressing</strong></td><td>Each packet contains the full source and destination address.</td><td>Each packet contains a small Virtual Circuit Identifier (VCI).</td></tr>
-                        <tr><td><strong>Routing</strong></td><td>Packets can take different routes to the destination.</td><td>All packets follow the same pre-established path.</td></tr>
-                        <tr><td><strong>Order of Packets</strong></td><td>Packets may arrive out of order.</td><td>Packets always arrive in the correct order.</td></tr>
-                        <tr><td><strong>Example</strong></td><td>The Internet (uses IP).</td><td>ATM (Asynchronous Transfer Mode), Frame Relay.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>25. Distance Vector Routing (general) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p>Distance Vector Routing is a simple routing algorithm where each router maintains a routing table (a vector) that lists the distance (cost) and the direction (next-hop router) for every known destination.</p>
-                <ul>
-                    <li><strong>Information Sharing:</strong> Routers periodically share their entire routing table only with their <strong>directly connected neighbors</strong>.</li>
-                    <li><strong>Update Mechanism:</strong> A router updates its own routing table based on the information received from its neighbors, choosing the path with the lowest total cost.</li>
-                    <li><strong>Problem:</strong> This algorithm is slow to adapt to network changes (slow convergence) and is susceptible to routing loops and the <strong>count-to-infinity problem</strong>.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>26. IPv4 Classes / Address ranges <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Class</th><th>First Octet Range</th><th>Network ID</th><th>Default Subnet Mask</th><th>Use Case</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>A</strong></td><td><code>1</code> to <code>126</code></td><td>First Octet</td><td><code>255.0.0.0</code></td><td>Very large networks.</td></tr>
-                        <tr><td><strong>B</strong></td><td><code>128</code> to <code>191</code></td><td>First Two Octets</td><td><code>255.255.0.0</code></td><td>Medium to large networks.</td></tr>
-                        <tr><td><strong>C</strong></td><td><code>192</code> to <code>223</code></td><td>First Three Octets</td><td><code>255.255.255.0</code></td><td>Small networks.</td></tr>
-                        <tr><td><strong>D</strong></td><td><code>224</code> to <code>239</code></td><td>N/A</td><td>N/A</td><td>Multicasting.</td></tr>
-                        <tr><td><strong>E</strong></td><td><code>240</code> to <code>255</code></td><td>N/A</td><td>N/A</td><td>Experimental use.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>27. TCP Connection Establishment (Three-way handshake) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p>The three-way handshake is a process used to establish a reliable TCP connection between a client and a server. It synchronizes the initial sequence numbers (ISN) for both sides.</p>
-                <ol>
-                    <li><strong>SYN:</strong> The client sends a TCP segment with the <code>SYN</code> flag set and its chosen initial sequence number <code>SEQ = x</code>.</li>
-                    <li><strong>SYN-ACK:</strong> The server responds with a segment that has both the <code>SYN</code> and <code>ACK</code> flags set. It includes its own initial sequence number <code>SEQ = y</code> and acknowledges the client's sequence number with <code>ACK = x + 1</code>.</li>
-                    <li><strong>ACK:</strong> The client sends a final segment with the <code>ACK</code> flag set, acknowledging the server's sequence number with <code>ACK = y + 1</code>. The connection is now established.</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>28. Types of Network Topologies <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>Bus Topology:</strong> All devices are connected to a single central cable. <em>Pros:</em> Simple, inexpensive. <em>Cons:</em> A cable break disables the entire network.</li>
-                    <li><strong>Star Topology:</strong> All devices are connected to a central hub or switch. <em>Pros:</em> Easy to manage, a single cable failure affects only one device. <em>Cons:</em> The central device is a single point of failure.</li>
-                    <li><strong>Ring Topology:</strong> Devices are connected in a circular fashion, and data passes from one device to the next. <em>Pros:</em> Orderly data transmission. <em>Cons:</em> A break in the ring can bring down the network.</li>
-                    <li><strong>Mesh Topology:</strong> Every device is interconnected with every other device. <em>Pros:</em> Highly reliable. <em>Cons:</em> Expensive and complex.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>29. Types of delays in networks <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>Processing Delay:</strong> Time required for a router to examine a packet's header and determine the outgoing interface.</li>
-                    <li><strong>Queuing Delay:</strong> Time a packet spends waiting in a queue at a router's output port before it can be transmitted.</li>
-                    <li><strong>Transmission Delay:</strong> Time required to push all the bits of a packet onto the link. <code>(Packet Size) / (Bandwidth)</code>.</li>
-                    <li><strong>Propagation Delay:</strong> Time it takes for a bit to travel from the sender to the receiver over the physical medium. <code>(Distance) / (Propagation Speed)</code>.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>30. Network devices: router, bridge, gateway, repeater <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>Repeater (Layer 1):</strong> Regenerates and amplifies signals to extend the physical length of a network.</li>
-                    <li><strong>Bridge (Layer 2):</strong> Connects two or more LAN segments and makes forwarding decisions based on MAC addresses.</li>
-                    <li><strong>Router (Layer 3):</strong> Connects different networks and forwards packets between them based on their IP addresses.</li>
-                    <li><strong>Gateway (Layer 4-7):</strong> Acts as a "gate" between two networks that use different protocols (e.g., TCP/IP and a mainframe network).</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>31. Subnet and benefits <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Subnetting:</h3>
-                <p>The process of dividing a single, large IP network into multiple smaller, more manageable sub-networks (subnets).</p>
-                <h3>Benefits of Subnetting:</h3>
-                <ul>
-                    <li><strong>Reduced Broadcast Traffic:</strong> Broadcasts are confined to a single subnet, improving performance.</li>
-                    <li><strong>Enhanced Security:</strong> Subnets can be used to create security boundaries.</li>
-                    <li><strong>Improved Network Management:</strong> Smaller, isolated subnets are easier to troubleshoot and manage.</li>
-                    <li><strong>Efficient IP Address Utilization:</strong> Allows for more efficient allocation of IP addresses.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- LIST 3 -->
-        <div class="question-block">
-            <h2>32. IMAP / Email protocols <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Email Protocols</strong> are used for sending and retrieving electronic mail.</p>
-                <ul>
-                    <li><strong>SMTP (Simple Mail Transfer Protocol):</strong> Used to <strong>send</strong> email from a client to a server and between mail servers.</li>
-                    <li><strong>POP3 (Post Office Protocol 3):</strong> A simple protocol for <strong>retrieving</strong> email. It typically downloads emails to the client device and deletes them from the server.</li>
-                    <li><strong>IMAP (Internet Message Access Protocol):</strong> A more advanced protocol for <strong>retrieving</strong> email. Emails are kept on the server, enabling synchronization across multiple devices.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>33. Throughput / Delay / Loss definitions <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>Throughput:</strong> The rate at which data is successfully transmitted from a sender to a receiver over a communication channel. It represents the actual, usable bandwidth.</li>
-                    <li><strong>Delay (or Latency):</strong> The total time it takes for a packet to travel from the source to the destination. It is the sum of processing, queuing, transmission, and propagation delays.</li>
-                    <li><strong>Loss:</strong> The phenomenon where packets are discarded and never reach their destination, often caused by network congestion.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>34. Computer network definition and types (LAN/MAN/WAN) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Definition:</h3>
-                <p>A computer network is a collection of interconnected computing devices that are able to communicate and share resources with each other.</p>
-                <h3>Types of Networks:</h3>
-                <ul>
-                    <li><strong>LAN (Local Area Network):</strong> Spans a small geographical area, such as a single office or building.</li>
-                    <li><strong>MAN (Metropolitan Area Network):</strong> Spans a larger area, such as a city or a large university campus.</li>
-                    <li><strong>WAN (Wide Area Network):</strong> Spans a very large geographical area, like a country or the entire globe. The Internet is the largest WAN.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>35. Physical vs Logical Address <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th><strong>Physical Address (MAC Address)</strong></th><th><strong>Logical Address (IP Address)</strong></th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Layer</strong></td><td>Data Link Layer (Layer 2)</td><td>Network Layer (Layer 3)</td></tr>
-                        <tr><td><strong>Purpose</strong></td><td>Addressing for communication within a <strong>local network</strong>.</td><td>Addressing for routing across <strong>different networks</strong>.</td></tr>
-                        <tr><td><strong>Assignment</strong></td><td>Hard-coded and permanently assigned by the device manufacturer.</td><td>Assigned by a network administrator or an ISP, and can be changed.</td></tr>
-                        <tr><td><strong>Hierarchy</strong></td><td>Flat address space.</td><td>Hierarchical address space (Network ID + Host ID).</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>36. Store-and-Forward Packet Switching <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Store-and-forward is a switching technique where a router receives an <strong>entire packet</strong>, stores it in its buffer, checks for errors, and only then forwards it to the next hop.</p>
-                <p><strong>Key Implication:</strong> This technique introduces a delay at each hop equal to the time required to receive the entire packet. However, it ensures that corrupted packets are not forwarded, saving network bandwidth.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>37. Transport Layer Services <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p>The Transport Layer provides end-to-end communication services for applications. Its key services include:</p>
-                <ul>
-                    <li><strong>Process-to-Process Communication:</strong> Using port numbers to deliver data to the correct application process.</li>
-                    <li><strong>Connection-Oriented/Connectionless Services:</strong> Providing either a reliable service (TCP) or an unreliable service (UDP).</li>
-                    <li><strong>Reliable Data Transfer:</strong> Ensuring that data is delivered without errors and in the correct order.</li>
-                    <li><strong>Flow Control:</strong> Preventing a fast sender from overwhelming a slow receiver.</li>
-                    <li><strong>Congestion Control:</strong> Preventing a sender from overwhelming the network itself.</li>
-                    <li><strong>Segmentation and Reassembly:</strong> Breaking large messages into smaller segments and reassembling them.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>38. WDM (Wavelength Division Multiplexing) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Wavelength Division Multiplexing (WDM) is a fiber-optic transmission technology that combines multiple optical signals of different wavelengths (colors) onto a single optical fiber.</p>
-                <p><strong>Purpose:</strong> To dramatically increase the bandwidth capacity of a single fiber without laying new cables. Each wavelength acts as a separate channel.</p>
-                <p><strong>Components:</strong> A <strong>Multiplexer (Mux)</strong> combines signals, and a <strong>Demultiplexer (Demux)</strong> splits them back at the receiving end.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>39. Broadcast vs Multicast routing note <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th><strong>Broadcast Routing</strong></th><th><strong>Multicast Routing</strong></th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Communication Type</strong></td><td>One-to-all. A packet is delivered to <strong>every host</strong> in the network.</td><td>One-to-a-group. A packet is delivered only to a <strong>specific group</strong> of hosts.</td></tr>
-                        <tr><td><strong>Addressing</strong></td><td>Uses a special broadcast address (e.g., <code>255.255.255.255</code>).</td><td>Uses a special multicast address (e.g., <code>224.0.0.0</code> to <code>239.255.255.255</code>).</td></tr>
-                        <tr><td><strong>Scalability</strong></td><td>Poor. Can consume significant network resources.</td><td>Much more scalable than broadcast.</td></tr>
-                        <tr><td><strong>Example</strong></td><td>An ARP request.</td><td>Streaming a live video conference.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>40. Encapsulation at transport layer <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Encapsulation at the transport layer is the process of taking data from the application layer and wrapping it with a transport layer header to create a <strong>segment</strong> (for TCP) or a <strong>datagram</strong> (for UDP).</p>
-                <p><strong>Purpose of the Transport Layer Header:</strong></p>
-                <ul>
-                    <li><strong>Port Numbers:</strong> To enable <strong>demultiplexing</strong>, ensuring the data is delivered to the correct application process.</li>
-                    <li><strong>Sequence Numbers (TCP):</strong> Used to keep track of the order of segments.</li>
-                    <li><strong>Acknowledgment Numbers (TCP):</strong> Used to provide reliability.</li>
-                    <li><strong>Checksum:</strong> Used for error detection.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>41. Classful vs Classless addressing <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th><strong>Classful Addressing</strong></th><th><strong>Classless Addressing (CIDR)</strong></th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Structure</strong></td><td>The network and host portions are fixed in size and determined by the address class (A, B, or C).</td><td>The network and host portions are of variable length, defined by a <strong>subnet mask</strong> or <strong>prefix length</strong> (e.g., /24).</td></tr>
-                        <tr><td><strong>Flexibility</strong></td><td>Inflexible. Leads to significant waste of IP addresses.</td><td>Highly flexible. Allows for efficient allocation of IP addresses.</td></tr>
-                        <tr><td><strong>Routing</strong></td><td>Less efficient. Routing protocols do not carry subnet mask information.</td><td>More efficient. Routing protocols carry the prefix length, enabling <strong>supernetting</strong>.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>42. Shortest path routing (Dijkstra) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Dijkstra's algorithm is a shortest-path routing algorithm used in link-state routing protocols. Each router runs the algorithm to calculate the least-cost path from itself to every other destination in the network.</p>
-                <p><strong>Algorithm Steps (Simplified):</strong></p>
-                <ol>
-                    <li><strong>Initialization:</strong> The source node is marked as permanent with a cost of 0. All other nodes are marked as temporary with a cost of infinity.</li>
-                    <li><strong>Iteration:</strong> The algorithm repeatedly selects the temporary node with the lowest cost and marks it as permanent.</li>
-                    <li><strong>Update:</strong> For the newly permanent node, it examines the cost to each of its adjacent temporary neighbors and updates them if a shorter path is found.</li>
-                    <li><strong>Completion:</strong> The process repeats until all nodes have been marked as permanent.</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>43. IP header / IPv4 datagram fields <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p>An IPv4 datagram consists of a header followed by the data. The key fields in the 20-byte header are:</p>
-                <ul>
-                    <li><strong>Version (4 bits):</strong> Specifies the IP version (e.g., 4).</li>
-                    <li><strong>Header Length (IHL) (4 bits):</strong> Length of the header in 32-bit words.</li>
-                    <li><strong>Type of Service (ToS) (8 bits):</strong> Used for Quality of Service (QoS).</li>
-                    <li><strong>Total Length (16 bits):</strong> Total length of the datagram (header + data) in bytes.</li>
-                    <li><strong>Identification (16 bits):</strong> Used to uniquely identify fragments of an original IP datagram.</li>
-                    <li><strong>Flags (3 bits):</strong> Used to control and identify fragments.</li>
-                    <li><strong>Fragment Offset (13 bits):</strong> Specifies the position of a fragment in the original datagram.</li>
-                    <li><strong>Time-to-Live (TTL) (8 bits):</strong> A counter that is decremented by each router to prevent packets from looping forever.</li>
-                    <li><strong>Protocol (8 bits):</strong> Indicates which transport-layer protocol the data belongs to (e.g., TCP=6, UDP=17).</li>
-                    <li><strong>Header Checksum (16 bits):</strong> An error-detecting code for the header.</li>
-                    <li><strong>Source IP Address (32 bits)</strong></li>
-                    <li><strong>Destination IP Address (32 bits)</strong></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>44. Random access protocols (Slotted ALOHA etc.) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>ALOHA:</strong> Stations transmit whenever they have data. If a collision occurs, they wait a random time and retransmit.</li>
-                    <li><strong>Slotted ALOHA:</strong> Time is divided into discrete slots. Stations can only transmit at the beginning of a slot, which reduces the probability of collisions.</li>
-                    <li><strong>CSMA (Carrier Sense Multiple Access):</strong> Stations "listen before they speak." A station senses the channel. If it's idle, it transmits.</li>
-                    <li><strong>CSMA/CD (Collision Detection):</strong> Used in wired Ethernet. A station transmits while continuing to listen. If it detects a collision, it immediately stops transmitting and retries.</li>
-                    <li><strong>CSMA/CA (Collision Avoidance):</strong> Used in wireless Wi-Fi. It tries to avoid collisions before they happen using a "virtual carrier sense" (RTS/CTS handshake).</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>45. Congestion meaning, impact, metrics <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Meaning:</h3>
-                <p>Congestion occurs when the load on the network exceeds its available capacity, leading to a decline in performance.</p>
-                <h3>Impact of Congestion:</h3>
-                <ul>
-                    <li><strong>Increased Delay:</strong> Packets spend a long time waiting in router queues.</li>
-                    <li><strong>Packet Loss:</strong> Router buffers become full and have to drop new incoming packets.</li>
-                    <li><strong>Reduced Throughput:</strong> The effective rate of successful data delivery drops.</li>
-                </ul>
-                <h3>Metrics to Measure Congestion:</h3>
-                <ul>
-                    <li><strong>Delay:</strong> A significant increase in the average round-trip time (RTT).</li>
-                    <li><strong>Packet Loss Rate:</strong> A high percentage of lost packets.</li>
-                    <li><strong>Throughput:</strong> A decrease in the network's throughput.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- LIST 4 -->
-        <div class="question-block">
-            <h2>46. What is a protocol vs standard <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Protocol:</strong> A set of rules and conventions that govern how data is transmitted and received between two or more devices on a network. <em>Example:</em> TCP, HTTP.</p>
-                <p><strong>Standard:</strong> A formally established specification that has been approved by a recognized standards body. Standards ensure interoperability. A protocol often becomes a standard. <em>Example:</em> The specifications for HTTP/1.1 are defined in an IETF standard, RFC 2616.</p>
-                <p><strong>Key Difference:</strong> A protocol is the *set of rules*, while a standard is the *official document* that defines those rules.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>47. Web architecture + URL structure <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <h3>Web Architecture:</h3>
-                <p>The World Wide Web is based on a <strong>client-server architecture</strong>. The client is a web browser, and the server is a computer that hosts websites. Communication is governed by the <strong>HTTP</strong> protocol.</p>
-                <h3>URL Structure:</h3>
-                <p>A Uniform Resource Locator (URL) is the address of a specific resource on the web. It has several components: <code>protocol://host:port/path?query</code></p>
-                <ul>
-                    <li><strong>Protocol:</strong> e.g., <code>http</code>, <code>https</code>.</li>
-                    <li><strong>Host:</strong> The domain name of the server (e.g., <code>www.google.com</code>).</li>
-                    <li><strong>Port (Optional):</strong> Defaults to 80 for HTTP and 443 for HTTPS.</li>
-                    <li><strong>Path:</strong> The location of the resource on the server.</li>
-                    <li><strong>Query (Optional):</strong> A string of data passed to the server.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>48. HTTP methods <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>GET:</strong> Requests a representation of the specified resource. Should only retrieve data.</li>
-                    <li><strong>POST:</strong> Submits data to be processed to the specified resource, often causing a change in state.</li>
-                    <li><strong>PUT:</strong> Replaces all current representations of the target resource with the uploaded content.</li>
-                    <li><strong>DELETE:</strong> Deletes the specified resource.</li>
-                    <li><strong>HEAD:</strong> Similar to GET, but it requests only the headers of the response, without the response body.</li>
-                    <li><strong>PATCH:</strong> Applies partial modifications to a resource.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>49. Two-dimensional parity <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> Two-dimensional parity is an error detection method that organizes data into a table and calculates a parity bit for each row and each column.</p>
-                <p><strong>Advantage:</strong></p>
-                <ul>
-                    <li>It can detect all <strong>1-bit and 2-bit errors</strong>.</li>
-                    <li>It can <strong>correct single-bit errors</strong>. The intersection of the row and column that has a parity error pinpoints the incorrect bit.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>50. Virtual circuit advantages <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <ul>
-                    <li><strong>In-Order Delivery:</strong> Since all packets follow the same pre-established path, they are guaranteed to arrive in the correct order.</li>
-                    <li><strong>Simplified Routing:</strong> Routers only need to look up a small <strong>Virtual Circuit Identifier (VCI)</strong>, which is faster than a full IP lookup.</li>
-                    <li><strong>Resource Reservation and QoS:</strong> The path can be reserved in advance, allowing for guaranteed bandwidth and quality of service (QoS).</li>
-                    <li><strong>Reliability:</strong> The network can provide reliability guarantees, as the connection is monitored and the network can allocate resources to prevent packet loss.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>51. Difference between fixed-size and variable-size framing <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <table>
-                    <thead>
-                        <tr><th>Basis of Comparison</th><th><strong>Fixed-Size Framing</strong></th><th><strong>Variable-Size Framing</strong></th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Frame Length</strong></td><td>The size of each frame is predetermined and does not vary.</td><td>Frames can have different lengths depending on the amount of data being sent.</td></tr>
-                        <tr><td><strong>Need for Framing</strong></td><td>Not necessary to define the start/end of a frame, as the boundaries are known.</td><td>Requires a mechanism to delineate the start and end of each frame.</td></tr>
-                        <tr><td><strong>Delineation Method</strong></td><td>The receiver simply counts the number of bits/bytes to know where a frame ends.</td><td>Uses special bit patterns (flags) or character-based methods like byte stuffing.</td></tr>
-                        <tr><td><strong>Complexity</strong></td><td>Simpler to implement at the receiver.</td><td>More complex due to the need for pattern matching and stuffing/unstuffing.</td></tr>
-                        <tr><td><strong>Efficiency</strong></td><td>Can be inefficient if data is smaller than the fixed frame size, leading to wasted space (padding).</td><td>More efficient as the frame size can be tailored to the data being sent.</td></tr>
-                        <tr><td><strong>Example</strong></td><td><strong>ATM (Asynchronous Transfer Mode)</strong> cells, which are always 53 bytes.</td><td><strong>Ethernet</strong> and <strong>PPP (Point-to-Point Protocol)</strong>.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>52. Optimality principle (routing) <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>Definition:</strong> The optimality principle is a fundamental concept in routing that states: <strong>if router J is on the optimal path from router I to router K, then the optimal path from J to K must also follow the same route.</strong></p>
-                <p><strong>Implication:</strong> This principle implies that the set of optimal routes from all sources to a given destination form a tree rooted at the destination. This tree is called a <strong>sink tree</strong> or a <strong>shortest-path tree</strong>. The goal of all routing algorithms is to discover and use these sink trees for all destinations.</p>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>53. LRC example <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p><strong>LRC (Longitudinal Redundancy Check)</strong> is another name for two-dimensional parity. Here is an example using even parity.</p>
-                <h3>Example:</h3>
-                <p><strong>Data to be sent:</strong> <code>10110010</code> <code>00101101</code> <code>11101001</code></p>
-                <p>The table below shows the data with calculated row and column parity bits.</p>
-                <table>
-                    <thead>
-                        <tr><th colspan="9">Data Block</th><th>Row Parity</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td><strong>0</strong></td></tr>
-                        <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td></td><td><strong>0</strong></td></tr>
-                        <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td></td><td><strong>1</strong></td></tr>
-                        <tr><td colspan="9"><strong>Column Parity</strong></td><td></td></tr>
-                        <tr><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>0</strong></td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>0</strong></td><td></td><td></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="question-block">
-            <h2>54. Explain socket importance in transport layer <span class="toggle-icon">▶</span></h2>
-            <div class="answer">
-                <p>A <strong>socket</strong> is the endpoint for sending or receiving data across a network. It is identified by a combination of an IP address and a port number.</p>
-                <h3>Importance in the Transport Layer:</h3>
-                <ul>
-                    <li><strong>Enabling Process-to-Process Communication:</strong> The primary role of a socket is to allow the transport layer to deliver data to the correct application process on a host. While the IP address delivers the data to the correct computer, the <strong>port number</strong> in the socket address delivers it to the correct application (e.g., web browser, email client).</li>
-                    <li><strong>Multiplexing and Demultiplexing:</strong> Sockets are the foundation of multiplexing (at the sender) and demultiplexing (at the receiver). The transport layer uses port numbers to manage data streams from multiple applications concurrently over a single network connection.</li>
-                    <li><strong>Interface for Applications:</strong> Sockets provide a standard <strong>Application Programming Interface (API)</strong> for applications. When an application wants to send or receive data, it uses socket system calls to interact with the transport layer, abstracting away the complexities of the underlying network.</li>
-                    <li><strong>Abstracting the Network:</strong> From an application's perspective, it is simply reading from and writing to a socket, without needing to know about TCP handshakes, IP routing, or Ethernet frames. The socket handles all the details of the network connection.</li>
-                </ul>
-            </div>
-        </div>
-
+    <!-- Floating Action Button -->
+    <div class="fab" id="fabBtn">
+        <i class="fas fa-plus"></i>
     </div>
 
-    <button id="backToTop" title="Go to top">Top</button>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </div>
+
+    <!-- New Post Modal -->
+    <div id="newPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Submit a New Whisper</h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="newPostForm">
+                <div class="form-group">
+                    <label for="postContent">Your Message</label>
+                    <textarea id="postContent" class="form-control" placeholder="Describe the issue or suggestion..." required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="postCategory">Category</label>
+                        <select id="postCategory" class="form-control" required>
+                            <option value="">Select a category</option>
+                            <option value="mess">Mess</option>
+                            <option value="hostel">Hostel</option>
+                            <option value="academics">Academics</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="security">Security</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postUrgency">Urgency</label>
+                        <select id="postUrgency" class="form-control" required>
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="postLocation">Location (Optional)</label>
+                    <input type="text" id="postLocation" class="form-control" placeholder="e.g., Hostel A, 2nd Floor">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Post
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Notification message</span>
+    </div>
 
     <script>
-        // Get all question blocks
-        const questionBlocks = document.querySelectorAll('.question-block');
-        const backToTopButton = document.getElementById('backToTop');
-
-        // Add click event listener to each question block's h2
-        questionBlocks.forEach(block => {
-            const header = block.querySelector('h2');
-            header.addEventListener('click', () => {
-                // Toggle the 'active' class on the parent block
-                block.classList.toggle('active');
-            });
-        });
-
-        // Show/hide the back to top button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 100) {
-                backToTopButton.style.display = "block";
-            } else {
-                backToTopButton.style.display = "none";
+        // Mock data for posts
+        let posts = [
+            {
+                id: 1,
+                content: "The water cooler in the library has been broken for a week now. It's really inconvenient, especially during the hot weather.",
+                category: "maintenance",
+                urgency: "high",
+                location: "Library, 2nd Floor",
+                timestamp: new Date(Date.now() - 86400000).toISOString(),
+                status: "pending",
+                upvotes: 12,
+                comments: 3,
+                adminResponse: ""
+            },
+            {
+                id: 2,
+                content: "The food quality in the mess has been declining. The rice is often undercooked and the vegetables are stale. Please look into this matter.",
+                category: "mess",
+                urgency: "normal",
+                location: "Main Mess",
+                timestamp: new Date(Date.now() - 172800000).toISOString(),
+                status: "in-progress",
+                upvotes: 24,
+                comments: 8,
+                adminResponse: "We're looking into this matter. The mess committee will meet tomorrow to discuss the issues."
+            },
+            {
+                id: 3,
+                content: "The Wi-Fi in Hostel B is extremely slow and keeps disconnecting. It's impossible to attend online classes or complete assignments.",
+                category: "hostel",
+                urgency: "critical",
+                location: "Hostel B, All Floors",
+                timestamp: new Date(Date.now() - 259200000).toISOString(),
+                status: "resolved",
+                upvotes: 45,
+                comments: 12,
+                adminResponse: "The Wi-Fi issue has been resolved. We've upgraded the routers and increased bandwidth. Please let us know if you still face any issues."
+            },
+            {
+                id: 4,
+                content: "There's not enough lighting in the parking area near the academic block. It feels unsafe at night, especially for female students.",
+                category: "security",
+                urgency: "high",
+                location: "Academic Block Parking",
+                timestamp: new Date(Date.now() - 345600000).toISOString(),
+                status: "pending",
+                upvotes: 18,
+                comments: 5,
+                adminResponse: ""
+            },
+            {
+                id: 5,
+                content: "The online portal for course registration keeps crashing. Many students couldn't register for their preferred courses before the deadline.",
+                category: "academics",
+                urgency: "critical",
+                location: "Online Portal",
+                timestamp: new Date(Date.now() - 432000000).toISOString(),
+                status: "in-progress",
+                upvotes: 32,
+                comments: 10,
+                adminResponse: "We're working with the IT department to fix the portal issues. The registration deadline has been extended by 3 days."
             }
-        });
+        ];
 
-        // Scroll to the top when the button is clicked
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        // DOM elements
+        const postsContainer = document.getElementById('postsContainer');
+        const adminPostsContainer = document.getElementById('adminPostsContainer');
+        const newPostBtn = document.getElementById('newPostBtn');
+        const fabBtn = document.getElementById('fabBtn');
+        const newPostModal = document.getElementById('newPostModal');
+        const closeModal = document.getElementById('closeModal');
+        const newPostForm = document.getElementById('newPostForm');
+        const filterChips = document.querySelectorAll('.chip');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const totalPosts = document.getElementById('totalPosts');
+        const pendingPosts = document.getElementById('pendingPosts');
+        const inProgressPosts = document.getElementById('inProgressPosts');
+        const resolvedPosts = document.getElementById('resolvedPosts');
+        const searchBar = document.getElementById('searchBar');
+        const sortDropdown = document.getElementById('sortDropdown');
+        const emptyState = document.getElementById('emptyState');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+
+        // State
+        let currentFilter = 'all';
+        let currentSort = 'newest';
+        let isDarkMode = false;
+
+        // Initialize the app
+        function init() {
+            renderPosts(posts);
+            updateDashboard();
+            setupEventListeners();
+            checkDarkModePreference();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // New post button
+            newPostBtn.addEventListener('click', () => {
+                newPostModal.style.display = 'flex';
+            });
+
+            // FAB button
+            fabBtn.addEventListener('click', () => {
+                newPostModal.style.display = 'flex';
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                newPostModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === newPostModal) {
+                    newPostModal.style.display = 'none';
+                }
+            });
+
+            // New post form submission
+            newPostForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                addNewPost();
+            });
+
+            // Filter chips
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentFilter = chip.dataset.filter;
+                    applyFiltersAndSort();
+                });
+            });
+
+            // Navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    showSection(targetId);
+                    
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Search bar
+            searchBar.addEventListener('input', () => {
+                applyFiltersAndSort();
+            });
+
+            // Sort dropdown
+            sortDropdown.addEventListener('change', () => {
+                currentSort = sortDropdown.value;
+                applyFiltersAndSort();
+            });
+
+            // Reset filters button
+            resetFiltersBtn.addEventListener('click', () => {
+                searchBar.value = '';
+                currentFilter = 'all';
+                currentSort = 'newest';
+                
+                filterChips.forEach(chip => {
+                    chip.classList.remove('active');
+                    if (chip.dataset.filter === 'all') {
+                        chip.classList.add('active');
+                    }
+                });
+                
+                sortDropdown.value = 'newest';
+                renderPosts(posts);
+            });
+
+            // Theme toggle
+            themeToggle.addEventListener('click', () => {
+                isDarkMode = !isDarkMode;
+                applyTheme();
+                saveThemePreference();
+            });
+        }
+
+        // Render posts
+        function renderPosts(postsToRender) {
+            postsContainer.innerHTML = '';
+            
+            if (postsToRender.length === 0) {
+                postsContainer.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            postsContainer.style.display = 'block';
+            emptyState.style.display = 'none';
+            
+            postsToRender.forEach(post => {
+                const postCard = createPostCard(post);
+                postsContainer.appendChild(postCard);
+            });
+        }
+
+        // Create a post card element
+        function createPostCard(post) {
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            
+            const date = new Date(post.timestamp);
+            const formattedDate = date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            postCard.innerHTML = `
+                <div class="post-header">
+                    <div class="post-meta">
+                        <i class="fas fa-user-secret"></i>
+                        <span>Anonymous Student</span>
+                        <span>•</span>
+                        <span>${formattedDate}</span>
+                        ${post.location ? `<span>•</span><span><i class="fas fa-map-marker-alt"></i> ${post.location}</span>` : ''}
+                    </div>
+                    <div class="post-category category-${post.category}">${post.category}</div>
+                </div>
+                <div class="post-content">
+                    <p>${post.content}</p>
+                    ${post.adminResponse ? `<div class="mt-3" style="padding: 0.75rem; background-color: var(--primary-container); border-radius: var(--shape-corner-small);">
+                        <strong>Admin Response:</strong> ${post.adminResponse}
+                    </div>` : ''}
+                </div>
+                <div class="post-footer">
+                    <div class="post-actions">
+                        <div class="post-action" data-id="${post.id}" data-action="upvote">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>${post.upvotes}</span>
+                        </div>
+                        <div class="post-action" data-id="${post.id}" data-action="comment">
+                            <i class="fas fa-comment"></i>
+                            <span>${post.comments}</span>
+                        </div>
+                    </div>
+                    <div class="post-status status-${post.status.replace(' ', '-')}">${post.status.replace('-', ' ')}</div>
+                </div>
+            `;
+            
+            // Add event listeners to post actions
+            const upvoteBtn = postCard.querySelector('[data-action="upvote"]');
+            upvoteBtn.addEventListener('click', () => {
+                upvotePost(post.id);
+            });
+            
+            return postCard;
+        }
+
+        // Apply filters and sorting
+        function applyFiltersAndSort() {
+            let filteredPosts = [...posts];
+            
+            // Apply search filter
+            const searchTerm = searchBar.value.toLowerCase();
+            if (searchTerm) {
+                filteredPosts = filteredPosts.filter(post => 
+                    post.content.toLowerCase().includes(searchTerm) ||
+                    post.category.toLowerCase().includes(searchTerm) ||
+                    (post.location && post.location.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            // Apply category filter
+            if (currentFilter !== 'all') {
+                filteredPosts = filteredPosts.filter(post => post.category === currentFilter);
+            }
+            
+            // Apply sorting
+            switch (currentSort) {
+                case 'newest':
+                    filteredPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    break;
+                case 'oldest':
+                    filteredPosts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    break;
+                case 'upvotes':
+                    filteredPosts.sort((a, b) => b.upvotes - a.upvotes);
+                    break;
+                case 'urgency':
+                    const urgencyOrder = { 'critical': 3, 'high': 2, 'normal': 1 };
+                    filteredPosts.sort((a, b) => urgencyOrder[b.urgency] - urgencyOrder[a.urgency]);
+                    break;
+            }
+            
+            renderPosts(filteredPosts);
+        }
+
+        // Add a new post
+        function addNewPost() {
+            const content = document.getElementById('postContent').value;
+            const category = document.getElementById('postCategory').value;
+            const urgency = document.getElementById('postUrgency').value;
+            const location = document.getElementById('postLocation').value;
+            
+            const newPost = {
+                id: posts.length + 1,
+                content,
+                category,
+                urgency,
+                location,
+                timestamp: new Date().toISOString(),
+                status: 'pending',
+                upvotes: 0,
+                comments: 0,
+                adminResponse: ""
+            };
+            
+            posts.unshift(newPost);
+            applyFiltersAndSort();
+            updateDashboard();
+            
+            // Reset form and close modal
+            newPostForm.reset();
+            newPostModal.style.display = 'none';
+            
+            // Show success notification
+            showNotification('Your post has been submitted successfully!');
+        }
+
+        // Upvote a post
+        function upvotePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.upvotes++;
+                applyFiltersAndSort();
+                showNotification('Post upvoted!');
+            }
+        }
+
+        // Update dashboard statistics
+        function updateDashboard() {
+            totalPosts.textContent = posts.length;
+            pendingPosts.textContent = posts.filter(p => p.status === 'pending').length;
+            inProgressPosts.textContent = posts.filter(p => p.status === 'in-progress').length;
+            resolvedPosts.textContent = posts.filter(p => p.status === 'resolved').length;
+            
+            // Render admin posts
+            renderAdminPosts();
+        }
+
+        // Render posts for admin dashboard
+        function renderAdminPosts() {
+            adminPostsContainer.innerHTML = '';
+            
+            posts.forEach(post => {
+                const postCard = createAdminPostCard(post);
+                adminPostsContainer.appendChild(postCard);
+            });
+        }
+
+        // Create an admin post card element
+        function createAdminPostCard(post) {
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            
+            const date = new Date(post.timestamp);
+            const formattedDate = date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            postCard.innerHTML = `
+                <div class="post-header">
+                    <div class="post-meta">
+                        <i class="fas fa-user-secret"></i>
+                        <span>Anonymous Student</span>
+                        <span>•</span>
+                        <span>${formattedDate}</span>
+                        ${post.location ? `<span>•</span><span><i class="fas fa-map-marker-alt"></i> ${post.location}</span>` : ''}
+                    </div>
+                    <div class="post-category category-${post.category}">${post.category}</div>
+                </div>
+                <div class="post-content">
+                    <p>${post.content}</p>
+                    <div class="mt-3">
+                        <strong>Urgency:</strong> ${post.urgency}
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>${post.upvotes}</span>
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-comment"></i>
+                            <span>${post.comments}</span>
+                        </div>
+                    </div>
+                    <select class="form-control" data-id="${post.id}" style="width: auto;">
+                        <option value="pending" ${post.status === 'pending' ? 'selected' : ''}>Pending</option>
+                        <option value="in-progress" ${post.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="resolved" ${post.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <textarea class="form-control" placeholder="Add admin response..." data-id="${post.id}">${post.adminResponse}</textarea>
+                    <button class="btn btn-primary mt-2" data-id="${post.id}">
+                        <i class="fas fa-reply"></i>
+                        Update Response
+                    </button>
+                </div>
+            `;
+            
+            // Add event listeners to admin actions
+            const statusSelect = postCard.querySelector('select');
+            statusSelect.addEventListener('change', () => {
+                updatePostStatus(post.id, statusSelect.value);
+            });
+            
+            const responseTextarea = postCard.querySelector('textarea');
+            const updateBtn = postCard.querySelector('button');
+            updateBtn.addEventListener('click', () => {
+                updatePostResponse(post.id, responseTextarea.value);
+            });
+            
+            return postCard;
+        }
+
+        // Update post status
+        function updatePostStatus(postId, newStatus) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.status = newStatus;
+                applyFiltersAndSort();
+                updateDashboard();
+                showNotification('Post status updated successfully!');
+            }
+        }
+
+        // Update post response
+        function updatePostResponse(postId, response) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.adminResponse = response;
+                applyFiltersAndSort();
+                showNotification('Admin response updated successfully!');
+            }
+        }
+
+        // Show a specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Theme functions
+        function checkDarkModePreference() {
+            // Check if user has previously set a theme preference
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark') {
+                isDarkMode = true;
+            } else if (savedTheme === 'light') {
+                isDarkMode = false;
+            } else {
+                // Check if user's system prefers dark mode
+                isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+            
+            applyTheme();
+        }
+
+        function applyTheme() {
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        function saveThemePreference() {
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
