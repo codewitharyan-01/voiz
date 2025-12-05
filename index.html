@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Voiz Enterprise | Campus OS</title>
+    <title>Voiz OS Obsidian | The Campus Super-App</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Chart.js for Analytics -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Google Fonts: Plus Jakarta Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -23,35 +23,28 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
                     },
                     colors: {
-                        surface: {
-                            50: '#f8fafc',
-                            100: '#1e293b', // Card Dark
-                            200: '#0f172a', // BG Dark
-                            300: '#334155', // Border
-                        },
-                        primary: {
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                        },
-                        accent: {
-                            teal: '#2dd4bf',
-                            rose: '#fb7185',
-                            amber: '#fbbf24'
-                        }
+                        dark: { 900: '#050505', 800: '#0A0A0A', 700: '#171717', 600: '#262626' },
+                        brand: { 400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', glow: 'rgba(99, 102, 241, 0.6)' },
+                        accent: { pink: '#DB2777', cyan: '#0891B2', emerald: '#059669', orange: '#EA580C', rose: '#E11D48' }
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.4s ease-out forwards',
-                        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'scale-in': 'scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'pulse-slow': 'pulse 4s infinite',
+                        'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
-                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
-                        scaleIn: { '0%': { transform: 'scale(0.95)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
+                        slideUp: {
+                            '0%': { transform: 'translateY(15px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -59,760 +52,750 @@
     </script>
 
     <style>
-        /* Base Reset & Variables */
-        :root {
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(30, 41, 59, 0.7);
+        body { background-color: #050505; color: #E5E7EB; overflow: hidden; }
+        
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(219, 39, 119, 0.05) 0px, transparent 50%);
+            z-index: -1; pointer-events: none;
         }
 
-        body {
-            background-color: #0f172a; /* Slate 900 */
-            color: #f1f5f9;
-            overflow-x: hidden;
-        }
-
-        /* Glassmorphism Utilities */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
+        .glass-panel {
+            background: rgba(23, 23, 23, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .glass-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .glass-card:hover {
+            background: rgba(40, 40, 40, 0.6);
             border-color: rgba(99, 102, 241, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        /* Interactive Elements */
+        .seat { aspect-ratio: 1; border-radius: 6px; font-size: 10px; display: flex; align-items: center; justify-content: center; color: #666; transition: all 0.2s; cursor: pointer; }
+        .seat:hover { transform: scale(1.1); }
+        .seat.available { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
+        .seat.taken { background: rgba(255,255,255,0.05); color: #333; cursor: not-allowed; }
+        .seat.me { background: #6366F1; color: white; box-shadow: 0 0 15px rgba(99,102,241,0.5); border: 1px solid white; z-index: 10; font-weight: bold; }
+
+        .progress-bar { transition: width 0.8s ease-in-out; }
+
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-        /* Animation Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-
-        /* Status Pills */
-        .status-pill {
-            @apply px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border;
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 99px; }
+        
+        .nav-item.active { 
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, transparent 100%);
+            border-left: 3px solid #6366F1;
+            color: #818CF8;
         }
-        .status-open { @apply bg-red-500/10 text-red-400 border-red-500/20; }
-        .status-progress { @apply bg-amber-500/10 text-amber-400 border-amber-500/20; }
-        .status-resolved { @apply bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
-
-        .sidebar-item.active {
-            background: rgba(99, 102, 241, 0.15);
-            color: #818cf8;
-            border-right: 3px solid #6366f1;
-        }
+        
+        .mood-btn.selected { ring: 2px solid #6366F1; background: rgba(99,102,241,0.2); }
     </style>
 </head>
-<body class="antialiased h-screen flex flex-col md:flex-row relative">
+<body class="flex h-screen antialiased selection:bg-brand-500 selection:text-white font-sans">
 
-    <!-- ================= AUTH SCREEN (ENTRY POINT) ================= -->
-    <div id="auth-screen" class="fixed inset-0 z-[100] bg-[#0f172a] flex items-center justify-center p-4">
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px] animate-pulse"></div>
-            <div class="absolute top-1/2 right-0 w-96 h-96 bg-accent-rose/10 rounded-full blur-[100px]"></div>
-        </div>
+    <div class="bg-mesh"></div>
 
-        <div class="w-full max-w-4xl grid md:grid-cols-2 bg-surface-100/50 backdrop-blur-xl border border-white/5 rounded-3xl shadow-2xl overflow-hidden relative z-10 animate-scale-in">
-            <!-- Left: Hero -->
-            <div class="p-8 md:p-12 flex flex-col justify-between relative bg-gradient-to-br from-primary-600 to-indigo-900 text-white">
-                <div>
-                    <div class="flex items-center gap-2 mb-8">
-                        <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm"><i data-lucide="zap" class="w-5 h-5 fill-white"></i></div>
-                        <span class="text-xl font-bold tracking-tight">Voiz Enterprise</span>
+    <!-- ================= AUTH PORTAL ================= -->
+    <div id="auth-portal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black transition-all duration-700">
+        <div class="w-full max-w-5xl grid md:grid-cols-5 h-[600px] border border-white/10 rounded-3xl overflow-hidden shadow-2xl animate-slide-up bg-dark-900">
+            <div class="md:col-span-2 p-12 bg-gradient-to-br from-brand-900 to-black relative flex flex-col justify-between border-r border-white/10">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center shadow-lg shadow-brand-500/40"><i data-lucide="zap" class="text-white"></i></div>
+                        <h1 class="font-display font-bold text-2xl text-white">Voiz OS</h1>
                     </div>
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">The Smartest Campus OS.</h1>
-                    <p class="text-indigo-200 text-sm md:text-base">Connects students, maintenance, and management in one unified, real-time ecosystem.</p>
+                    <h2 class="text-4xl font-display font-bold text-white leading-tight mb-4">The Campus<br>Super-App.</h2>
+                    <p class="text-gray-400">Where Student Voice meets University Management.</p>
                 </div>
-                <div class="flex gap-4 mt-8 md:mt-0">
-                    <div class="text-center">
-                        <h4 class="text-2xl font-bold">12k+</h4>
-                        <p class="text-xs text-indigo-300">Issues Solved</p>
-                    </div>
-                    <div class="text-center border-l border-white/20 pl-4">
-                        <h4 class="text-2xl font-bold">1.2s</h4>
-                        <p class="text-xs text-indigo-300">Avg Response</p>
-                    </div>
+                <div class="space-y-4 relative z-10">
+                    <div class="flex items-center gap-4 text-sm text-gray-400"><i data-lucide="mic" class="text-brand-400"></i> Speak Up (Anonymous Posts)</div>
+                    <div class="flex items-center gap-4 text-sm text-gray-400"><i data-lucide="layout-grid" class="text-accent-cyan"></i> 40+ Integrations</div>
                 </div>
             </div>
-            
-            <!-- Right: Role Selection -->
-            <div class="p-8 md:p-12 flex flex-col justify-center bg-surface-200/80">
-                <h2 class="text-2xl font-bold mb-2">Welcome Back</h2>
-                <p class="text-slate-400 text-sm mb-8">Select your role to simulate the dashboard experience.</p>
-                
-                <div class="space-y-3">
-                    <button onclick="login('student')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition"><i data-lucide="user"></i></div>
-                        <div class="text-left">
-                            <h3 class="font-bold text-sm">Student</h3>
-                            <p class="text-xs text-slate-500">Report issues, upvote, track status</p>
-                        </div>
-                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
+            <div class="md:col-span-3 p-12 flex flex-col justify-center bg-dark-800 relative">
+                <h3 class="text-xl font-bold text-white mb-6">Select Workspace</h3>
+                <div class="grid gap-4">
+                    <button onclick="login('student')" class="group p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-brand-500 hover:bg-brand-500/10 transition flex items-center gap-4 text-left">
+                        <div class="w-12 h-12 rounded-xl bg-dark-900 flex items-center justify-center text-brand-400 border border-white/10 group-hover:scale-110 transition"><i data-lucide="user"></i></div>
+                        <div><h4 class="text-white font-bold text-lg">Student Portal</h4><p class="text-xs text-gray-500">Access Voice Feed, Academics, Services</p></div>
                     </button>
-
-                    <button onclick="login('admin')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition"><i data-lucide="shield"></i></div>
-                        <div class="text-left">
-                            <h3 class="font-bold text-sm">Dept. Admin</h3>
-                            <p class="text-xs text-slate-500">Manage tickets, assign staff</p>
-                        </div>
-                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
-                    </button>
-
-                    <button onclick="login('staff')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition"><i data-lucide="wrench"></i></div>
-                        <div class="text-left">
-                            <h3 class="font-bold text-sm">Ground Staff</h3>
-                            <p class="text-xs text-slate-500">View tasks, upload proof</p>
-                        </div>
-                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
-                    </button>
-
-                    <button onclick="login('dean')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition"><i data-lucide="bar-chart-2"></i></div>
-                        <div class="text-left">
-                            <h3 class="font-bold text-sm">Dean / Super Admin</h3>
-                            <p class="text-xs text-slate-500">Analytics, heatmaps, reports</p>
-                        </div>
-                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                    <button onclick="login('admin')" class="group p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-accent-orange hover:bg-accent-orange/10 transition flex items-center gap-4 text-left">
+                        <div class="w-12 h-12 rounded-xl bg-dark-900 flex items-center justify-center text-accent-orange border border-white/10 group-hover:scale-110 transition"><i data-lucide="shield"></i></div>
+                        <div><h4 class="text-white font-bold text-lg">Admin Console</h4><p class="text-xs text-gray-500">Manage Tickets, Alerts & Staff</p></div>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= APP SHELL (HIDDEN INITIALLY) ================= -->
-    <div id="app-shell" class="w-full h-full flex hidden opacity-0 transition-opacity duration-500">
+    <!-- ================= APP SHELL ================= -->
+    <div id="app-interface" class="flex-1 flex hidden opacity-0 transition-opacity duration-700">
         
-        <!-- SIDEBAR (Desktop) -->
-        <aside class="w-64 bg-surface-200 border-r border-white/5 hidden md:flex flex-col z-20">
-            <div class="p-6 flex items-center gap-3">
-                <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/30"><i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i></div>
-                <h1 class="font-bold text-lg tracking-tight">Voiz<span class="text-primary-500">.</span></h1>
+        <!-- SIDEBAR -->
+        <aside class="w-64 glass-panel hidden md:flex flex-col z-20 bg-dark-900/50">
+            <div class="p-6 flex items-center gap-3 border-b border-white/5">
+                <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.4)]"><i data-lucide="zap" class="text-white w-5 h-5"></i></div>
+                <span class="font-display font-bold text-xl text-white tracking-tight">Voiz OS</span>
             </div>
 
-            <nav class="flex-1 px-4 space-y-1" id="desktop-nav">
-                <!-- Injected via JS based on Role -->
-            </nav>
+            <div class="flex-1 overflow-y-auto p-3 space-y-6" id="sidebar-nav">
+                <!-- Nav sections injected here -->
+            </div>
 
-            <div class="p-4 border-t border-white/5">
-                <div class="bg-surface-100 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-white/5 transition" onclick="toggleProfile()">
-                    <div id="user-avatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-purple-500 flex items-center justify-center text-xs font-bold shadow-inner">AR</div>
-                    <div class="flex-1 min-w-0">
-                        <p id="user-name" class="text-sm font-bold truncate">Aryan Rao</p>
-                        <p id="user-role" class="text-xs text-slate-500 truncate">Student Level 4</p>
+            <div class="p-4 border-t border-white/5 bg-black/40">
+                <button onclick="renderView('profile')" class="flex items-center gap-3 w-full hover:bg-white/5 p-2 rounded-lg transition group">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white shadow-inner group-hover:scale-105 transition">AR</div>
+                    <div class="flex-1 text-left overflow-hidden">
+                        <h4 class="font-bold text-xs text-white truncate">Aryan Rao</h4>
+                        <p class="text-[10px] text-gray-400 truncate">CS • 3rd Year</p>
                     </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
-                </div>
-                <button onclick="logout()" class="w-full mt-3 text-xs text-red-400 hover:text-red-300 flex items-center justify-center gap-2 py-2"><i data-lucide="log-out" class="w-3 h-3"></i> Logout</button>
+                    <i data-lucide="settings" class="w-4 h-4 text-gray-500 group-hover:rotate-90 transition"></i>
+                </button>
             </div>
         </aside>
 
         <!-- MAIN CONTENT -->
-        <div class="flex-1 flex flex-col h-full overflow-hidden bg-[#0f172a] relative">
-            
-            <!-- HEADER (Mobile Only) -->
-            <header class="md:hidden h-16 border-b border-white/5 flex items-center justify-between px-4 bg-surface-200/80 backdrop-blur z-20">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i></div>
-                    <span class="font-bold">Voiz.</span>
+        <main class="flex-1 flex flex-col relative overflow-hidden bg-dark-900">
+            <!-- Header -->
+            <header class="h-16 border-b border-white/5 flex items-center justify-between px-6 z-30 bg-dark-900/80 backdrop-blur">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2" id="page-title"><i data-lucide="layout-grid" class="w-5 h-5 text-brand-400"></i> Dashboard</h2>
                 </div>
-                <button onclick="toggleMobileProfile()" class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-xs font-bold">AR</button>
+                
+                <div class="flex items-center gap-3">
+                    <div class="relative hidden md:block group">
+                        <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-gray-500 group-hover:text-white transition"></i>
+                        <input type="text" placeholder="Global Search..." class="bg-dark-800 border border-white/10 rounded-full py-2 pl-9 pr-4 text-xs w-64 focus:border-brand-500 focus:outline-none text-white transition">
+                    </div>
+                    <button class="p-2 rounded-full hover:bg-white/5 relative" onclick="toggleNotifs()">
+                        <i data-lucide="bell" class="w-5 h-5 text-gray-400 hover:text-white transition"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-brand-500 rounded-full animate-pulse"></span>
+                    </button>
+                </div>
             </header>
 
-            <!-- VIEWS CONTAINER -->
-            <div id="views-container" class="flex-1 overflow-y-auto relative p-4 md:p-8 scroll-smooth">
-                
-                <!-- 1. STUDENT DASHBOARD -->
-                <div id="view-student" class="view hidden space-y-6 max-w-5xl mx-auto">
-                    <!-- Search Hero -->
-                    <div class="flex flex-col md:flex-row gap-4 items-center">
-                        <div class="relative w-full">
-                            <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5"></i>
-                            <input type="text" placeholder="Search issues (e.g., 'AC', 'Library', 'Food')..." class="w-full bg-surface-100 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition shadow-lg">
-                        </div>
-                        <button onclick="openCreateModal()" class="w-full md:w-auto bg-primary-600 hover:bg-primary-500 text-white px-6 py-4 rounded-2xl font-bold shadow-lg shadow-primary-600/25 flex items-center justify-center gap-2 transition transform hover:scale-105">
-                            <i data-lucide="plus-circle" class="w-5 h-5"></i>
-                            <span>New Issue</span>
-                        </button>
-                    </div>
-
-                    <!-- Filters -->
-                    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                        <button class="px-4 py-2 rounded-full bg-white/10 text-white text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/20">🔥 Trending</button>
-                        <button class="px-4 py-2 rounded-full bg-transparent text-slate-400 text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/5">🏫 Hostel</button>
-                        <button class="px-4 py-2 rounded-full bg-transparent text-slate-400 text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/5">🍔 Canteen</button>
-                        <button class="px-4 py-2 rounded-full bg-transparent text-slate-400 text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/5">📚 Library</button>
-                    </div>
-
-                    <!-- Feed Grid -->
-                    <div id="student-feed" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <!-- 2. ADMIN DASHBOARD (KANBAN) -->
-                <div id="view-admin" class="view hidden h-full flex flex-col">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h2 class="text-2xl font-bold text-white">Maintenance Desk</h2>
-                            <p class="text-slate-400 text-sm">Hostel A • 12 Active Tickets</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <span class="flex items-center gap-2 text-xs font-bold bg-green-500/10 text-green-400 px-3 py-1 rounded-lg border border-green-500/20"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> 5 Staff Online</span>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 overflow-x-auto pb-4">
-                        <div class="flex gap-6 h-full min-w-[1000px]">
-                            <!-- Column: Open -->
-                            <div class="w-1/3 bg-surface-100/50 rounded-2xl border border-white/5 flex flex-col">
-                                <div class="p-4 border-b border-white/5 flex justify-between items-center">
-                                    <h3 class="font-bold text-red-400 flex items-center gap-2"><div class="w-2 h-2 bg-red-500 rounded-full"></div> Open</h3>
-                                    <span class="text-xs bg-white/5 px-2 py-0.5 rounded text-slate-400" id="count-open">0</span>
-                                </div>
-                                <div class="p-3 flex-1 overflow-y-auto space-y-3" id="col-open">
-                                    <!-- Cards go here -->
-                                </div>
-                            </div>
-                            <!-- Column: In Progress -->
-                            <div class="w-1/3 bg-surface-100/50 rounded-2xl border border-white/5 flex flex-col">
-                                <div class="p-4 border-b border-white/5 flex justify-between items-center">
-                                    <h3 class="font-bold text-amber-400 flex items-center gap-2"><div class="w-2 h-2 bg-amber-500 rounded-full"></div> In Progress</h3>
-                                    <span class="text-xs bg-white/5 px-2 py-0.5 rounded text-slate-400" id="count-progress">0</span>
-                                </div>
-                                <div class="p-3 flex-1 overflow-y-auto space-y-3" id="col-progress">
-                                    <!-- Cards go here -->
-                                </div>
-                            </div>
-                            <!-- Column: Done -->
-                            <div class="w-1/3 bg-surface-100/50 rounded-2xl border border-white/5 flex flex-col">
-                                <div class="p-4 border-b border-white/5 flex justify-between items-center">
-                                    <h3 class="font-bold text-emerald-400 flex items-center gap-2"><div class="w-2 h-2 bg-emerald-500 rounded-full"></div> Resolved</h3>
-                                    <span class="text-xs bg-white/5 px-2 py-0.5 rounded text-slate-400" id="count-resolved">0</span>
-                                </div>
-                                <div class="p-3 flex-1 overflow-y-auto space-y-3" id="col-resolved">
-                                    <!-- Cards go here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. STAFF APP -->
-                <div id="view-staff" class="view hidden max-w-md mx-auto h-full flex flex-col">
-                    <div class="bg-primary-600 rounded-3xl p-6 shadow-xl mb-6 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
-                        <p class="text-indigo-200 text-xs font-bold uppercase mb-1">Today's Shift</p>
-                        <h2 class="text-2xl font-bold text-white mb-2" id="staff-welcome">Hello, Staff</h2>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-white/20 backdrop-blur px-2 py-1 rounded text-xs text-white font-bold flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 08:00 - 17:00</span>
-                            <span class="bg-green-400 text-green-900 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Active</span>
-                        </div>
-                    </div>
-
-                    <h3 class="font-bold text-lg mb-4 flex justify-between items-center">
-                        My Tasks 
-                        <span class="text-xs bg-white/5 px-2 py-1 rounded text-slate-400" id="staff-task-count">0</span>
-                    </h3>
-                    
-                    <div id="staff-tasks" class="space-y-4 flex-1 overflow-y-auto pb-20">
-                        <!-- Populated via JS -->
-                    </div>
-                </div>
-
-                <!-- 4. DEAN ANALYTICS -->
-                <div id="view-dean" class="view hidden space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="glass-card p-5 rounded-2xl">
-                            <p class="text-xs text-slate-400 uppercase font-bold">Total Issues</p>
-                            <h3 class="text-3xl font-bold text-white mt-2">1,248</h3>
-                            <p class="text-xs text-green-400 mt-1 flex items-center gap-1"><i data-lucide="trending-up" class="w-3 h-3"></i> +12% this week</p>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <p class="text-xs text-slate-400 uppercase font-bold">Avg Resolution Time</p>
-                            <h3 class="text-3xl font-bold text-primary-400 mt-2">3.4h</h3>
-                            <p class="text-xs text-green-400 mt-1 flex items-center gap-1"><i data-lucide="trending-down" class="w-3 h-3"></i> -15% faster</p>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <p class="text-xs text-slate-400 uppercase font-bold">Student Satisfaction</p>
-                            <h3 class="text-3xl font-bold text-amber-400 mt-2">4.8/5</h3>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <p class="text-xs text-slate-400 uppercase font-bold">Cost Saved (Est.)</p>
-                            <h3 class="text-3xl font-bold text-emerald-400 mt-2">₹45k</h3>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2 glass-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="font-bold mb-4">Issues by Department</h3>
-                            <div class="h-64">
-                                <canvas id="deptChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="glass-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="font-bold mb-4">Staff Performance</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1"><span>Plumbing</span><span class="text-green-400">92%</span></div>
-                                    <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-green-500 h-full rounded-full" style="width: 92%"></div></div>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1"><span>Electrical</span><span class="text-amber-400">78%</span></div>
-                                    <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-amber-500 h-full rounded-full" style="width: 78%"></div></div>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1"><span>IT Network</span><span class="text-primary-400">88%</span></div>
-                                    <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-primary-500 h-full rounded-full" style="width: 88%"></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- Notifications Panel -->
+            <div id="notif-panel" class="absolute top-16 right-6 w-80 bg-dark-800 border border-white/10 rounded-xl shadow-2xl z-50 hidden animate-slide-up max-h-96 overflow-hidden flex flex-col">
+                <div class="p-3 border-b border-white/10 font-bold text-xs uppercase text-gray-500 bg-dark-900">Notifications</div>
+                <div class="flex-1 overflow-y-auto" id="notif-list"></div>
             </div>
 
-            <!-- MOBILE NAV BAR (Student Only) -->
-            <nav id="mobile-nav" class="md:hidden border-t border-white/5 bg-surface-200/90 backdrop-blur fixed bottom-0 w-full z-30 pb-safe hidden">
-                <div class="flex justify-around items-center p-3">
-                    <button class="flex flex-col items-center gap-1 text-primary-500"><i data-lucide="home" class="w-6 h-6"></i></button>
-                    <button class="flex flex-col items-center gap-1 text-slate-500"><i data-lucide="search" class="w-6 h-6"></i></button>
-                    <button onclick="openCreateModal()" class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-primary-600/40 border-4 border-surface-200 text-white"><i data-lucide="plus" class="w-6 h-6"></i></button>
-                    <button class="flex flex-col items-center gap-1 text-slate-500"><i data-lucide="bell" class="w-6 h-6"></i></button>
-                    <button class="flex flex-col items-center gap-1 text-slate-500"><i data-lucide="user" class="w-6 h-6"></i></button>
-                </div>
-            </nav>
-
-            <!-- AI CHAT FLOATING BUTTON -->
-            <div id="ai-fab" class="absolute bottom-20 right-6 md:bottom-8 md:right-8 z-40 hidden">
-                <button onclick="toggleAIChat()" class="w-14 h-14 bg-gradient-to-tr from-primary-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/40 text-white hover:scale-110 transition-transform">
-                    <i data-lucide="bot" class="w-7 h-7"></i>
-                </button>
+            <!-- Viewport -->
+            <div id="view-container" class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth relative">
+                <!-- Views Injected Here -->
             </div>
-        </div>
+        </main>
     </div>
 
-    <!-- ================= MODALS ================= -->
+    <!-- AI CHAT BUTTON -->
+    <button onclick="toggleAI()" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-brand-600 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:scale-110 transition-transform hover:bg-brand-500 group">
+        <i data-lucide="sparkles" class="w-6 h-6 text-white group-hover:rotate-12 transition-transform"></i>
+    </button>
 
-    <!-- CREATE ISSUE MODAL -->
-    <div id="create-modal" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden flex items-end md:items-center justify-center">
-        <div class="bg-surface-100 w-full md:w-[600px] md:rounded-3xl rounded-t-3xl p-6 md:p-8 animate-slide-up border border-white/10 shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Report Issue</h2>
-                <button onclick="closeCreateModal()" class="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            
-            <form onsubmit="handleCreateIssue(event)" class="space-y-6">
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-3">Location</label>
-                    <div class="flex gap-2">
-                        <button type="button" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-medium hover:bg-white/10 focus:ring-2 ring-primary-500 focus:bg-primary-500/10">Hostel A</button>
-                        <button type="button" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-medium hover:bg-white/10 focus:ring-2 ring-primary-500 focus:bg-primary-500/10">Library</button>
-                        <button type="button" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-medium hover:bg-white/10 focus:ring-2 ring-primary-500 focus:bg-primary-500/10">Canteen</button>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Description</label>
-                    <textarea id="issue-desc" class="w-full bg-surface-200 border border-white/10 rounded-xl p-4 h-32 resize-none focus:outline-none focus:border-primary-500" placeholder="Describe the problem in detail..."></textarea>
-                </div>
-
-                <!-- Proof Upload Sim -->
-                <div class="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-white/20 cursor-pointer transition">
-                    <i data-lucide="image" class="w-8 h-8 text-slate-500 mx-auto mb-2"></i>
-                    <p class="text-xs text-slate-400">Tap to upload photo evidence</p>
-                </div>
-
-                <button type="submit" class="w-full bg-primary-600 hover:bg-primary-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-primary-600/20 transition">Submit Report</button>
-            </form>
+    <!-- AI PANEL -->
+    <div id="ai-panel" class="fixed bottom-24 right-6 w-96 bg-dark-800 border border-white/10 rounded-2xl shadow-2xl z-50 hidden flex flex-col overflow-hidden animate-slide-up h-[500px]">
+        <div class="p-4 bg-dark-900 border-b border-white/5 flex justify-between items-center">
+            <div class="flex items-center gap-2 text-white font-bold"><i data-lucide="bot" class="w-4 h-4 text-brand-400"></i> Voiz Assistant</div>
+            <button onclick="toggleAI()" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
         </div>
-    </div>
-
-    <!-- AI CHAT WINDOW -->
-    <div id="ai-window" class="fixed bottom-24 right-6 md:bottom-24 md:right-8 w-80 md:w-96 bg-surface-100 border border-white/10 rounded-2xl shadow-2xl z-50 hidden flex flex-col overflow-hidden animate-scale-in origin-bottom-right h-[500px]">
-        <div class="p-4 bg-primary-600 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"><i data-lucide="bot" class="w-5 h-5 text-white"></i></div>
-                <div>
-                    <h4 class="font-bold text-white text-sm">Voiz Assistant</h4>
-                    <p class="text-[10px] text-indigo-100">Online • AI Powered</p>
-                </div>
-            </div>
-            <button onclick="toggleAIChat()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-        </div>
-        <div id="ai-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-surface-200">
-            <div class="flex gap-3">
-                <div class="bg-surface-100 border border-white/5 p-3 rounded-2xl rounded-tl-none text-xs text-slate-300 max-w-[85%]">
-                    Hi! I can help you report issues, check status, or answer campus FAQs. Try saying "Report a broken fan in Room 302".
-                </div>
-            </div>
-        </div>
-        <div class="p-3 bg-surface-100 border-t border-white/5">
+        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
+        <div class="p-3 border-t border-white/10 bg-dark-900">
             <form onsubmit="handleAIChat(event)" class="relative">
-                <input id="ai-input" type="text" placeholder="Type a message..." class="w-full bg-surface-200 border border-white/10 rounded-xl pl-4 pr-10 py-3 text-xs focus:outline-none focus:border-primary-500">
-                <button type="submit" class="absolute right-2 top-2 p-1 bg-primary-600 rounded-lg text-white"><i data-lucide="arrow-up" class="w-4 h-4"></i></button>
+                <input id="ai-input" type="text" placeholder="Ask about syllabus, issues, exam..." class="w-full bg-dark-800 border border-white/10 rounded-xl pl-4 pr-10 py-3 text-xs focus:outline-none focus:border-brand-500 text-white focus:bg-dark-700 transition">
+                <button type="submit" class="absolute right-2 top-2 p-1 bg-brand-600 rounded-lg text-white hover:bg-brand-500"><i data-lucide="arrow-up" class="w-4 h-4"></i></button>
             </form>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 px-6 py-3 rounded-full bg-surface-100 border border-primary-500/50 shadow-2xl translate-y-[-200%] transition-transform duration-300">
-        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
-        <span id="toast-message" class="text-sm font-bold text-white">Action Successful</span>
+    <!-- TOAST -->
+    <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] bg-dark-800 border border-brand-500/50 px-6 py-3 rounded-full shadow-2xl translate-y-[-200%] transition-transform duration-500 flex items-center gap-3">
+        <i data-lucide="check-circle" class="w-5 h-5 text-brand-400"></i>
+        <span id="toast-msg" class="text-sm font-bold text-white">Action Successful</span>
+    </div>
+
+    <!-- POST MODAL -->
+    <div id="post-modal" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 w-full max-w-lg rounded-2xl border border-white/10 shadow-2xl p-6 animate-slide-up">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-white">Speak Up (Public Post)</h2>
+                <button onclick="closePostModal()" class="text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
+            </div>
+            <form onsubmit="handleNewPost(event)" class="space-y-4">
+                <input id="post-title" type="text" placeholder="What's the issue? (e.g. WiFi in Hostel)" class="w-full bg-dark-900 border border-white/10 rounded-xl p-3 text-white focus:border-brand-500 outline-none">
+                <select id="post-cat" class="w-full bg-dark-900 border border-white/10 rounded-xl p-3 text-gray-300 outline-none">
+                    <option>Maintenance</option> <option>Mess Food</option> <option>Academics</option> <option>Other</option>
+                </select>
+                <textarea id="post-desc" placeholder="Describe in detail..." class="w-full bg-dark-900 border border-white/10 rounded-xl p-3 h-24 text-white focus:border-brand-500 outline-none resize-none"></textarea>
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-500 text-white py-3 rounded-xl font-bold transition">Post to Feed</button>
+            </form>
+        </div>
     </div>
 
     <script>
-        // --- STORE & STATE MANAGEMENT ---
-        const store = {
-            currentUser: null,
-            users: {
-                'student': { name: 'Aryan Rao', role: 'Student', avatar: 'AR', level: 4 },
-                'admin': { name: 'Priya Sharma', role: 'Hostel Admin', avatar: 'PS', level: 10 },
-                'staff': { name: 'Rajesh Kumar', role: 'Senior Technician', avatar: 'RK', level: 5 },
-                'dean': { name: 'Dr. Mehta', role: 'Dean of Student Affairs', avatar: 'DM', level: 99 }
-            },
-            issues: [
-                { id: 101, title: 'Water Cooler Leak', loc: 'Hostel A - 3rd Floor', status: 'open', time: '2h ago', upvotes: 45, author: 'Student', desc: 'Water is pooling near the stairs. Dangerous slipping hazard.', assignedTo: null },
-                { id: 102, title: 'Projector Malfunction', loc: 'CS Lab 2', status: 'progress', time: '5h ago', upvotes: 12, author: 'Faculty', desc: 'Colors are distorted, needs bulb replacement.', assignedTo: 'staff' },
-                { id: 103, title: 'Food Quality Issue', loc: 'Main Mess', status: 'resolved', time: '1d ago', upvotes: 89, author: 'Student', desc: 'Rice was undercooked in lunch service.', assignedTo: 'staff' },
-                { id: 104, title: 'Broken Window Latch', loc: 'Room 204', status: 'open', time: '30m ago', upvotes: 2, author: 'Student', desc: 'Window keeps banging due to wind.', assignedTo: null },
-                { id: 105, title: 'Library AC Not Cooling', loc: 'Central Library', status: 'progress', time: '3h ago', upvotes: 24, author: 'Student', desc: 'Reading hall is too hot.', assignedTo: 'staff' }
-            ]
+        // --- DATA STORE ---
+        const defaultStore = {
+            role: 'student',
+            feed: [
+                { id: 1, title: "AC Not Working in Lab 2", cat: "Maintenance", status: "Open", upvotes: 42, time: "2h ago", author: "Student" },
+                { id: 2, title: "Mess Food Quality Drop", cat: "Mess Food", status: "In Progress", upvotes: 128, time: "5h ago", author: "Anonymous" },
+                { id: 3, title: "Library WiFi Issue", cat: "Other", status: "Resolved", upvotes: 15, time: "1d ago", author: "Student" }
+            ],
+            syllabus: [
+                { subject: "Data Structures", progress: 85, topics: 12, completed: 10 },
+                { subject: "Operating Systems", progress: 40, topics: 10, completed: 4 },
+                { subject: "Computer Networks", progress: 60, topics: 15, completed: 9 }
+            ],
+            appointments: [
+                { id: 1, prof: "Dr. Sharma", slot: "10:00 AM", status: "Available" },
+                { id: 2, prof: "Prof. Verma", slot: "02:00 PM", status: "Booked" },
+                { id: 3, prof: "Dr. Gupta", slot: "11:30 AM", status: "Available" }
+            ],
+            internships: [
+                { id: 1, role: "Frontend Dev", company: "Google", type: "Summer", status: "Open" },
+                { id: 2, role: "Data Analyst", company: "Microsoft", type: "Remote", status: "Applied" }
+            ],
+            groups: [
+                { name: "Algo Wizards", subject: "DSA", members: 12, loc: "Library" },
+                { name: "React Learners", subject: "Web Dev", members: 8, loc: "Canteen" }
+            ],
+            notifications: [
+                { text: "Exam Seating Released", time: "1h ago", icon: "map" },
+                { text: "Your Issue #12 was Resolved", time: "3h ago", icon: "check-circle" }
+            ],
+            mood: "Neutral"
         };
 
-        // --- AUTH LOGIC ---
+        // Persistence
+        let store = JSON.parse(localStorage.getItem('voiz_obsidian_store')) || defaultStore;
+        function saveStore() { localStorage.setItem('voiz_obsidian_store', JSON.stringify(store)); }
+
+        // --- AUTH & NAV ---
         function login(role) {
-            store.currentUser = store.users[role];
-            store.currentRole = role;
-            
-            // Animation out
-            const authScreen = document.getElementById('auth-screen');
-            authScreen.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => { authScreen.style.display = 'none'; }, 500);
-
-            // Animation in
-            const appShell = document.getElementById('app-shell');
-            appShell.classList.remove('hidden');
-            setTimeout(() => appShell.classList.remove('opacity-0'), 100);
-
-            setupUI(role);
+            store.role = role;
+            saveStore();
+            document.getElementById('auth-portal').style.display = 'none';
+            document.getElementById('app-interface').classList.remove('hidden');
+            setTimeout(() => document.getElementById('app-interface').classList.remove('opacity-0'), 50);
+            renderSidebar(role);
+            renderView('voice'); 
         }
 
-        function logout() {
-            location.reload();
-        }
-
-        function setupUI(role) {
-            // Update Sidebar/Header User Info
-            document.getElementById('user-name').textContent = store.currentUser.name;
-            document.getElementById('user-role').textContent = store.currentUser.role;
-            document.getElementById('user-avatar').textContent = store.currentUser.avatar;
-
-            // Setup Navigation Links
-            const nav = document.getElementById('desktop-nav');
-            nav.innerHTML = '';
-            
-            const links = {
-                student: [
-                    { id: 'view-student', icon: 'home', label: 'Feed' },
-                    { id: 'view-student-profile', icon: 'user', label: 'My Profile' }
-                ],
-                admin: [
-                    { id: 'view-admin', icon: 'trello', label: 'Kanban Board' },
-                    { id: 'view-analytics', icon: 'bar-chart', label: 'Reports' }
-                ],
-                staff: [
-                    { id: 'view-staff', icon: 'check-square', label: 'My Tasks' },
-                    { id: 'view-history', icon: 'clock', label: 'History' }
-                ],
-                dean: [
-                    { id: 'view-dean', icon: 'pie-chart', label: 'Overview' },
-                    { id: 'view-admin', icon: 'list', label: 'All Issues' }
-                ]
+        function renderSidebar(role) {
+            const nav = document.getElementById('sidebar-nav');
+            const sections = {
+                student: {
+                    "Core": [
+                        { id: 'voice', icon: 'mic', label: 'Student Voice' }, // MAIN IDEA
+                        { id: 'dashboard', icon: 'layout-grid', label: 'Dashboard' }
+                    ],
+                    "Academics": [
+                        { id: 'syllabus', icon: 'list-checks', label: 'Syllabus Tracker' },
+                        { id: 'seating', icon: 'grid-3x3', label: 'Exam Seating' },
+                        { id: 'library', icon: 'book-open', label: 'E-Library' },
+                        { id: 'appointments', icon: 'calendar-clock', label: 'Appointments' }
+                    ],
+                    "Connect": [
+                        { id: 'alumni', icon: 'users', label: 'Alumni Network' },
+                        { id: 'study', icon: 'library', label: 'Study Groups' },
+                        { id: 'internships', icon: 'briefcase', label: 'Internships' }
+                    ],
+                    "Campus": [
+                        { id: 'wellness', icon: 'heart', label: 'Wellness Center' },
+                        { id: 'map', icon: 'map', label: 'Campus Map' },
+                        { id: 'lostfound', icon: 'search', label: 'Lost & Found' }
+                    ]
+                },
+                admin: {
+                    "Admin": [
+                        { id: 'voice', icon: 'mic', label: 'Issue Feed' },
+                        { id: 'dashboard', icon: 'bar-chart-2', label: 'Analytics' }
+                    ]
+                }
             };
 
-            const roleLinks = links[role] || links['student'];
-            
-            roleLinks.forEach((link, idx) => {
-                const btn = document.createElement('button');
-                btn.className = `w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition sidebar-item ${idx === 0 ? 'active' : 'text-slate-400 hover:text-white hover:bg-white/5'}`;
-                btn.innerHTML = `<i data-lucide="${link.icon}" class="w-5 h-5"></i> ${link.label}`;
-                btn.onclick = () => switchView(link.id, btn);
-                nav.appendChild(btn);
-            });
-
-            // Show Specific Role View
-            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-            if(role === 'student') {
-                document.getElementById('view-student').classList.remove('hidden');
-                document.getElementById('mobile-nav').classList.remove('hidden');
-                document.getElementById('ai-fab').classList.remove('hidden');
-                renderStudentFeed();
-            } else if (role === 'admin') {
-                document.getElementById('view-admin').classList.remove('hidden');
-                renderAdminKanban();
-            } else if (role === 'staff') {
-                document.getElementById('view-staff').classList.remove('hidden');
-                renderStaffTasks();
-            } else if (role === 'dean') {
-                document.getElementById('view-dean').classList.remove('hidden');
-                renderDeanCharts();
+            let html = '';
+            const userSections = sections[role];
+            for (const [section, items] of Object.entries(userSections)) {
+                html += `<div class="mb-4">
+                    <p class="px-3 text-[10px] font-bold uppercase text-gray-600 mb-2 tracking-wider">${section}</p>
+                    <div class="space-y-1">
+                        ${items.map(i => `
+                            <button onclick="renderView('${i.id}', this)" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-gray-400 hover:text-white hover:bg-white/5 transition">
+                                <i data-lucide="${i.icon}" class="w-4 h-4"></i> ${i.label}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>`;
             }
+            nav.innerHTML = html;
+        }
+
+        // --- ROUTER ---
+        function renderView(viewId, btn) {
+            if(btn) {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            const c = document.getElementById('view-container');
+            const title = document.getElementById('page-title');
             
+            title.innerHTML = `<i data-lucide="hash" class="w-5 h-5 text-brand-400"></i> ${viewId.charAt(0).toUpperCase() + viewId.slice(1)}`;
+            
+            c.innerHTML = ''; 
+            
+            switch(viewId) {
+                case 'voice': renderVoiceFeed(c); break; 
+                case 'dashboard': renderStudentDash(c); break;
+                case 'syllabus': renderSyllabus(c); break;
+                case 'seating': renderExamSeating(c); break;
+                case 'appointments': renderAppointments(c); break;
+                case 'library': renderLibrary(c); break;
+                case 'wellness': renderWellness(c); break;
+                case 'alumni': renderAlumni(c); break;
+                case 'study': renderStudyGroups(c); break;
+                case 'internships': renderInternships(c); break;
+                case 'lostfound': renderLostFound(c); break;
+                case 'map': renderMap(c); break;
+                default: c.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-gray-600"><i data-lucide="construction" class="w-16 h-16 mb-4 opacity-50"></i><p>Module Loading...</p></div>`;
+            }
             lucide.createIcons();
         }
 
-        // --- RENDERERS ---
-
-        function renderStudentFeed() {
-            const container = document.getElementById('student-feed');
-            container.innerHTML = '';
-            
-            store.issues.forEach((issue, i) => {
-                let statusColor = issue.status === 'open' ? 'text-red-400 bg-red-500/10' : (issue.status === 'progress' ? 'text-amber-400 bg-amber-500/10' : 'text-emerald-400 bg-emerald-500/10');
-                
-                const card = document.createElement('div');
-                card.className = `glass-card p-5 rounded-2xl animate-slide-up hover:cursor-pointer group`;
-                card.style.animationDelay = `${i * 100}ms`;
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <span class="px-2 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${statusColor}">${issue.status}</span>
-                        <span class="text-xs text-slate-500">${issue.time}</span>
-                    </div>
-                    <h3 class="font-bold text-lg text-white mb-1 group-hover:text-primary-400 transition">${issue.title}</h3>
-                    <p class="text-xs text-primary-400 mb-3 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${issue.loc}</p>
-                    <p class="text-sm text-slate-300 mb-4 line-clamp-2">${issue.desc}</p>
-                    <div class="flex items-center justify-between border-t border-white/5 pt-3">
-                        <div class="flex items-center gap-3">
-                            <button class="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-white transition"><i data-lucide="thumbs-up" class="w-4 h-4"></i> ${issue.upvotes}</button>
-                            <button class="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-white transition"><i data-lucide="message-square" class="w-4 h-4"></i> Comment</button>
+        // --- 1. STUDENT VOICE (MAIN REQUEST) ---
+        function renderVoiceFeed(c) {
+            c.innerHTML = `
+                <div class="max-w-3xl mx-auto space-y-6 animate-slide-up">
+                    <div class="glass-card p-6 rounded-2xl flex justify-between items-center bg-gradient-to-r from-brand-900/50 to-transparent">
+                        <div>
+                            <h2 class="text-2xl font-display font-bold text-white">Student Voice</h2>
+                            <p class="text-gray-400 text-sm">Raise issues, discuss problems, get solutions.</p>
                         </div>
-                        <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-white">S</div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-            lucide.createIcons();
-        }
-
-        function renderAdminKanban() {
-            // Clear Columns
-            document.getElementById('col-open').innerHTML = '';
-            document.getElementById('col-progress').innerHTML = '';
-            document.getElementById('col-resolved').innerHTML = '';
-
-            // Counters
-            const counts = { open: 0, progress: 0, resolved: 0 };
-
-            store.issues.forEach(issue => {
-                counts[issue.status]++;
-                const card = document.createElement('div');
-                card.className = 'glass-card p-4 rounded-xl cursor-grab active:cursor-grabbing hover:border-primary-500/50 transition';
-                card.draggable = true;
-                card.innerHTML = `
-                    <div class="flex justify-between mb-2">
-                        <span class="text-xs text-slate-500">#${issue.id}</span>
-                        <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-500"></i>
-                    </div>
-                    <p class="font-bold text-sm text-white mb-1">${issue.title}</p>
-                    <p class="text-xs text-slate-400 mb-3">${issue.loc}</p>
-                    
-                    ${issue.status === 'open' ? `<button onclick="assignTask(${issue.id})" class="w-full py-1.5 rounded-lg bg-primary-600/20 text-primary-400 text-xs font-bold hover:bg-primary-600 hover:text-white transition">Assign Staff</button>` : ''}
-                    ${issue.status === 'progress' ? `<div class="flex items-center gap-2 text-xs text-slate-400"><div class="w-5 h-5 rounded-full bg-slate-600 flex items-center justify-center text-[10px]">RK</div> Rajesh K.</div>` : ''}
-                `;
-                
-                document.getElementById(`col-${issue.status}`).appendChild(card);
-            });
-
-            document.getElementById('count-open').innerText = counts.open;
-            document.getElementById('count-progress').innerText = counts.progress;
-            document.getElementById('count-resolved').innerText = counts.resolved;
-            lucide.createIcons();
-        }
-
-        function renderStaffTasks() {
-            const container = document.getElementById('staff-tasks');
-            const welcome = document.getElementById('staff-welcome');
-            welcome.innerText = `Hello, ${store.currentUser.name.split(' ')[0]}`;
-            
-            container.innerHTML = '';
-            const myTasks = store.issues.filter(i => i.status === 'progress'); // Simulating assigned to logged in staff
-            document.getElementById('staff-task-count').innerText = myTasks.length;
-
-            if(myTasks.length === 0) {
-                container.innerHTML = `<div class="text-center text-slate-500 mt-10"><i data-lucide="coffee" class="w-12 h-12 mx-auto mb-2 opacity-50"></i><p>All caught up!</p></div>`;
-            } else {
-                myTasks.forEach(task => {
-                    const card = document.createElement('div');
-                    card.className = 'glass-card p-5 rounded-2xl animate-slide-up border-l-4 border-primary-500';
-                    card.innerHTML = `
-                        <div class="flex justify-between mb-1">
-                            <span class="text-xs font-bold text-primary-400 uppercase">High Priority</span>
-                            <span class="text-xs text-slate-500">#${task.id}</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white mb-1">${task.loc}</h3>
-                        <p class="text-sm text-slate-300 mb-4">${task.title}</p>
-                        <button onclick="completeTask(${task.id})" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-white font-bold text-sm shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i> Mark Resolved
+                        <button onclick="openPostModal()" class="bg-brand-600 hover:bg-brand-500 text-white px-6 py-3 rounded-xl font-bold shadow-[0_0_20px_rgba(99,102,241,0.3)] transition flex items-center gap-2">
+                            <i data-lucide="plus"></i> Speak Up
                         </button>
-                    `;
-                    container.appendChild(card);
-                });
-            }
+                    </div>
+                    <div class="flex gap-2 overflow-x-auto pb-2">
+                        <button class="px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold border border-white/10">🔥 Trending</button>
+                        <button class="px-4 py-1.5 rounded-full bg-transparent text-gray-400 text-xs font-bold border border-white/10 hover:bg-white/5">Recent</button>
+                        <button class="px-4 py-1.5 rounded-full bg-transparent text-gray-400 text-xs font-bold border border-white/10 hover:bg-white/5">My Posts</button>
+                    </div>
+                    <div class="space-y-4" id="feed-list"></div>
+                </div>
+            `;
+            renderFeedList();
+        }
+
+        function renderFeedList() {
+            const list = document.getElementById('feed-list');
+            list.innerHTML = store.feed.map(post => `
+                <div class="glass-card p-5 rounded-2xl hover:border-brand-500/30 transition group relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold px-2 py-1 rounded bg-white/5 text-gray-300 border border-white/10">${post.cat}</span>
+                            <span class="text-xs text-gray-500">• ${post.time}</span>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border ${getStatusStyle(post.status)}">${post.status}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-brand-400 transition">${post.title}</h3>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex gap-3">
+                            <button onclick="upvote(${post.id})" class="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-lg hover:bg-white/10 transition">
+                                <i data-lucide="arrow-big-up" class="w-4 h-4"></i> ${post.upvotes}
+                            </button>
+                            <button class="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-lg hover:bg-white/10 transition">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i> Comment
+                            </button>
+                        </div>
+                        <div class="text-xs text-gray-500">Posted by ${post.author}</div>
+                    </div>
+                </div>
+            `).join('');
             lucide.createIcons();
         }
 
-        function renderDeanCharts() {
-            const ctx = document.getElementById('deptChart');
-            if(window.deptChartInstance) window.deptChartInstance.destroy();
-            
-            window.deptChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Hostel', 'Mess', 'Library', 'IT', 'Security'],
-                    datasets: [{
-                        label: 'Open Issues',
-                        data: [12, 5, 3, 8, 2],
-                        backgroundColor: ['#6366f1', '#fbbf24', '#2dd4bf', '#fb7185', '#94a3b8'],
-                        borderRadius: 6,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                    }
-                }
-            });
+        function getStatusStyle(status) {
+            if(status === 'Open') return 'bg-red-500/10 text-red-400 border-red-500/20';
+            if(status === 'In Progress') return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+            return 'bg-green-500/10 text-green-400 border-green-500/20';
         }
 
-        // --- ACTIONS ---
+        function openPostModal() { document.getElementById('post-modal').classList.remove('hidden'); document.getElementById('post-modal').classList.add('flex'); }
+        function closePostModal() { document.getElementById('post-modal').classList.add('hidden'); document.getElementById('post-modal').classList.remove('flex'); }
 
-        function switchView(viewId, btnElement) {
-            // Update Menu Active State
-            document.querySelectorAll('.sidebar-item').forEach(b => {
-                b.classList.remove('active', 'text-primary-400', 'bg-white/5');
-                b.classList.add('text-slate-400');
-            });
-            btnElement.classList.add('active');
-
-            // Switch View
-            document.querySelectorAll('.view').forEach(v => {
-                v.classList.add('hidden');
-            });
-            document.getElementById(viewId).classList.remove('hidden');
-        }
-
-        function openCreateModal() {
-            document.getElementById('create-modal').classList.remove('hidden');
-        }
-        function closeCreateModal() {
-            document.getElementById('create-modal').classList.add('hidden');
-        }
-
-        function handleCreateIssue(e) {
+        function handleNewPost(e) {
             e.preventDefault();
-            const desc = document.getElementById('issue-desc').value;
-            if(!desc) return;
-            
-            store.issues.unshift({
-                id: Math.floor(Math.random() * 1000),
-                title: 'New Issue Report',
-                loc: 'Hostel A',
-                status: 'open',
-                time: 'Just now',
+            const newPost = {
+                id: Date.now(),
+                title: document.getElementById('post-title').value,
+                cat: document.getElementById('post-cat').value,
+                status: "Open",
                 upvotes: 0,
-                author: 'Me',
-                desc: desc,
-                assignedTo: null
-            });
-            
-            closeCreateModal();
-            showToast('Issue Reported Successfully');
-            if(store.currentRole === 'student') renderStudentFeed();
-            if(store.currentRole === 'admin') renderAdminKanban();
-            if(store.currentRole === 'dean') { renderDeanCharts(); /* re-render dean if needed */ }
+                time: "Just now",
+                author: "Aryan"
+            };
+            store.feed.unshift(newPost);
+            saveStore();
+            closePostModal();
+            showToast("Issue Posted Successfully!");
+            renderFeedList();
         }
 
-        function assignTask(id) {
-            const task = store.issues.find(i => i.id === id);
-            if(task) {
-                task.status = 'progress';
-                task.assignedTo = 'staff'; // generic assignment
-                showToast('Assigned to Staff Member');
-                renderAdminKanban();
+        function upvote(id) {
+            const post = store.feed.find(p => p.id === id);
+            if(post) {
+                post.upvotes++;
+                saveStore();
+                renderFeedList();
             }
         }
 
-        function completeTask(id) {
-            const task = store.issues.find(i => i.id === id);
-            if(task) {
-                task.status = 'resolved';
-                showToast('Task Completed! Good job.');
-                renderStaffTasks();
+        // --- 2. EXAM SEATING ---
+        function renderExamSeating(c) {
+            c.innerHTML = `
+                <div class="max-w-4xl mx-auto animate-slide-up">
+                    <div class="glass-card p-6 rounded-2xl mb-6 flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-bold text-white">Exam Hall A-204</h2>
+                            <p class="text-gray-400 text-sm">Computer Networks • 10:00 AM</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-brand-400 font-mono text-xl font-bold">Seat: C-04</p>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 rounded-2xl text-center">
+                        <div class="w-32 h-8 bg-white/10 rounded mb-8 mx-auto text-xs flex items-center justify-center text-gray-400 uppercase tracking-widest">Front Desk / Board</div>
+                        <div class="grid grid-cols-8 gap-3 mx-auto max-w-lg">
+                            ${Array(32).fill(0).map((_, i) => {
+                                const isMe = i === 19; 
+                                const isTaken = i % 3 === 0;
+                                return `<div class="seat ${isMe ? 'me' : (isTaken ? 'taken' : 'available')}">${isMe ? 'YOU' : i+1}</div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 3. SYLLABUS TRACKER ---
+        function renderSyllabus(c) {
+            c.innerHTML = `
+                <div class="max-w-3xl mx-auto space-y-6 animate-slide-up">
+                    <h2 class="text-2xl font-bold text-white mb-4">Academic Progress</h2>
+                    ${store.syllabus.map((sub, i) => `
+                        <div class="glass-card p-6 rounded-2xl">
+                            <div class="flex justify-between mb-2">
+                                <h3 class="font-bold text-white">${sub.subject}</h3>
+                                <span class="text-brand-400 font-mono text-sm">${sub.progress}%</span>
+                            </div>
+                            <div class="w-full bg-dark-900 h-2 rounded-full overflow-hidden mb-4 border border-white/5 cursor-pointer" onclick="updateProgress(${i})">
+                                <div class="bg-gradient-to-r from-brand-600 to-accent-cyan h-full progress-bar" style="width: ${sub.progress}%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>${sub.completed}/${sub.topics} Topics Completed</span>
+                                <button class="hover:text-white underline" onclick="updateProgress(${i})">Mark Topic Complete</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateProgress(index) {
+            store.syllabus[index].completed++;
+            if(store.syllabus[index].completed > store.syllabus[index].topics) store.syllabus[index].completed = store.syllabus[index].topics;
+            store.syllabus[index].progress = Math.floor((store.syllabus[index].completed / store.syllabus[index].topics) * 100);
+            saveStore();
+            renderView('syllabus'); // Refresh
+            showToast("Topic Marked Complete!");
+        }
+
+        // --- 4. APPOINTMENTS ---
+        function renderAppointments(c) {
+            c.innerHTML = `
+                <div class="max-w-3xl mx-auto animate-slide-up">
+                    <h2 class="text-2xl font-bold text-white mb-6">Faculty Appointments</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${store.appointments.map(a => `
+                            <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 ${a.status==='Available'?'border-green-500':'border-red-500'}">
+                                <div>
+                                    <h4 class="font-bold text-white">${a.prof}</h4>
+                                    <p class="text-xs text-gray-400">Office Hours • ${a.slot}</p>
+                                </div>
+                                <button onclick="bookAppointment(${a.id})" class="px-4 py-2 rounded-lg text-xs font-bold transition ${a.status==='Available'?'bg-green-500/20 text-green-400 hover:bg-green-500/30':'bg-white/5 text-gray-500 cursor-not-allowed'}">
+                                    ${a.status === 'Available' ? 'Book Now' : 'Booked'}
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function bookAppointment(id) {
+            const apt = store.appointments.find(a => a.id === id);
+            if(apt && apt.status === 'Available') {
+                apt.status = 'Booked';
+                saveStore();
+                renderView('appointments');
+                showToast("Appointment Confirmed!");
             }
         }
 
-        function toggleAIChat() {
-            const win = document.getElementById('ai-window');
-            if(win.classList.contains('hidden')) {
-                win.classList.remove('hidden');
-            } else {
-                win.classList.add('hidden');
-            }
+        // --- 5. E-LIBRARY ---
+        function renderLibrary(c) {
+            c.innerHTML = `
+                <div class="animate-slide-up">
+                    <h2 class="text-2xl font-bold text-white mb-6">Digital Library</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        ${[1,2,3,4,5,6,7,8].map(i => `
+                            <div class="glass-card p-3 rounded-xl group cursor-pointer hover:bg-white/5" onclick="showToast('Opening Book PDF...')">
+                                <div class="aspect-[2/3] bg-dark-800 rounded-lg mb-3 relative overflow-hidden border border-white/5">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                                    <div class="absolute bottom-2 left-2 right-2">
+                                        <p class="text-[10px] text-gray-400 uppercase">Book ${i}</p>
+                                        <div class="h-1 w-full bg-white/20 rounded-full mt-1"><div class="h-full bg-brand-500 w-1/3"></div></div>
+                                    </div>
+                                    <div class="absolute inset-0 bg-brand-600/10 flex items-center justify-center text-brand-500 opacity-0 group-hover:opacity-100 transition font-bold backdrop-blur-sm">READ</div>
+                                </div>
+                                <h4 class="font-bold text-sm text-white truncate">Advanced Computing Vol.${i}</h4>
+                                <p class="text-xs text-gray-500">Available • PDF</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
         }
 
+        // --- 6. WELLNESS CENTER ---
+        function renderWellness(c) {
+            const moods = ['Happy', 'Stressed', 'Tired', 'Anxious', 'Calm'];
+            c.innerHTML = `
+                <div class="max-w-2xl mx-auto text-center animate-slide-up space-y-8 pt-10">
+                    <div class="glass-card p-8 rounded-3xl border-t-4 border-accent-emerald">
+                        <i data-lucide="heart-handshake" class="w-12 h-12 text-accent-emerald mx-auto mb-4"></i>
+                        <h2 class="text-2xl font-bold text-white mb-2">How are you feeling today?</h2>
+                        <p class="text-gray-400 text-sm mb-6">Your mental health matters. Log your mood or chat with a counselor.</p>
+                        
+                        <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                            ${moods.map(m => `
+                                <button onclick="setMood('${m}')" class="mood-btn px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold hover:bg-white/10 transition ${store.mood === m ? 'selected' : ''}">${m}</button>
+                            `).join('')}
+                        </div>
+
+                        <div class="flex justify-center gap-4">
+                            <button onclick="showToast('Connecting to Counselor...')" class="bg-accent-emerald hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold transition">Chat with Counselor</button>
+                            <button onclick="showToast('Helpline: 1800-HELP')" class="bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-xl font-bold transition">Emergency Helpline</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setMood(m) {
+            store.mood = m;
+            saveStore();
+            renderView('wellness');
+            showToast("Mood Logged.");
+        }
+
+        // --- 7. STUDY GROUPS (NEW) ---
+        function renderStudyGroups(c) {
+            c.innerHTML = `
+                <div class="max-w-3xl mx-auto animate-slide-up">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-white">Active Study Groups</h2>
+                        <button onclick="showToast('Group Created!')" class="bg-brand-600 px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-500">Create Group</button>
+                    </div>
+                    <div class="space-y-4">
+                        ${store.groups.map(g => `
+                            <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-white text-lg">${g.name}</h4>
+                                    <p class="text-xs text-gray-400 flex items-center gap-2"><i data-lucide="book" class="w-3 h-3"></i> ${g.subject} • <i data-lucide="map-pin" class="w-3 h-3"></i> ${g.loc}</p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="flex -space-x-2">
+                                        <div class="w-8 h-8 rounded-full bg-white/10 border border-dark-900"></div>
+                                        <div class="w-8 h-8 rounded-full bg-white/20 border border-dark-900"></div>
+                                        <div class="w-8 h-8 rounded-full bg-white/5 border border-dark-900 flex items-center justify-center text-[10px]">+${g.members}</div>
+                                    </div>
+                                    <button onclick="showToast('Request Sent')" class="px-4 py-2 bg-white/5 rounded-lg text-xs font-bold hover:bg-white/10">Join</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 8. INTERNSHIPS (NEW) ---
+        function renderInternships(c) {
+            c.innerHTML = `
+                <div class="max-w-4xl mx-auto animate-slide-up">
+                    <h2 class="text-2xl font-bold text-white mb-6">Placement Cell</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${store.internships.map(i => `
+                            <div class="glass-card p-6 rounded-2xl border-l-4 ${i.status==='Open'?'border-accent-cyan':'border-white/20'}">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-white text-lg">${i.role}</h3>
+                                    <span class="text-[10px] px-2 py-1 rounded bg-white/10">${i.type}</span>
+                                </div>
+                                <p class="text-brand-400 font-bold mb-4">${i.company}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-gray-500">Stipend: ₹25k/mo</span>
+                                    <button class="px-4 py-2 bg-white/5 hover:bg-brand-600 rounded-lg text-xs font-bold transition hover:text-white">Apply Now</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 9. LOST & FOUND (NEW) ---
+        function renderLostFound(c) {
+            c.innerHTML = `
+                <div class="animate-slide-up">
+                    <h2 class="text-2xl font-bold text-white mb-6">Lost & Found</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        ${[1,2,3].map(i => `
+                            <div class="glass-card p-3 rounded-2xl group cursor-pointer hover:bg-white/5">
+                                <div class="h-32 bg-dark-800 rounded-xl mb-3 flex items-center justify-center border border-white/5">
+                                    <i data-lucide="image" class="text-gray-600 w-8 h-8"></i>
+                                </div>
+                                <h4 class="font-bold text-sm text-white">Item #${i}</h4>
+                                <p class="text-xs text-gray-500 mb-2">Found in Library</p>
+                                <button class="w-full py-1.5 bg-white/5 rounded-lg text-xs font-bold hover:bg-white/10">Claim</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 10. MAP (NEW) ---
+        function renderMap(c) {
+            c.innerHTML = `
+                <div class="h-full flex items-center justify-center animate-slide-up">
+                    <div class="glass-card p-10 rounded-3xl text-center border-dashed border-2 border-white/10">
+                        <i data-lucide="map" class="w-16 h-16 text-gray-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold text-white">Interactive Map</h3>
+                        <p class="text-gray-500 text-sm mt-2">Integrating Google Maps API...</p>
+                        <div class="mt-6 flex gap-2 justify-center">
+                            <span class="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs">Hostels</span>
+                            <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs">Academic</span>
+                            <span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs">Sports</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- DASHBOARD (SIMPLIFIED) ---
+        function renderStudentDash(c) {
+            c.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-slide-up">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h3 class="font-bold text-white mb-4">My Status</h3>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-400">Attendance</span>
+                            <span class="text-brand-400 font-bold">87%</span>
+                        </div>
+                        <div class="w-full bg-dark-800 h-1.5 rounded-full overflow-hidden mb-4"><div class="bg-brand-500 h-full w-[87%]"></div></div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-400">Pending Assignments</span>
+                            <span class="text-accent-orange font-bold">2</span>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-center items-center text-center cursor-pointer hover:bg-white/5" onclick="renderView('voice')">
+                        <div class="w-16 h-16 rounded-full bg-brand-600/20 flex items-center justify-center text-brand-400 mb-4 animate-pulse-slow">
+                            <i data-lucide="mic" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Share a Problem</h3>
+                        <p class="text-xs text-gray-400 mt-1">Tap to report an issue instantly</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- ALUMNI (NEW) ---
+        function renderAlumni(c) {
+            c.innerHTML = `
+                <div class="max-w-3xl mx-auto animate-slide-up">
+                    <h2 class="text-2xl font-bold text-white mb-6">Alumni Connect</h2>
+                    <div class="space-y-4">
+                        ${[1,2].map(i => `
+                            <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-white/10"></div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-white">Rahul Verma</h4>
+                                    <p class="text-xs text-gray-400">SDE at Google • Batch of 2022</p>
+                                </div>
+                                <button class="px-4 py-2 border border-brand-500/30 text-brand-400 rounded-lg text-xs font-bold hover:bg-brand-500/10">Connect</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- UTILS ---
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.remove('translate-y-[-200%]'); t.classList.add('translate-y-6');
+            setTimeout(() => { t.classList.remove('translate-y-6'); t.classList.add('translate-y-[-200%]'); }, 3000);
+        }
+
+        function toggleNotifs() {
+            const p = document.getElementById('notif-panel');
+            p.classList.toggle('hidden');
+            document.getElementById('notif-list').innerHTML = store.notifications.map(n => `
+                <div class="p-3 border-b border-white/5 hover:bg-white/5 transition flex gap-3 items-center">
+                    <i data-lucide="${n.icon}" class="w-4 h-4 text-brand-400"></i>
+                    <div><p class="text-xs font-bold text-gray-200">${n.text}</p><p class="text-[10px] text-gray-500">${n.time}</p></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function toggleAI() { document.getElementById('ai-panel').classList.toggle('hidden'); }
         function handleAIChat(e) {
             e.preventDefault();
             const input = document.getElementById('ai-input');
-            const msg = input.value;
-            if(!msg) return;
-
-            const container = document.getElementById('ai-messages');
+            const box = document.getElementById('ai-chat-box');
+            if(!input.value) return;
             
-            // User Msg
-            container.innerHTML += `<div class="flex gap-3 justify-end"><div class="bg-primary-600 p-3 rounded-2xl rounded-tr-none text-xs text-white max-w-[85%]">${msg}</div></div>`;
+            box.innerHTML += `<div class="flex justify-end"><div class="bg-brand-600 p-3 rounded-2xl rounded-tr-none text-xs text-white max-w-[80%]">${input.value}</div></div>`;
+            
+            setTimeout(() => {
+                let reply = "I can verify that for you.";
+                if(input.value.toLowerCase().includes('wifi')) reply = "WiFi in Hostel A is currently down. Maintenance has been alerted.";
+                if(input.value.toLowerCase().includes('exam')) reply = "Your next exam is Computer Networks at 10:00 AM in Hall A-204.";
+                box.innerHTML += `<div class="flex justify-start"><div class="bg-dark-700 p-3 rounded-2xl rounded-tl-none text-xs text-gray-300 max-w-[80%]">${reply}</div></div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 600);
             input.value = '';
-            container.scrollTop = container.scrollHeight;
-
-            // AI Reply Simulation
-            setTimeout(() => {
-                container.innerHTML += `<div class="flex gap-3"><div class="bg-surface-100 border border-white/5 p-3 rounded-2xl rounded-tl-none text-xs text-slate-300 max-w-[85%]">I've noted that down. Would you like me to file an official report for "${msg}"?</div></div>`;
-                container.scrollTop = container.scrollHeight;
-            }, 800);
         }
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = msg;
-            t.classList.remove('translate-y-[-200%]');
-            t.classList.add('translate-y-[20px]');
-            
-            setTimeout(() => {
-                t.classList.remove('translate-y-[20px]');
-                t.classList.add('translate-y-[-200%]');
-            }, 3000);
-        }
-
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
