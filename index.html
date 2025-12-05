@@ -1,38 +1,57 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voiz - The Campus Brain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Voiz Enterprise | Campus OS</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
-                        brand: {
-                            500: '#6366f1', // Indigo
-                            600: '#4f46e5',
-                            glow: '#818cf8',
+                        surface: {
+                            50: '#f8fafc',
+                            100: '#1e293b', // Card Dark
+                            200: '#0f172a', // BG Dark
+                            300: '#334155', // Border
                         },
-                        dark: {
-                            bg: '#0f172a',
-                            card: '#1e293b',
-                            input: '#334155'
+                        primary: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        },
+                        accent: {
+                            teal: '#2dd4bf',
+                            rose: '#fb7185',
+                            amber: '#fbbf24'
                         }
                     },
                     animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.4s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'scale-in': 'scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        scaleIn: { '0%': { transform: 'scale(0.95)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
                     }
                 }
             }
@@ -40,648 +59,759 @@
     </script>
 
     <style>
+        /* Base Reset & Variables */
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(30, 41, 59, 0.7);
+        }
+
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f1f5f9;
+            overflow-x: hidden;
         }
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
         }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        /* Status Badges */
-        .status-open { @apply bg-red-500/20 text-red-400 border-red-500/30; }
-        .status-progress { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500/30; }
-        .status-resolved { @apply bg-green-500/20 text-green-400 border-green-500/30; }
         
-        .tab-active {
-            border-bottom: 2px solid #6366f1;
-            color: #fff;
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .tab-inactive {
-            color: #94a3b8;
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Animation Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        /* Status Pills */
+        .status-pill {
+            @apply px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border;
+        }
+        .status-open { @apply bg-red-500/10 text-red-400 border-red-500/20; }
+        .status-progress { @apply bg-amber-500/10 text-amber-400 border-amber-500/20; }
+        .status-resolved { @apply bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+
+        .sidebar-item.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border-right: 3px solid #6366f1;
         }
     </style>
 </head>
-<body class="antialiased h-screen overflow-hidden flex flex-col">
+<body class="antialiased h-screen flex flex-col md:flex-row relative">
 
-    <!-- TOP NAVIGATION -->
-    <header class="glass-panel z-50 px-4 py-3 flex justify-between items-center shadow-lg border-b border-white/5">
-        <div class="flex items-center gap-2">
-            <div class="bg-brand-600 p-2 rounded-lg shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-                <i data-lucide="mic" class="text-white w-5 h-5"></i>
-            </div>
-            <h1 class="text-2xl font-black tracking-tighter">Voiz<span class="text-brand-500">.</span></h1>
+    <!-- ================= AUTH SCREEN (ENTRY POINT) ================= -->
+    <div id="auth-screen" class="fixed inset-0 z-[100] bg-[#0f172a] flex items-center justify-center p-4">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-600/20 rounded-full blur-[100px] animate-pulse"></div>
+            <div class="absolute top-1/2 right-0 w-96 h-96 bg-accent-rose/10 rounded-full blur-[100px]"></div>
         </div>
-        
-        <!-- Role Switcher (For Demo Purposes) -->
-        <div class="flex items-center gap-3">
-            <span class="text-xs text-slate-400 hidden sm:inline">Current View:</span>
-            <select id="roleSwitcher" onchange="switchRole(this.value)" class="bg-dark-input text-sm border border-white/10 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                <option value="student">Student Panel</option>
-                <option value="admin">Dept. Admin</option>
-                <option value="staff">Ground Staff</option>
-                <option value="superadmin">Super Admin (Dean)</option>
-            </select>
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-500 to-purple-500 flex items-center justify-center font-bold text-xs shadow-lg">
-                <span id="userInitials">AR</span>
-            </div>
-        </div>
-    </header>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-1 overflow-hidden relative">
-        
-        <!-- ================= STUDENT VIEW ================= -->
-        <div id="view-student" class="view-section h-full flex flex-col md:flex-row">
-            
-            <!-- Sidebar (Rewards & Stats) -->
-            <div class="hidden md:flex w-80 bg-dark-card border-r border-white/5 flex-col p-6 gap-6">
-                <div class="bg-gradient-to-br from-indigo-900/50 to-purple-900/50 p-5 rounded-2xl border border-white/10 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-20 h-20 bg-brand-500 blur-[50px] opacity-30"></div>
-                    <p class="text-sm text-indigo-300 font-semibold mb-1">Your Karma Score</p>
-                    <h2 class="text-4xl font-black text-white mb-2">1,240</h2>
-                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                        <div class="bg-brand-500 h-full w-[70%]"></div>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-2">310 pts to next Reward</p>
-                </div>
-
+        <div class="w-full max-w-4xl grid md:grid-cols-2 bg-surface-100/50 backdrop-blur-xl border border-white/5 rounded-3xl shadow-2xl overflow-hidden relative z-10 animate-scale-in">
+            <!-- Left: Hero -->
+            <div class="p-8 md:p-12 flex flex-col justify-between relative bg-gradient-to-br from-primary-600 to-indigo-900 text-white">
                 <div>
-                    <h3 class="font-bold text-slate-300 mb-4 flex items-center gap-2">
-                        <i data-lucide="trending-up" class="w-4 h-4 text-green-400"></i> Trending Issues
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="p-3 bg-white/5 rounded-xl border border-white/5 cursor-pointer hover:bg-white/10 transition">
-                            <span class="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded mr-2">Hostel A</span>
-                            <p class="text-sm font-medium">No water on 3rd Floor</p>
-                            <span class="text-xs text-slate-500">42 upvotes • 2h ago</span>
-                        </div>
-                        <div class="p-3 bg-white/5 rounded-xl border border-white/5 cursor-pointer hover:bg-white/10 transition">
-                            <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded mr-2">Academics</span>
-                            <p class="text-sm font-medium">Projector broken in Lab 4</p>
-                            <span class="text-xs text-slate-500">18 upvotes • 5h ago</span>
-                        </div>
+                    <div class="flex items-center gap-2 mb-8">
+                        <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm"><i data-lucide="zap" class="w-5 h-5 fill-white"></i></div>
+                        <span class="text-xl font-bold tracking-tight">Voiz Enterprise</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">The Smartest Campus OS.</h1>
+                    <p class="text-indigo-200 text-sm md:text-base">Connects students, maintenance, and management in one unified, real-time ecosystem.</p>
+                </div>
+                <div class="flex gap-4 mt-8 md:mt-0">
+                    <div class="text-center">
+                        <h4 class="text-2xl font-bold">12k+</h4>
+                        <p class="text-xs text-indigo-300">Issues Solved</p>
+                    </div>
+                    <div class="text-center border-l border-white/20 pl-4">
+                        <h4 class="text-2xl font-bold">1.2s</h4>
+                        <p class="text-xs text-indigo-300">Avg Response</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Main Feed -->
-            <div class="flex-1 overflow-y-auto hide-scrollbar relative pb-20">
-                <div class="max-w-2xl mx-auto p-4 md:p-8 space-y-6" id="feed-container">
-                    <!-- Posts will be injected here via JS -->
-                </div>
-            </div>
-
-            <!-- Mobile FAB -->
-            <button onclick="openPostModal()" class="absolute bottom-6 right-6 md:bottom-10 md:right-10 bg-brand-600 hover:bg-brand-500 text-white p-4 rounded-full shadow-[0_0_20px_rgba(79,70,229,0.5)] transition-transform hover:scale-110 active:scale-95 flex items-center justify-center z-40 group">
-                <i data-lucide="plus" class="w-8 h-8"></i>
-                <span class="absolute right-full mr-4 bg-white/10 backdrop-blur px-3 py-1 rounded-lg text-sm font-semibold opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Speak Up</span>
-            </button>
             
-            <!-- AI Bot Trigger -->
-            <button onclick="toggleBot()" class="absolute bottom-6 left-6 md:bottom-10 md:left-10 bg-purple-600 hover:bg-purple-500 text-white p-4 rounded-full shadow-[0_0_20px_rgba(147,51,234,0.5)] transition-transform hover:scale-110 active:scale-95 z-40">
-                <i data-lucide="bot" class="w-8 h-8"></i>
-            </button>
-
-        </div>
-
-        <!-- ================= ADMIN VIEW ================= -->
-        <div id="view-admin" class="view-section hidden h-full flex flex-col p-6 overflow-y-auto">
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-3xl font-bold text-white mb-2">Maintenance Dashboard</h2>
-                    <p class="text-slate-400">Managing <span class="text-white font-bold">Hostel A</span> Issues</p>
-                </div>
-                <div class="flex gap-4 text-center">
-                    <div class="bg-red-500/10 border border-red-500/20 p-3 rounded-lg min-w-[100px]">
-                        <div class="text-2xl font-bold text-red-400">12</div>
-                        <div class="text-xs text-red-300">Urgent</div>
-                    </div>
-                    <div class="bg-yellow-500/10 border border-yellow-500/20 p-3 rounded-lg min-w-[100px]">
-                        <div class="text-2xl font-bold text-yellow-400">5</div>
-                        <div class="text-xs text-yellow-300">Pending</div>
-                    </div>
-                    <div class="bg-green-500/10 border border-green-500/20 p-3 rounded-lg min-w-[100px]">
-                        <div class="text-2xl font-bold text-green-400">148</div>
-                        <div class="text-xs text-green-300">Solved</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kanban/List -->
-            <div class="bg-dark-card border border-white/5 rounded-xl overflow-hidden">
-                <div class="grid grid-cols-12 gap-4 p-4 border-b border-white/5 bg-white/5 text-sm font-semibold text-slate-300">
-                    <div class="col-span-1">ID</div>
-                    <div class="col-span-4">Issue</div>
-                    <div class="col-span-2">Location</div>
-                    <div class="col-span-2">Status</div>
-                    <div class="col-span-3">Action</div>
-                </div>
-                <div id="admin-list-container">
-                    <!-- Admin Items via JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= STAFF VIEW ================= -->
-        <div id="view-staff" class="view-section hidden h-full flex flex-col items-center justify-center p-4">
-            <div class="max-w-md w-full bg-dark-card border border-white/10 rounded-2xl p-6 shadow-2xl relative">
-                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-500 px-4 py-1 rounded-full text-xs font-bold text-black shadow-[0_0_10px_rgba(34,197,94,0.6)]">
-                    ONLINE • ON DUTY
-                </div>
+            <!-- Right: Role Selection -->
+            <div class="p-8 md:p-12 flex flex-col justify-center bg-surface-200/80">
+                <h2 class="text-2xl font-bold mb-2">Welcome Back</h2>
+                <p class="text-slate-400 text-sm mb-8">Select your role to simulate the dashboard experience.</p>
                 
-                <h2 class="text-xl font-bold text-center mb-6">Your Tasks Today</h2>
-                
-                <div class="space-y-4" id="staff-tasks">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SUPER ADMIN VIEW ================= -->
-        <div id="view-superadmin" class="view-section hidden h-full p-4 md:p-8 overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-dark-card p-6 rounded-2xl border border-white/5">
-                    <p class="text-slate-400 text-sm mb-2">Total Issues</p>
-                    <h3 class="text-4xl font-black text-white">842</h3>
-                    <p class="text-green-400 text-xs mt-2 flex items-center"><i data-lucide="arrow-up" class="w-3 h-3 mr-1"></i> 12% vs last month</p>
-                </div>
-                <div class="bg-dark-card p-6 rounded-2xl border border-white/5">
-                    <p class="text-slate-400 text-sm mb-2">Avg Resolution Time</p>
-                    <h3 class="text-4xl font-black text-brand-400">4.2h</h3>
-                    <p class="text-green-400 text-xs mt-2 flex items-center"><i data-lucide="arrow-down" class="w-3 h-3 mr-1"></i> Faster than avg</p>
-                </div>
-                <div class="bg-dark-card p-6 rounded-2xl border border-white/5">
-                    <p class="text-slate-400 text-sm mb-2">Student Satisfaction</p>
-                    <h3 class="text-4xl font-black text-yellow-400">4.8/5</h3>
-                </div>
-                <div class="bg-dark-card p-6 rounded-2xl border border-white/5">
-                    <p class="text-slate-400 text-sm mb-2">Critical Alerts</p>
-                    <h3 class="text-4xl font-black text-red-500 animate-pulse">3</h3>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Heatmap Simulation -->
-                <div class="lg:col-span-2 bg-dark-card border border-white/5 rounded-2xl p-6">
-                    <h3 class="font-bold mb-6">Campus Issue Heatmap</h3>
-                    <div class="relative w-full h-64 bg-slate-800 rounded-lg overflow-hidden flex items-center justify-center border border-white/10 group">
-                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-30 grayscale group-hover:grayscale-0 transition duration-500"></div>
-                        
-                        <!-- Heat Points -->
-                        <div class="absolute top-[30%] left-[20%] w-16 h-16 bg-red-500/50 rounded-full blur-xl animate-pulse"></div>
-                        <div class="absolute top-[30%] left-[20%] w-4 h-4 bg-red-500 rounded-full border-2 border-white cursor-pointer z-10 peer-one"></div>
-                        <div class="absolute top-[20%] left-[25%] bg-black/80 px-2 py-1 rounded text-xs opacity-0 peer-one-hover:opacity-100 transition">Hostel A: Water Leak</div>
-
-                        <div class="absolute bottom-[40%] right-[30%] w-24 h-24 bg-yellow-500/40 rounded-full blur-xl"></div>
-                        
-                        <div class="relative z-10 text-center pointer-events-none">
-                            <p class="text-2xl font-bold tracking-widest">MAP VIEW</p>
-                            <p class="text-xs text-slate-400">Live Infrastructure Monitoring</p>
+                <div class="space-y-3">
+                    <button onclick="login('student')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition"><i data-lucide="user"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm">Student</h3>
+                            <p class="text-xs text-slate-500">Report issues, upvote, track status</p>
                         </div>
-                    </div>
+                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                    </button>
+
+                    <button onclick="login('admin')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
+                        <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition"><i data-lucide="shield"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm">Dept. Admin</h3>
+                            <p class="text-xs text-slate-500">Manage tickets, assign staff</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                    </button>
+
+                    <button onclick="login('staff')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition"><i data-lucide="wrench"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm">Ground Staff</h3>
+                            <p class="text-xs text-slate-500">View tasks, upload proof</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                    </button>
+
+                    <button onclick="login('dean')" class="w-full p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50 transition flex items-center gap-4 group">
+                        <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition"><i data-lucide="bar-chart-2"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm">Dean / Super Admin</h3>
+                            <p class="text-xs text-slate-500">Analytics, heatmaps, reports</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="ml-auto w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                    </button>
                 </div>
-
-                <!-- Dept Performance -->
-                <div class="bg-dark-card border border-white/5 rounded-2xl p-6">
-                    <h3 class="font-bold mb-6">Department Efficiency</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span>IT Services</span>
-                                <span class="text-green-400">98%</span>
-                            </div>
-                            <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-green-500 w-[98%] h-full rounded-full"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span>Electrical</span>
-                                <span class="text-brand-400">85%</span>
-                            </div>
-                            <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-brand-500 w-[85%] h-full rounded-full"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span>Plumbing (Hostel)</span>
-                                <span class="text-red-400">42%</span>
-                            </div>
-                            <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-red-500 w-[42%] h-full rounded-full"></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- POST MODAL -->
-    <div id="post-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-dark-card w-full max-w-lg rounded-2xl border border-white/10 shadow-2xl transform transition-all scale-95 opacity-0" id="post-modal-content">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold">What's Wrong?</h2>
-                    <button onclick="closePostModal()" class="text-slate-400 hover:text-white"><i data-lucide="x"></i></button>
-                </div>
-                
-                <form onsubmit="handlePostSubmit(event)">
-                    <div class="mb-4">
-                        <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Category</label>
-                        <div class="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="category" value="Hostel" class="peer sr-only" checked>
-                                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm peer-checked:bg-brand-600 peer-checked:border-brand-500 peer-checked:text-white transition">Hostel</span>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="category" value="Mess" class="peer sr-only">
-                                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm peer-checked:bg-brand-600 peer-checked:border-brand-500 peer-checked:text-white transition">Mess</span>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="category" value="Academics" class="peer sr-only">
-                                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm peer-checked:bg-brand-600 peer-checked:border-brand-500 peer-checked:text-white transition">Academics</span>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="category" value="Other" class="peer sr-only">
-                                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm peer-checked:bg-brand-600 peer-checked:border-brand-500 peer-checked:text-white transition">Other</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Location (Auto-detected)</label>
-                        <div class="flex items-center text-brand-400 bg-brand-500/10 px-3 py-2 rounded-lg text-sm border border-brand-500/20">
-                            <i data-lucide="map-pin" class="w-4 h-4 mr-2"></i>
-                            Lat: 23.0225, Long: 72.5714 (Hostel A Block)
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">Description</label>
-                        <textarea id="post-content" class="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm focus:outline-none focus:border-brand-500 h-32 resize-none" placeholder="Describe the issue clearly..."></textarea>
-                    </div>
-
-                    <div class="flex justify-between items-center">
-                        <button type="button" class="text-slate-400 hover:text-white flex items-center text-sm">
-                            <i data-lucide="camera" class="w-4 h-4 mr-2"></i> Add Proof
-                        </button>
-                        <button type="submit" class="bg-brand-600 hover:bg-brand-500 text-white px-6 py-2 rounded-lg font-bold shadow-lg shadow-brand-600/20 transition-all">Post Anonymously</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 
-    <!-- AI CHAT OVERLAY -->
-    <div id="ai-chat" class="fixed bottom-24 left-6 w-80 bg-dark-card border border-brand-500/30 rounded-2xl shadow-2xl z-40 hidden flex-col overflow-hidden transform transition-all translate-y-10 opacity-0">
-        <div class="bg-brand-600 p-4 flex items-center gap-3">
-            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <i data-lucide="bot" class="text-white w-5 h-5"></i>
+    <!-- ================= APP SHELL (HIDDEN INITIALLY) ================= -->
+    <div id="app-shell" class="w-full h-full flex hidden opacity-0 transition-opacity duration-500">
+        
+        <!-- SIDEBAR (Desktop) -->
+        <aside class="w-64 bg-surface-200 border-r border-white/5 hidden md:flex flex-col z-20">
+            <div class="p-6 flex items-center gap-3">
+                <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/30"><i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i></div>
+                <h1 class="font-bold text-lg tracking-tight">Voiz<span class="text-primary-500">.</span></h1>
             </div>
-            <div>
-                <h4 class="font-bold text-white text-sm">VoizBot</h4>
-                <p class="text-[10px] text-indigo-200">AI Assistant • Online</p>
+
+            <nav class="flex-1 px-4 space-y-1" id="desktop-nav">
+                <!-- Injected via JS based on Role -->
+            </nav>
+
+            <div class="p-4 border-t border-white/5">
+                <div class="bg-surface-100 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-white/5 transition" onclick="toggleProfile()">
+                    <div id="user-avatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-purple-500 flex items-center justify-center text-xs font-bold shadow-inner">AR</div>
+                    <div class="flex-1 min-w-0">
+                        <p id="user-name" class="text-sm font-bold truncate">Aryan Rao</p>
+                        <p id="user-role" class="text-xs text-slate-500 truncate">Student Level 4</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+                </div>
+                <button onclick="logout()" class="w-full mt-3 text-xs text-red-400 hover:text-red-300 flex items-center justify-center gap-2 py-2"><i data-lucide="log-out" class="w-3 h-3"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden bg-[#0f172a] relative">
+            
+            <!-- HEADER (Mobile Only) -->
+            <header class="md:hidden h-16 border-b border-white/5 flex items-center justify-between px-4 bg-surface-200/80 backdrop-blur z-20">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i></div>
+                    <span class="font-bold">Voiz.</span>
+                </div>
+                <button onclick="toggleMobileProfile()" class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-xs font-bold">AR</button>
+            </header>
+
+            <!-- VIEWS CONTAINER -->
+            <div id="views-container" class="flex-1 overflow-y-auto relative p-4 md:p-8 scroll-smooth">
+                
+                <!-- 1. STUDENT DASHBOARD -->
+                <div id="view-student" class="view hidden space-y-6 max-w-5xl mx-auto">
+                    <!-- Search Hero -->
+                    <div class="flex flex-col md:flex-row gap-4 items-center">
+                        <div class="relative w-full">
+                            <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5"></i>
+                            <input type="text" placeholder="Search issues (e.g., 'AC', 'Library', 'Food')..." class="w-full bg-surface-100 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition shadow-lg">
+                        </div>
+                        <button onclick="openCreateModal()" class="w-full md:w-auto bg-primary-600 hover:bg-primary-500 text-white px-6 py-4 rounded-2xl font-bold shadow-lg shadow-primary-600/25 flex items-center justify-center gap-2 transition transform hover:scale-105">
+                            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                            <span>New Issue</span>
+                        </button>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                        <button class="px-4 py-2 rounded-full bg-white/10 text-white text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/20">🔥 Trending</button>
+                        <button class="px-4 py-2 rounded-full bg-transparent text-slate-400 text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/5">🏫 Hostel</button>
+                        <button class="px-4 py-2 rounded-full bg-transparent text-slate-400 text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/5">🍔 Canteen</button>
+                        <button class="px-4 py-2 rounded-full bg-transparent text-slate-400 text-xs font-bold border border-white/10 whitespace-nowrap hover:bg-white/5">📚 Library</button>
+                    </div>
+
+                    <!-- Feed Grid -->
+                    <div id="student-feed" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- 2. ADMIN DASHBOARD (KANBAN) -->
+                <div id="view-admin" class="view hidden h-full flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white">Maintenance Desk</h2>
+                            <p class="text-slate-400 text-sm">Hostel A • 12 Active Tickets</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="flex items-center gap-2 text-xs font-bold bg-green-500/10 text-green-400 px-3 py-1 rounded-lg border border-green-500/20"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> 5 Staff Online</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 overflow-x-auto pb-4">
+                        <div class="flex gap-6 h-full min-w-[1000px]">
+                            <!-- Column: Open -->
+                            <div class="w-1/3 bg-surface-100/50 rounded-2xl border border-white/5 flex flex-col">
+                                <div class="p-4 border-b border-white/5 flex justify-between items-center">
+                                    <h3 class="font-bold text-red-400 flex items-center gap-2"><div class="w-2 h-2 bg-red-500 rounded-full"></div> Open</h3>
+                                    <span class="text-xs bg-white/5 px-2 py-0.5 rounded text-slate-400" id="count-open">0</span>
+                                </div>
+                                <div class="p-3 flex-1 overflow-y-auto space-y-3" id="col-open">
+                                    <!-- Cards go here -->
+                                </div>
+                            </div>
+                            <!-- Column: In Progress -->
+                            <div class="w-1/3 bg-surface-100/50 rounded-2xl border border-white/5 flex flex-col">
+                                <div class="p-4 border-b border-white/5 flex justify-between items-center">
+                                    <h3 class="font-bold text-amber-400 flex items-center gap-2"><div class="w-2 h-2 bg-amber-500 rounded-full"></div> In Progress</h3>
+                                    <span class="text-xs bg-white/5 px-2 py-0.5 rounded text-slate-400" id="count-progress">0</span>
+                                </div>
+                                <div class="p-3 flex-1 overflow-y-auto space-y-3" id="col-progress">
+                                    <!-- Cards go here -->
+                                </div>
+                            </div>
+                            <!-- Column: Done -->
+                            <div class="w-1/3 bg-surface-100/50 rounded-2xl border border-white/5 flex flex-col">
+                                <div class="p-4 border-b border-white/5 flex justify-between items-center">
+                                    <h3 class="font-bold text-emerald-400 flex items-center gap-2"><div class="w-2 h-2 bg-emerald-500 rounded-full"></div> Resolved</h3>
+                                    <span class="text-xs bg-white/5 px-2 py-0.5 rounded text-slate-400" id="count-resolved">0</span>
+                                </div>
+                                <div class="p-3 flex-1 overflow-y-auto space-y-3" id="col-resolved">
+                                    <!-- Cards go here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. STAFF APP -->
+                <div id="view-staff" class="view hidden max-w-md mx-auto h-full flex flex-col">
+                    <div class="bg-primary-600 rounded-3xl p-6 shadow-xl mb-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
+                        <p class="text-indigo-200 text-xs font-bold uppercase mb-1">Today's Shift</p>
+                        <h2 class="text-2xl font-bold text-white mb-2" id="staff-welcome">Hello, Staff</h2>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-white/20 backdrop-blur px-2 py-1 rounded text-xs text-white font-bold flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 08:00 - 17:00</span>
+                            <span class="bg-green-400 text-green-900 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Active</span>
+                        </div>
+                    </div>
+
+                    <h3 class="font-bold text-lg mb-4 flex justify-between items-center">
+                        My Tasks 
+                        <span class="text-xs bg-white/5 px-2 py-1 rounded text-slate-400" id="staff-task-count">0</span>
+                    </h3>
+                    
+                    <div id="staff-tasks" class="space-y-4 flex-1 overflow-y-auto pb-20">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- 4. DEAN ANALYTICS -->
+                <div id="view-dean" class="view hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="glass-card p-5 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Total Issues</p>
+                            <h3 class="text-3xl font-bold text-white mt-2">1,248</h3>
+                            <p class="text-xs text-green-400 mt-1 flex items-center gap-1"><i data-lucide="trending-up" class="w-3 h-3"></i> +12% this week</p>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Avg Resolution Time</p>
+                            <h3 class="text-3xl font-bold text-primary-400 mt-2">3.4h</h3>
+                            <p class="text-xs text-green-400 mt-1 flex items-center gap-1"><i data-lucide="trending-down" class="w-3 h-3"></i> -15% faster</p>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Student Satisfaction</p>
+                            <h3 class="text-3xl font-bold text-amber-400 mt-2">4.8/5</h3>
+                        </div>
+                        <div class="glass-card p-5 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Cost Saved (Est.)</p>
+                            <h3 class="text-3xl font-bold text-emerald-400 mt-2">₹45k</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 glass-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="font-bold mb-4">Issues by Department</h3>
+                            <div class="h-64">
+                                <canvas id="deptChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="font-bold mb-4">Staff Performance</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1"><span>Plumbing</span><span class="text-green-400">92%</span></div>
+                                    <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-green-500 h-full rounded-full" style="width: 92%"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1"><span>Electrical</span><span class="text-amber-400">78%</span></div>
+                                    <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-amber-500 h-full rounded-full" style="width: 78%"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1"><span>IT Network</span><span class="text-primary-400">88%</span></div>
+                                    <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-primary-500 h-full rounded-full" style="width: 88%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- MOBILE NAV BAR (Student Only) -->
+            <nav id="mobile-nav" class="md:hidden border-t border-white/5 bg-surface-200/90 backdrop-blur fixed bottom-0 w-full z-30 pb-safe hidden">
+                <div class="flex justify-around items-center p-3">
+                    <button class="flex flex-col items-center gap-1 text-primary-500"><i data-lucide="home" class="w-6 h-6"></i></button>
+                    <button class="flex flex-col items-center gap-1 text-slate-500"><i data-lucide="search" class="w-6 h-6"></i></button>
+                    <button onclick="openCreateModal()" class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-primary-600/40 border-4 border-surface-200 text-white"><i data-lucide="plus" class="w-6 h-6"></i></button>
+                    <button class="flex flex-col items-center gap-1 text-slate-500"><i data-lucide="bell" class="w-6 h-6"></i></button>
+                    <button class="flex flex-col items-center gap-1 text-slate-500"><i data-lucide="user" class="w-6 h-6"></i></button>
+                </div>
+            </nav>
+
+            <!-- AI CHAT FLOATING BUTTON -->
+            <div id="ai-fab" class="absolute bottom-20 right-6 md:bottom-8 md:right-8 z-40 hidden">
+                <button onclick="toggleAIChat()" class="w-14 h-14 bg-gradient-to-tr from-primary-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/40 text-white hover:scale-110 transition-transform">
+                    <i data-lucide="bot" class="w-7 h-7"></i>
+                </button>
             </div>
         </div>
-        <div class="h-64 overflow-y-auto p-4 space-y-3 bg-black/20" id="chat-messages">
-            <div class="bg-white/10 self-start rounded-r-xl rounded-bl-xl p-3 text-xs text-slate-200 max-w-[85%]">
-                Hey! I'm VoizBot. You can tell me issues like "AC not working in Lab 3" and I'll file it for you.
+    </div>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- CREATE ISSUE MODAL -->
+    <div id="create-modal" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden flex items-end md:items-center justify-center">
+        <div class="bg-surface-100 w-full md:w-[600px] md:rounded-3xl rounded-t-3xl p-6 md:p-8 animate-slide-up border border-white/10 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Report Issue</h2>
+                <button onclick="closeCreateModal()" class="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center hover:bg-white/10"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-        </div>
-        <div class="p-3 border-t border-white/5 bg-dark-card">
-            <form onsubmit="handleChat(event)" class="flex gap-2">
-                <input id="chat-input" type="text" class="flex-1 bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-brand-500" placeholder="Type here...">
-                <button type="submit" class="bg-brand-600 p-2 rounded-lg"><i data-lucide="send" class="w-4 h-4"></i></button>
+            
+            <form onsubmit="handleCreateIssue(event)" class="space-y-6">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-3">Location</label>
+                    <div class="flex gap-2">
+                        <button type="button" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-medium hover:bg-white/10 focus:ring-2 ring-primary-500 focus:bg-primary-500/10">Hostel A</button>
+                        <button type="button" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-medium hover:bg-white/10 focus:ring-2 ring-primary-500 focus:bg-primary-500/10">Library</button>
+                        <button type="button" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-medium hover:bg-white/10 focus:ring-2 ring-primary-500 focus:bg-primary-500/10">Canteen</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Description</label>
+                    <textarea id="issue-desc" class="w-full bg-surface-200 border border-white/10 rounded-xl p-4 h-32 resize-none focus:outline-none focus:border-primary-500" placeholder="Describe the problem in detail..."></textarea>
+                </div>
+
+                <!-- Proof Upload Sim -->
+                <div class="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-white/20 cursor-pointer transition">
+                    <i data-lucide="image" class="w-8 h-8 text-slate-500 mx-auto mb-2"></i>
+                    <p class="text-xs text-slate-400">Tap to upload photo evidence</p>
+                </div>
+
+                <button type="submit" class="w-full bg-primary-600 hover:bg-primary-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-primary-600/20 transition">Submit Report</button>
             </form>
         </div>
     </div>
 
-    <!-- NOTIFICATION TOAST -->
-    <div id="toast" class="fixed top-20 right-4 bg-green-500 text-black px-4 py-3 rounded-lg shadow-lg transform transition-all translate-x-full opacity-0 z-[60] flex items-center gap-3 font-bold text-sm">
-        <i data-lucide="check-circle" class="w-5 h-5"></i>
-        <span id="toast-msg">Action Successful</span>
+    <!-- AI CHAT WINDOW -->
+    <div id="ai-window" class="fixed bottom-24 right-6 md:bottom-24 md:right-8 w-80 md:w-96 bg-surface-100 border border-white/10 rounded-2xl shadow-2xl z-50 hidden flex flex-col overflow-hidden animate-scale-in origin-bottom-right h-[500px]">
+        <div class="p-4 bg-primary-600 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"><i data-lucide="bot" class="w-5 h-5 text-white"></i></div>
+                <div>
+                    <h4 class="font-bold text-white text-sm">Voiz Assistant</h4>
+                    <p class="text-[10px] text-indigo-100">Online • AI Powered</p>
+                </div>
+            </div>
+            <button onclick="toggleAIChat()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div id="ai-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-surface-200">
+            <div class="flex gap-3">
+                <div class="bg-surface-100 border border-white/5 p-3 rounded-2xl rounded-tl-none text-xs text-slate-300 max-w-[85%]">
+                    Hi! I can help you report issues, check status, or answer campus FAQs. Try saying "Report a broken fan in Room 302".
+                </div>
+            </div>
+        </div>
+        <div class="p-3 bg-surface-100 border-t border-white/5">
+            <form onsubmit="handleAIChat(event)" class="relative">
+                <input id="ai-input" type="text" placeholder="Type a message..." class="w-full bg-surface-200 border border-white/10 rounded-xl pl-4 pr-10 py-3 text-xs focus:outline-none focus:border-primary-500">
+                <button type="submit" class="absolute right-2 top-2 p-1 bg-primary-600 rounded-lg text-white"><i data-lucide="arrow-up" class="w-4 h-4"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 px-6 py-3 rounded-full bg-surface-100 border border-primary-500/50 shadow-2xl translate-y-[-200%] transition-transform duration-300">
+        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        <span id="toast-message" class="text-sm font-bold text-white">Action Successful</span>
     </div>
 
     <script>
-        // --- DATA & STATE ---
-        const posts = [
-            {
-                id: 1,
-                category: 'Hostel',
-                location: 'Hostel A, 3rd Floor',
-                content: 'The water cooler on the 3rd floor has been leaking for 2 days. The corridor is slippery and dangerous.',
-                upvotes: 42,
-                comments: 5,
-                status: 'Open', // Open, In Progress, Resolved
-                time: '2h ago',
-                isLiked: false
+        // --- STORE & STATE MANAGEMENT ---
+        const store = {
+            currentUser: null,
+            users: {
+                'student': { name: 'Aryan Rao', role: 'Student', avatar: 'AR', level: 4 },
+                'admin': { name: 'Priya Sharma', role: 'Hostel Admin', avatar: 'PS', level: 10 },
+                'staff': { name: 'Rajesh Kumar', role: 'Senior Technician', avatar: 'RK', level: 5 },
+                'dean': { name: 'Dr. Mehta', role: 'Dean of Student Affairs', avatar: 'DM', level: 99 }
             },
-            {
-                id: 2,
-                category: 'Mess',
-                location: 'Main Canteen',
-                content: 'Dal was extremely watery today. Quality has dropped significantly this week.',
-                upvotes: 128,
-                comments: 34,
-                status: 'Resolved',
-                time: '1d ago',
-                isLiked: true
-            },
-            {
-                id: 3,
-                category: 'Academics',
-                location: 'CS Lab 2',
-                content: 'AC is not working. It is suffocating inside during afternoon labs.',
-                upvotes: 15,
-                comments: 1,
-                status: 'In Progress',
-                time: '3h ago',
-                isLiked: false
+            issues: [
+                { id: 101, title: 'Water Cooler Leak', loc: 'Hostel A - 3rd Floor', status: 'open', time: '2h ago', upvotes: 45, author: 'Student', desc: 'Water is pooling near the stairs. Dangerous slipping hazard.', assignedTo: null },
+                { id: 102, title: 'Projector Malfunction', loc: 'CS Lab 2', status: 'progress', time: '5h ago', upvotes: 12, author: 'Faculty', desc: 'Colors are distorted, needs bulb replacement.', assignedTo: 'staff' },
+                { id: 103, title: 'Food Quality Issue', loc: 'Main Mess', status: 'resolved', time: '1d ago', upvotes: 89, author: 'Student', desc: 'Rice was undercooked in lunch service.', assignedTo: 'staff' },
+                { id: 104, title: 'Broken Window Latch', loc: 'Room 204', status: 'open', time: '30m ago', upvotes: 2, author: 'Student', desc: 'Window keeps banging due to wind.', assignedTo: null },
+                { id: 105, title: 'Library AC Not Cooling', loc: 'Central Library', status: 'progress', time: '3h ago', upvotes: 24, author: 'Student', desc: 'Reading hall is too hot.', assignedTo: 'staff' }
+            ]
+        };
+
+        // --- AUTH LOGIC ---
+        function login(role) {
+            store.currentUser = store.users[role];
+            store.currentRole = role;
+            
+            // Animation out
+            const authScreen = document.getElementById('auth-screen');
+            authScreen.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => { authScreen.style.display = 'none'; }, 500);
+
+            // Animation in
+            const appShell = document.getElementById('app-shell');
+            appShell.classList.remove('hidden');
+            setTimeout(() => appShell.classList.remove('opacity-0'), 100);
+
+            setupUI(role);
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        function setupUI(role) {
+            // Update Sidebar/Header User Info
+            document.getElementById('user-name').textContent = store.currentUser.name;
+            document.getElementById('user-role').textContent = store.currentUser.role;
+            document.getElementById('user-avatar').textContent = store.currentUser.avatar;
+
+            // Setup Navigation Links
+            const nav = document.getElementById('desktop-nav');
+            nav.innerHTML = '';
+            
+            const links = {
+                student: [
+                    { id: 'view-student', icon: 'home', label: 'Feed' },
+                    { id: 'view-student-profile', icon: 'user', label: 'My Profile' }
+                ],
+                admin: [
+                    { id: 'view-admin', icon: 'trello', label: 'Kanban Board' },
+                    { id: 'view-analytics', icon: 'bar-chart', label: 'Reports' }
+                ],
+                staff: [
+                    { id: 'view-staff', icon: 'check-square', label: 'My Tasks' },
+                    { id: 'view-history', icon: 'clock', label: 'History' }
+                ],
+                dean: [
+                    { id: 'view-dean', icon: 'pie-chart', label: 'Overview' },
+                    { id: 'view-admin', icon: 'list', label: 'All Issues' }
+                ]
+            };
+
+            const roleLinks = links[role] || links['student'];
+            
+            roleLinks.forEach((link, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition sidebar-item ${idx === 0 ? 'active' : 'text-slate-400 hover:text-white hover:bg-white/5'}`;
+                btn.innerHTML = `<i data-lucide="${link.icon}" class="w-5 h-5"></i> ${link.label}`;
+                btn.onclick = () => switchView(link.id, btn);
+                nav.appendChild(btn);
+            });
+
+            // Show Specific Role View
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            if(role === 'student') {
+                document.getElementById('view-student').classList.remove('hidden');
+                document.getElementById('mobile-nav').classList.remove('hidden');
+                document.getElementById('ai-fab').classList.remove('hidden');
+                renderStudentFeed();
+            } else if (role === 'admin') {
+                document.getElementById('view-admin').classList.remove('hidden');
+                renderAdminKanban();
+            } else if (role === 'staff') {
+                document.getElementById('view-staff').classList.remove('hidden');
+                renderStaffTasks();
+            } else if (role === 'dean') {
+                document.getElementById('view-dean').classList.remove('hidden');
+                renderDeanCharts();
             }
-        ];
+            
+            lucide.createIcons();
+        }
 
-        // --- RENDER FUNCTIONS ---
-        
-        function renderFeed() {
-            const container = document.getElementById('feed-container');
+        // --- RENDERERS ---
+
+        function renderStudentFeed() {
+            const container = document.getElementById('student-feed');
             container.innerHTML = '';
-
-            posts.forEach(post => {
-                let statusClass = '';
-                let statusIcon = '';
+            
+            store.issues.forEach((issue, i) => {
+                let statusColor = issue.status === 'open' ? 'text-red-400 bg-red-500/10' : (issue.status === 'progress' ? 'text-amber-400 bg-amber-500/10' : 'text-emerald-400 bg-emerald-500/10');
                 
-                if(post.status === 'Open') { statusClass = 'status-open'; statusIcon = 'alert-circle'; }
-                else if(post.status === 'In Progress') { statusClass = 'status-progress'; statusIcon = 'loader'; }
-                else { statusClass = 'status-resolved'; statusIcon = 'check-circle'; }
-
-                const html = `
-                    <div class="bg-dark-card rounded-2xl border border-white/5 p-5 shadow-lg relative overflow-hidden group">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="flex gap-2 items-center">
-                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">${post.category}</span>
-                                <span class="text-slate-600">•</span>
-                                <span class="text-xs text-brand-400 flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> ${post.location}</span>
-                            </div>
-                            <div class="px-2 py-1 rounded text-[10px] font-bold uppercase border flex items-center gap-1 ${statusClass}">
-                                <i data-lucide="${statusIcon}" class="w-3 h-3"></i> ${post.status}
-                            </div>
+                const card = document.createElement('div');
+                card.className = `glass-card p-5 rounded-2xl animate-slide-up hover:cursor-pointer group`;
+                card.style.animationDelay = `${i * 100}ms`;
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="px-2 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${statusColor}">${issue.status}</span>
+                        <span class="text-xs text-slate-500">${issue.time}</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-1 group-hover:text-primary-400 transition">${issue.title}</h3>
+                    <p class="text-xs text-primary-400 mb-3 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${issue.loc}</p>
+                    <p class="text-sm text-slate-300 mb-4 line-clamp-2">${issue.desc}</p>
+                    <div class="flex items-center justify-between border-t border-white/5 pt-3">
+                        <div class="flex items-center gap-3">
+                            <button class="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-white transition"><i data-lucide="thumbs-up" class="w-4 h-4"></i> ${issue.upvotes}</button>
+                            <button class="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-white transition"><i data-lucide="message-square" class="w-4 h-4"></i> Comment</button>
                         </div>
-                        
-                        <p class="text-slate-100 text-lg mb-4 leading-relaxed">${post.content}</p>
-                        
-                        <div class="flex items-center justify-between border-t border-white/5 pt-4 mt-2">
-                            <div class="flex gap-4">
-                                <button onclick="toggleLike(${post.id})" class="flex items-center gap-2 text-sm font-medium transition ${post.isLiked ? 'text-brand-400' : 'text-slate-400 hover:text-white'}">
-                                    <i data-lucide="arrow-big-up" class="${post.isLiked ? 'fill-current' : ''}"></i> ${post.upvotes}
-                                </button>
-                                <button class="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition">
-                                    <i data-lucide="message-square"></i> ${post.comments}
-                                </button>
-                            </div>
-                            <span class="text-xs text-slate-500">${post.time}</span>
-                        </div>
+                        <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-white">S</div>
                     </div>
                 `;
-                container.innerHTML += html;
+                container.appendChild(card);
             });
             lucide.createIcons();
         }
 
-        function renderAdminList() {
-            const container = document.getElementById('admin-list-container');
-            container.innerHTML = '';
-            
-            posts.forEach(post => {
-                let statusColor = post.status === 'Open' ? 'text-red-400' : (post.status === 'In Progress' ? 'text-yellow-400' : 'text-green-400');
-                
-                const html = `
-                    <div class="grid grid-cols-12 gap-4 p-4 border-b border-white/5 items-center hover:bg-white/5 transition text-sm">
-                        <div class="col-span-1 text-slate-500">#${post.id}</div>
-                        <div class="col-span-4 truncate font-medium">${post.content}</div>
-                        <div class="col-span-2 text-slate-400 text-xs">${post.location}</div>
-                        <div class="col-span-2 ${statusColor} font-bold text-xs uppercase">${post.status}</div>
-                        <div class="col-span-3 flex gap-2">
-                            ${post.status !== 'Resolved' ? `
-                            <button onclick="changeStatus(${post.id}, 'Resolved')" class="bg-green-500/20 text-green-400 p-1.5 rounded hover:bg-green-500/40 transition" title="Resolve"><i data-lucide="check" class="w-4 h-4"></i></button>
-                            ` : ''}
-                            ${post.status === 'Open' ? `
-                            <button onclick="changeStatus(${post.id}, 'In Progress')" class="bg-yellow-500/20 text-yellow-400 p-1.5 rounded hover:bg-yellow-500/40 transition" title="Assign Staff"><i data-lucide="user-plus" class="w-4 h-4"></i></button>
-                            ` : ''}
-                        </div>
+        function renderAdminKanban() {
+            // Clear Columns
+            document.getElementById('col-open').innerHTML = '';
+            document.getElementById('col-progress').innerHTML = '';
+            document.getElementById('col-resolved').innerHTML = '';
+
+            // Counters
+            const counts = { open: 0, progress: 0, resolved: 0 };
+
+            store.issues.forEach(issue => {
+                counts[issue.status]++;
+                const card = document.createElement('div');
+                card.className = 'glass-card p-4 rounded-xl cursor-grab active:cursor-grabbing hover:border-primary-500/50 transition';
+                card.draggable = true;
+                card.innerHTML = `
+                    <div class="flex justify-between mb-2">
+                        <span class="text-xs text-slate-500">#${issue.id}</span>
+                        <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-500"></i>
                     </div>
+                    <p class="font-bold text-sm text-white mb-1">${issue.title}</p>
+                    <p class="text-xs text-slate-400 mb-3">${issue.loc}</p>
+                    
+                    ${issue.status === 'open' ? `<button onclick="assignTask(${issue.id})" class="w-full py-1.5 rounded-lg bg-primary-600/20 text-primary-400 text-xs font-bold hover:bg-primary-600 hover:text-white transition">Assign Staff</button>` : ''}
+                    ${issue.status === 'progress' ? `<div class="flex items-center gap-2 text-xs text-slate-400"><div class="w-5 h-5 rounded-full bg-slate-600 flex items-center justify-center text-[10px]">RK</div> Rajesh K.</div>` : ''}
                 `;
-                container.innerHTML += html;
+                
+                document.getElementById(`col-${issue.status}`).appendChild(card);
             });
+
+            document.getElementById('count-open').innerText = counts.open;
+            document.getElementById('count-progress').innerText = counts.progress;
+            document.getElementById('count-resolved').innerText = counts.resolved;
             lucide.createIcons();
         }
 
         function renderStaffTasks() {
             const container = document.getElementById('staff-tasks');
-            const myTasks = posts.filter(p => p.status === 'In Progress');
+            const welcome = document.getElementById('staff-welcome');
+            welcome.innerText = `Hello, ${store.currentUser.name.split(' ')[0]}`;
             
-            if(myTasks.length === 0) {
-                container.innerHTML = `<div class="text-center text-slate-500 py-10">No pending tasks. Great job!</div>`;
-                return;
-            }
-
             container.innerHTML = '';
-            myTasks.forEach(task => {
-                const html = `
-                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
-                        <div class="flex justify-between mb-2">
-                            <span class="bg-brand-500/20 text-brand-300 text-xs px-2 py-1 rounded">Priority: High</span>
-                            <span class="text-slate-400 text-xs">#${task.id}</span>
+            const myTasks = store.issues.filter(i => i.status === 'progress'); // Simulating assigned to logged in staff
+            document.getElementById('staff-task-count').innerText = myTasks.length;
+
+            if(myTasks.length === 0) {
+                container.innerHTML = `<div class="text-center text-slate-500 mt-10"><i data-lucide="coffee" class="w-12 h-12 mx-auto mb-2 opacity-50"></i><p>All caught up!</p></div>`;
+            } else {
+                myTasks.forEach(task => {
+                    const card = document.createElement('div');
+                    card.className = 'glass-card p-5 rounded-2xl animate-slide-up border-l-4 border-primary-500';
+                    card.innerHTML = `
+                        <div class="flex justify-between mb-1">
+                            <span class="text-xs font-bold text-primary-400 uppercase">High Priority</span>
+                            <span class="text-xs text-slate-500">#${task.id}</span>
                         </div>
-                        <p class="font-bold text-sm mb-1">${task.location}</p>
-                        <p class="text-slate-300 text-xs mb-4">${task.content}</p>
-                        <button onclick="changeStatus(${task.id}, 'Resolved')" class="w-full bg-green-600 hover:bg-green-500 py-2 rounded-lg text-sm font-bold transition flex items-center justify-center gap-2">
-                            <i data-lucide="camera" class="w-4 h-4"></i> Mark Done (Upload Proof)
+                        <h3 class="text-lg font-bold text-white mb-1">${task.loc}</h3>
+                        <p class="text-sm text-slate-300 mb-4">${task.title}</p>
+                        <button onclick="completeTask(${task.id})" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-white font-bold text-sm shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition">
+                            <i data-lucide="check-circle" class="w-4 h-4"></i> Mark Resolved
                         </button>
-                    </div>
-                `;
-                container.innerHTML += html;
-            })
+                    `;
+                    container.appendChild(card);
+                });
+            }
             lucide.createIcons();
         }
 
-        // --- LOGIC HANDLERS ---
-
-        function switchRole(role) {
-            // Hide all views
-            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+        function renderDeanCharts() {
+            const ctx = document.getElementById('deptChart');
+            if(window.deptChartInstance) window.deptChartInstance.destroy();
             
-            // Show selected view
-            document.getElementById(`view-${role}`).classList.remove('hidden');
-            document.getElementById(`view-${role}`).classList.add('flex'); // restore flex layout
-
-            // Update UI/Renders based on role
-            if(role === 'student') renderFeed();
-            if(role === 'admin') renderAdminList();
-            if(role === 'staff') renderStaffTasks();
-            
-            // Update Avatar Initials
-            const initials = { student: 'AR', admin: 'AD', staff: 'WK', superadmin: 'DN' };
-            document.getElementById('userInitials').innerText = initials[role];
+            window.deptChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Hostel', 'Mess', 'Library', 'IT', 'Security'],
+                    datasets: [{
+                        label: 'Open Issues',
+                        data: [12, 5, 3, 8, 2],
+                        backgroundColor: ['#6366f1', '#fbbf24', '#2dd4bf', '#fb7185', '#94a3b8'],
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
         }
 
-        function toggleLike(id) {
-            const post = posts.find(p => p.id === id);
-            if(post) {
-                post.isLiked = !post.isLiked;
-                post.upvotes += post.isLiked ? 1 : -1;
-                renderFeed();
-            }
+        // --- ACTIONS ---
+
+        function switchView(viewId, btnElement) {
+            // Update Menu Active State
+            document.querySelectorAll('.sidebar-item').forEach(b => {
+                b.classList.remove('active', 'text-primary-400', 'bg-white/5');
+                b.classList.add('text-slate-400');
+            });
+            btnElement.classList.add('active');
+
+            // Switch View
+            document.querySelectorAll('.view').forEach(v => {
+                v.classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
         }
 
-        function changeStatus(id, newStatus) {
-            const post = posts.find(p => p.id === id);
-            if(post) {
-                post.status = newStatus;
-                showToast(`Issue #${id} marked as ${newStatus}`);
-                
-                // Re-render current view
-                const currentRole = document.getElementById('roleSwitcher').value;
-                if(currentRole === 'admin') renderAdminList();
-                if(currentRole === 'staff') renderStaffTasks();
-                if(currentRole === 'student') renderFeed();
-            }
+        function openCreateModal() {
+            document.getElementById('create-modal').classList.remove('hidden');
+        }
+        function closeCreateModal() {
+            document.getElementById('create-modal').classList.add('hidden');
         }
 
-        // Modal Logic
-        function openPostModal() {
-            const modal = document.getElementById('post-modal');
-            const content = document.getElementById('post-modal-content');
-            modal.classList.remove('hidden');
-            // Small timeout for animation
-            setTimeout(() => {
-                content.classList.remove('scale-95', 'opacity-0');
-                content.classList.add('scale-100', 'opacity-100');
-            }, 10);
-        }
-
-        function closePostModal() {
-            const modal = document.getElementById('post-modal');
-            const content = document.getElementById('post-modal-content');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 200);
-        }
-
-        function handlePostSubmit(e) {
+        function handleCreateIssue(e) {
             e.preventDefault();
-            const content = document.getElementById('post-content').value;
-            const category = document.querySelector('input[name="category"]:checked').value;
+            const desc = document.getElementById('issue-desc').value;
+            if(!desc) return;
             
-            if(!content) return;
-
-            const newPost = {
-                id: posts.length + 1,
-                category: category,
-                location: 'Hostel A (GPS)',
-                content: content,
-                upvotes: 0,
-                comments: 0,
-                status: 'Open',
+            store.issues.unshift({
+                id: Math.floor(Math.random() * 1000),
+                title: 'New Issue Report',
+                loc: 'Hostel A',
+                status: 'open',
                 time: 'Just now',
-                isLiked: false
-            };
-
-            posts.unshift(newPost); // Add to top
-            closePostModal();
-            document.getElementById('post-content').value = ''; // Reset
-            renderFeed();
-            showToast('Issue Reported Successfully! +50 Karma');
+                upvotes: 0,
+                author: 'Me',
+                desc: desc,
+                assignedTo: null
+            });
+            
+            closeCreateModal();
+            showToast('Issue Reported Successfully');
+            if(store.currentRole === 'student') renderStudentFeed();
+            if(store.currentRole === 'admin') renderAdminKanban();
+            if(store.currentRole === 'dean') { renderDeanCharts(); /* re-render dean if needed */ }
         }
 
-        // Bot Logic
-        let isBotOpen = false;
-        function toggleBot() {
-            const chat = document.getElementById('ai-chat');
-            isBotOpen = !isBotOpen;
-            if(isBotOpen) {
-                chat.classList.remove('hidden');
-                setTimeout(() => {
-                    chat.classList.remove('translate-y-10', 'opacity-0');
-                }, 10);
-            } else {
-                chat.classList.add('translate-y-10', 'opacity-0');
-                setTimeout(() => {
-                    chat.classList.add('hidden');
-                }, 300);
+        function assignTask(id) {
+            const task = store.issues.find(i => i.id === id);
+            if(task) {
+                task.status = 'progress';
+                task.assignedTo = 'staff'; // generic assignment
+                showToast('Assigned to Staff Member');
+                renderAdminKanban();
             }
         }
 
-        function handleChat(e) {
+        function completeTask(id) {
+            const task = store.issues.find(i => i.id === id);
+            if(task) {
+                task.status = 'resolved';
+                showToast('Task Completed! Good job.');
+                renderStaffTasks();
+            }
+        }
+
+        function toggleAIChat() {
+            const win = document.getElementById('ai-window');
+            if(win.classList.contains('hidden')) {
+                win.classList.remove('hidden');
+            } else {
+                win.classList.add('hidden');
+            }
+        }
+
+        function handleAIChat(e) {
             e.preventDefault();
-            const input = document.getElementById('chat-input');
+            const input = document.getElementById('ai-input');
             const msg = input.value;
             if(!msg) return;
 
-            // User msg
-            const chatContainer = document.getElementById('chat-messages');
-            chatContainer.innerHTML += `
-                <div class="bg-brand-600 self-end rounded-l-xl rounded-br-xl p-3 text-xs text-white max-w-[85%] ml-auto mb-2">
-                    ${msg}
-                </div>
-            `;
+            const container = document.getElementById('ai-messages');
+            
+            // User Msg
+            container.innerHTML += `<div class="flex gap-3 justify-end"><div class="bg-primary-600 p-3 rounded-2xl rounded-tr-none text-xs text-white max-w-[85%]">${msg}</div></div>`;
             input.value = '';
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            container.scrollTop = container.scrollHeight;
 
-            // Fake AI Response delay
+            // AI Reply Simulation
             setTimeout(() => {
-                chatContainer.innerHTML += `
-                    <div class="bg-white/10 self-start rounded-r-xl rounded-bl-xl p-3 text-xs text-slate-200 max-w-[85%] mb-2">
-                        I've categorized that as a "Maintenance" issue. I'll post it to the main feed automatically.
-                    </div>
-                `;
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                
-                // Actually add the post
-                posts.unshift({
-                    id: posts.length + 1,
-                    category: 'Maintenance',
-                    location: 'Detected via Voice',
-                    content: msg,
-                    upvotes: 0,
-                    comments: 0,
-                    status: 'Open',
-                    time: 'Just now',
-                    isLiked: false
-                });
-                renderFeed();
-                showToast('Posted via VoizBot');
-            }, 1000);
+                container.innerHTML += `<div class="flex gap-3"><div class="bg-surface-100 border border-white/5 p-3 rounded-2xl rounded-tl-none text-xs text-slate-300 max-w-[85%]">I've noted that down. Would you like me to file an official report for "${msg}"?</div></div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 800);
         }
 
-        // Toast Logic
         function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            toast.classList.remove('translate-x-full', 'opacity-0');
+            const t = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            t.classList.remove('translate-y-[-200%]');
+            t.classList.add('translate-y-[20px]');
+            
             setTimeout(() => {
-                toast.classList.add('translate-x-full', 'opacity-0');
+                t.classList.remove('translate-y-[20px]');
+                t.classList.add('translate-y-[-200%]');
             }, 3000);
         }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            renderFeed();
-            lucide.createIcons();
-        });
 
     </script>
 </body>
